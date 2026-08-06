@@ -1507,339 +1507,203 @@
 </div>
 <!-- LEADERBOARD PAGE -->
 <div id="page-leaderboard" class="page">
-  <style>
-  /* HEADER
-  .lb-isolated .header { background: var(--green-deep); padding: 28px 20px 22px; text-align: center; border-bottom: 3px solid var(--gold); }
-  .lb-isolated .header-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gold-light); margin-bottom: 8px; }
-  .lb-isolated .header h1 { font-family: 'Playfair Display', serif; font-size: clamp(22px,5vw,36px); font-weight: 700; color: var(--white); margin-bottom: 4px; }
-  .lb-isolated .header h1 em { font-style: italic; color: var(--gold-light); }
-  .lb-isolated .header-sub { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(200,223,200,0.65); letter-spacing: 1.5px; }
-  /* TEAM SCORES
-  .lb-isolated .team-scores { display: grid; grid-template-columns: 1fr auto 1fr; background: var(--green-deep); border-bottom: 2px solid var(--gold); }
-  .lb-isolated .team-score { padding: 16px 20px; text-align: center; }
-  .lb-isolated .team-score.look { border-right: 1px solid rgba(184,150,46,0.15); background: rgba(77,190,106,0.08); }
-  .lb-isolated .team-score.feel { border-left: 1px solid rgba(184,150,46,0.15); background: rgba(77,154,190,0.08); text-align: center; }
-  .lb-isolated .team-score-label { color: rgba(200,223,200,0.7); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(200,223,200,0.5); margin-bottom: 2px; }
-  .lb-isolated .team-score-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .lb-isolated .team-score.look .team-score-name { color: rgba(120,220,140,0.95); }
-  .lb-isolated .team-score.feel .team-score-name { color: rgba(100,180,220,0.95); }
-  .lb-isolated .team-score-pts { color: #fff; text-align: center; font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1; }
-  .lb-isolated .team-score.look .team-score-pts { color: #fff; }
-  .lb-isolated .team-score.feel .team-score-pts { color: #fff; }
-  .lb-isolated .team-score-sub { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(200,223,200,0.65); text-align: center; margin-top: 3px; }
-  .lb-isolated .team-vs-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 16px; gap: 2px; }
-  .lb-isolated .vs-label { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gold); }
-  .lb-isolated .vs-sub { font-family: 'Cormorant Garamond', serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(200,223,200,0.35); }
-  /* STATUS BAR
-  .lb-isolated .status-bar { background: rgba(26,58,42,0.9); padding: 8px 20px; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 12px; color: var(--gold-light); letter-spacing: 1px; border-bottom: 1px solid rgba(184,150,46,0.2); display: flex; align-items: center; justify-content: center; gap: 8px; }
-  .lb-isolated .status-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--gold-light); animation: pulse 2s infinite; flex-shrink: 0; }
-  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:0.3;} }
-  /* ROUND SCORES
-  .lb-isolated .rounds-summary { background: var(--cream-dark); border-bottom: 1px solid var(--border); padding: 12px 20px; }
-  .lb-isolated .rounds-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 8px; max-width: 700px; margin: 0 auto; }
-  .lb-isolated .round-pill { text-align: center; background: var(--white); border: 1px solid var(--border); border-radius: 3px; padding: 8px 6px; }
-  .lb-isolated .round-pill-label { font-family: 'Cormorant Garamond', serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); display: block; margin-bottom: 4px; }
-  .lb-isolated .round-pill-result { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; display: block; }
-  .lb-isolated .round-pill-result.look-w { color: var(--look); }
-  .lb-isolated .round-pill-result.feel-w { color: var(--feel); }
-  .lb-isolated .round-pill-result.tbd { color: var(--text-light); font-style: italic; font-size: 11px; }
-  .lb-isolated .round-pill-pts { font-family: 'Cormorant Garamond', serif; font-size: 10px; color: var(--text-light); display: block; margin-top: 1px; }
-  /* TOGGLE
-  .lb-isolated .toggle-bar { padding: 14px 20px; background: var(--white); border-bottom: 1px solid var(--border); display: flex; justify-content: center; gap: 0; }
-  .lb-isolated .toggle-btn { font-family: 'Cormorant Garamond', serif; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; padding: 8px 20px; border: 1px solid var(--border); background: var(--white); color: var(--text-light); cursor: pointer; transition: all 0.2s; }
-  .lb-isolated .toggle-btn:first-child { border-radius: 3px 0 0 3px; }
-  .lb-isolated .toggle-btn:last-child { border-radius: 0 3px 3px 0; }
-  .lb-isolated .toggle-btn.active { background: var(--green-deep); color: var(--gold-light); border-color: var(--green-deep); }
-  .lb-isolated .toggle-btn.look-active { background: rgba(77,190,106,0.12); color: var(--look); border-color: rgba(77,190,106,0.3); }
-  .lb-isolated .toggle-btn.feel-active { background: rgba(77,154,190,0.12); color: var(--feel); border-color: rgba(77,154,190,0.3); }
-  /* LEADERBOARD
-  .lb-isolated .leaderboard { max-width: 700px; margin: 0 auto; padding: 0 0 40px; }
-  .lb-isolated .lb-header-row { display: grid; grid-template-columns: 36px 1fr 52px 52px 52px 52px; gap: 0; padding: 8px 16px; border-bottom: 2px solid var(--gold); }
-  .lb-isolated .lb-header-row span { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); text-align: center; }
-  .lb-isolated .lb-header-row span:nth-child(2) { text-align: left; }
-  .lb-isolated .lb-row { display: grid; grid-template-columns: 36px 1fr 52px 52px 52px 52px; gap: 0; padding: 11px 16px; align-items: center; border-bottom: 1px solid var(--border); align-items: center; transition: background 0.15s; }
-  .lb-isolated .lb-row:hover { background: rgba(26,58,42,0.03); }
-  .lb-isolated .lb-row.look { background: var(--look-bg); }
-  .lb-isolated .lb-row.feel { background: var(--feel-bg); }
-  .lb-isolated .lb-row.look:hover { background: rgba(77,190,106,0.13); }
-  .lb-isolated .lb-row.feel:hover { background: rgba(77,154,190,0.13); }
-  .lb-isolated .lb-row.leader { border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); }
-  .lb-isolated .lb-pos { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-light); text-align: center; align-self: center; }
-  .lb-isolated .lb-pos.p1 { color: var(--gold); }
-  .lb-isolated .lb-pos.p2 { color: var(--text-dark); }
-  .lb-isolated .lb-pos.p3 { color: #8a7a6a; }
-  .lb-isolated .lb-name-cell { display: flex; align-items: center; min-width: 0; }
-  .lb-isolated .lb-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .lb-isolated .lb-name.look { color: #4dbe6a; }
-  .lb-isolated .lb-name.feel { color: #4d9abe; }
-  .lb-isolated .lb-badges { font-size: 14px; letter-spacing: 0; display: inline; }
-  .lb-isolated .lb-team-tag { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-style: italic; }
-  .lb-isolated .lb-team-tag.look { color: var(--look); }
-  .lb-isolated .lb-team-tag.feel { color: var(--feel); }
-  .lb-isolated .lb-cell { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; text-align: center; color: var(--text-dark); }
-  .lb-isolated .lb-cell.total { font-size: 17px; color: var(--green-deep); }
-  .lb-isolated .lb-cell.bonus { font-size: 13px; color: var(--text-light); }
-  /* LEGEND
-  .lb-isolated .legend { background: var(--cream-dark); border-top: 1px solid var(--border); padding: 14px 20px; max-width: 700px; margin: 0 auto; }
-  .lb-isolated .legend-title { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); margin-bottom: 10px; }
-  .lb-isolated .legend-items { display: flex; flex-wrap: wrap; gap: 16px; }
-  .lb-isolated .legend-item { display: flex; align-items: center; gap: 6px; font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--text-mid); }
-  .lb-isolated .legend-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
-  /* SCORING KEY
-  .lb-isolated .scoring-key { background: var(--white); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 14px 20px; max-width: 700px; margin: 0 auto; }
-  .lb-isolated .key-title { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--text-light); margin-bottom: 10px; }
-  .lb-isolated .key-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px,1fr)); gap: 8px; }
-  .lb-isolated .key-item { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: var(--text-mid); display: flex; justify-content: space-between; align-items: center; padding: 4px 8px; background: var(--cream); border-radius: 2px; }
-  .lb-isolated .key-pts { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--green-deep); }
-  @media (max-width: 500px) {
-    .lb-header-row, .lb-row { grid-template-columns: 28px 1fr 44px 44px 44px 44px; padding: 10px 10px; align-items: center; }
-    .lb-name { font-size: 14px; }
-    .lb-cell { font-size: 13px; }
-    .team-score-pts { font-size: 26px; }
-    .rounds-row { grid-template-columns: repeat(2,1fr); }
-    .toggle-btn { font-size: 11px; padding: 8px 12px; }
-  }
-  </style>
-  <div class="lb-isolated" style="background:#0b160e;min-height:80vh;padding:0 0 40px;">
-<!-- HEADER -->
-<div class="header">
-  <div class="header-eyebrow">The Dadchelor Invitational · 2026</div>
-  <h1><em>Official</em> Leaderboard</h1>
-  <div class="header-sub">Pre-Tournament · Starting August 28, 2026</div>
+<style>
+  #page-leaderboard { background: #0b160e; min-height: 100vh; }
+  .lb-live-wrap { max-width: 680px; margin: 0 auto; padding: 20px 16px 60px; }
+  .lb-live-header { text-align: center; padding: 28px 16px 20px; border-bottom: 2px solid rgba(184,150,46,0.3); margin-bottom: 20px; }
+  .lb-live-eyebrow { font-family: 'Cormorant Garamond', serif; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: rgba(184,150,46,0.6); margin-bottom: 8px; }
+  .lb-live-title { font-family: 'Playfair Display', serif; font-size: 28px; font-weight: 700; color: #fff; }
+  .lb-live-title em { color: var(--gold-light); font-style: italic; }
+  .lb-live-sub { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(200,223,200,0.45); margin-top: 6px; font-style: italic; }
+  .lb-team-banner { display: grid; grid-template-columns: 1fr auto 1fr; background: rgba(26,58,42,0.6); border: 1px solid rgba(184,150,46,0.2); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
+  .lb-team-side { padding: 20px 16px; text-align: center; }
+  .lb-team-side.look { background: rgba(77,190,106,0.08); }
+  .lb-team-side.feel { background: rgba(77,154,190,0.08); }
+  .lb-team-label { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(200,223,200,0.5); margin-bottom: 4px; }
+  .lb-team-name-lb { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; margin-bottom: 8px; }
+  .lb-team-name-lb.look { color: rgba(120,220,140,0.95); }
+  .lb-team-name-lb.feel { color: rgba(100,180,220,0.95); }
+  .lb-team-score-num { font-family: 'Playfair Display', serif; font-size: 40px; font-weight: 700; color: #fff; line-height: 1; }
+  .lb-team-score-sub { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(200,223,200,0.4); margin-top: 4px; }
+  .lb-vs-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 12px; }
+  .lb-vs-dash { font-family: 'Playfair Display', serif; font-size: 20px; color: rgba(184,150,46,0.5); }
+  .lb-vs-total { font-family: 'Cormorant Garamond', serif; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(200,223,200,0.25); margin-top: 4px; white-space: nowrap; }
+  .lb-status-strip { background: rgba(26,58,42,0.4); border: 1px solid rgba(184,150,46,0.15); border-radius: 2px; padding: 8px 14px; margin-bottom: 16px; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(200,223,200,0.5); font-style: italic; }
+  .lb-cgoy-section { background: rgba(26,58,42,0.4); border: 1px solid rgba(184,150,46,0.15); border-radius: 3px; overflow: hidden; }
+  .lb-cgoy-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--gold-light); padding: 12px 16px; border-bottom: 1px solid rgba(184,150,46,0.15); letter-spacing: 0.5px; }
+  .lb-cgoy-header { display: grid; grid-template-columns: 32px 1fr 60px; padding: 6px 16px; border-bottom: 1px solid rgba(184,150,46,0.1); }
+  .lb-cgoy-header span { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(184,150,46,0.4); }
+  .lb-cgoy-header span:last-child { text-align: right; }
+  #lb-cgoy-rows .cgoy-row { display: grid; grid-template-columns: 32px 1fr 60px; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); align-items: center; }
+  #lb-cgoy-rows .cgoy-row:last-child { border-bottom: none; }
+  .cgoy-pos { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: rgba(200,223,200,0.3); text-align: center; }
+  .cgoy-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; }
+  .cgoy-name.look { color: #4dbe6a; }
+  .cgoy-name.feel { color: #4d9abe; }
+  .cgoy-pts { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--gold-light); text-align: right; }
+  .cgoy-empty { font-family: 'Cormorant Garamond', serif; font-size: 14px; font-style: italic; color: rgba(200,223,200,0.3); text-align: center; padding: 20px; }
+  .lb-refresh-btn { display: block; width: 100%; margin-top: 16px; background: none; border: 1px solid rgba(184,150,46,0.3); color: rgba(184,150,46,0.6); font-family: 'Cormorant Garamond', serif; font-size: 12px; letter-spacing: 1.5px; text-transform: uppercase; padding: 10px; border-radius: 2px; cursor: pointer; }
+  .lb-refresh-btn:hover { border-color: var(--gold); color: var(--gold); }
+</style>
+<div class="lb-live-wrap">
+  <div class="lb-live-header">
+    <div class="lb-live-eyebrow">The Dadchelor Invitational · 2026</div>
+    <div class="lb-live-title"><em>Live</em> Leaderboard</div>
+    <div class="lb-live-sub" id="lb-status-sub">Loading results...</div>
+  </div>
+
+  <div class="lb-team-banner">
+    <div class="lb-team-side look">
+      <div class="lb-team-label">Team</div>
+      <div class="lb-team-name-lb look">Look Good</div>
+      <div class="lb-team-score-num" id="lb-look-score">0</div>
+      <div class="lb-team-score-sub">pts</div>
+    </div>
+    <div class="lb-vs-mid">
+      <div class="lb-vs-dash">—</div>
+      <div class="lb-vs-total">of 14</div>
+    </div>
+    <div class="lb-team-side feel">
+      <div class="lb-team-label">Team</div>
+      <div class="lb-team-name-lb feel">Feel Good</div>
+      <div class="lb-team-score-num" id="lb-feel-score">0</div>
+      <div class="lb-team-score-sub">pts</div>
+    </div>
+  </div>
+
+  <div class="lb-status-strip" id="lb-pts-strip">0 of 14 pts decided</div>
+
+  <div class="lb-cgoy-section">
+    <div class="lb-cgoy-title">🏅 Champion Golfer of the Year Standings</div>
+    <div class="lb-cgoy-header">
+      <span>#</span><span>Player</span><span style="text-align:right;">Pts</span>
+    </div>
+    <div id="lb-cgoy-rows">
+      <div class="cgoy-empty">No results yet — check back after Round 1</div>
+    </div>
+  </div>
+
+  <button class="lb-refresh-btn" onclick="lbLoad()">↻ Refresh Standings</button>
 </div>
-<!-- TEAM SCORES -->
-<div class="team-scores">
-  <div class="team-score look">
-    <div class="team-score-label">Team</div>
-    <div class="team-score-name">Look Good</div>
-    <div class="team-score-pts" style="color:#fff;text-align:center;">0</div>
-    <div class="team-score-sub">pts</div>
-  </div>
-  <div class="team-vs-mid">
-    <div class="vs-label">—</div>
-    <div class="vs-sub">of 14 total</div>
-  </div>
-  <div class="team-score feel">
-    <div class="team-score-label">Team</div>
-    <div class="team-score-name">Feel Good</div>
-    <div class="team-score-pts" style="color:#fff;text-align:center;">0</div>
-    <div class="team-score-sub">pts</div>
-  </div>
-</div>
-<!-- STATUS -->
-<div class="status-bar">
-  <div class="status-dot" style="background:var(--gold);"></div>
-  <span>Tournament begins August 28 · Huron Breeze Golf Club · 9:00 AM</span>
-</div>
-<!-- ROUND SCORES -->
-<div class="rounds-summary">
-  <div class="rounds-row">
-    <div class="round-pill">
-      <span class="round-pill-label">R1 · Fourball</span>
-      <span class="round-pill-result tbd">TBD</span>
-      <span class="round-pill-pts">—</span>
-    </div>
-    <div class="round-pill">
-      <span class="round-pill-label">R2 · Scramble</span>
-      <span class="round-pill-result tbd">TBD</span>
-      <span class="round-pill-pts">—</span>
-    </div>
-    <div class="round-pill">
-      <span class="round-pill-label">R3 · Fourball</span>
-      <span class="round-pill-result tbd">TBD</span>
-      <span class="round-pill-pts">—</span>
-    </div>
-    <div class="round-pill">
-      <span class="round-pill-label">R4 · Match Play</span>
-      <span class="round-pill-result tbd">TBD</span>
-      <span class="round-pill-pts">—</span>
-    </div>
-  </div>
-</div>
-<!-- TOGGLE -->
-<div class="toggle-bar">
-  <button class="toggle-btn active" onclick="filterTeam('all', this)">All</button>
-  <button class="toggle-btn" onclick="filterTeam('look', this)">Look Good</button>
-  <button class="toggle-btn" onclick="filterTeam('feel', this)">Feel Good</button>
-</div>
-<!-- LEADERBOARD -->
-<div class="leaderboard">
-  <div class="lb-header-row">
-    <span>Pos</span>
-    <span>Player</span>
-    <span>Team</span>
-    <span>Bonus</span>
-    <span>R4</span>
-    <span>Total</span>
-  </div>
-  <div class="lb-row look" data-team="look">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name look">Moceri </div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row look" data-team="look">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name look">Knox </div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row feel" data-team="feel">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name feel">Harras </div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row feel" data-team="feel">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name feel">Hartley</div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row look" data-team="look">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name look">Hus </div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row feel" data-team="feel">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name feel">Bartneck </div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row look" data-team="look">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name look">McGuire</div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row feel" data-team="feel">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name feel">Chicilli</div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row look" data-team="look">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name look">Dalen</div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row feel" data-team="feel">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name feel">Heppner</div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row look" data-team="look">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name look">Kraft</div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-  <div class="lb-row feel" data-team="feel">
-    <div class="lb-pos">—</div>
-    <div class="lb-name-cell">
-      <div class="lb-name feel">Boguth </div>
-    </div>
-    <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">—</div>
-    <div class="lb-cell">—</div>
-    <div class="lb-cell total">0</div>
-  </div>
-</div>
-<!-- SCORING KEY -->
-<div class="scoring-key">
-  <div class="key-title">Scoring Key</div>
-  <div class="key-grid">
-    <div class="key-item"><span>Fourball match win</span><span class="key-pts">1 pt</span></div>
-    <div class="key-item"><span>Scramble match win</span><span class="key-pts">1 pt</span></div>
-    <div class="key-item"><span>Individual match win</span><span class="key-pts">1 pt</span></div>
-    <div class="key-item"><span>Long Drive 💣 (individual)</span><span class="key-pts">0.5 pt</span></div>
-    <div class="key-item"><span>Closest to Pin 🎯 (individual)</span><span class="key-pts">0.5 pt</span></div>
-    <div class="key-item"><span>Long Drive (team share)</span><span class="key-pts">0.5 pt</span></div>
-    <div class="key-item"><span>Closest to Pin (team share)</span><span class="key-pts">0.5 pt</span></div>
-  </div>
-</div>
-<!-- LEGEND -->
-<div class="legend">
-  <div class="legend-title">Key</div>
-  <div class="legend-items">
-    <div class="legend-item"><div class="legend-dot" style="background:var(--look);"></div>Team Look Good</div>
-    <div class="legend-item"><div class="legend-dot" style="background:var(--feel);"></div>Team Feel Good</div>
-    <div class="legend-item"><span style="font-size:16px;">🎯</span> Closest to Pin (per occurrence)</div>
-    <div class="legend-item"><span style="font-size:16px;">💣</span> Long Drive (per occurrence)</div>
-    <div class="legend-item"><span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-light);">Bonus = individual LD/CTP points</span></div>
-    <div class="legend-item"><span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-light);">R4 = Individual Match Play (TBD)</span></div>
-  </div>
-</div>
+
 <script>
-function filterTeam(team, btn) {
-  document.querySelectorAll('.toggle-btn').forEach(b => {
-    b.classList.remove('active','look-active','feel-active');
-  });
-  if (team === 'all') btn.classList.add('active');
-  else if (team === 'look') btn.classList.add('look-active');
-  else btn.classList.add('feel-active');
+(function() {
+  var SB_URL = 'https://fjyusvkmjnununycqufk.supabase.co';
+  var SB_KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
 
-  document.querySelectorAll('.lb-row').forEach(row => {
-    row.style.display = (team === 'all' || row.dataset.team === team) ? '' : 'none';
-  });
+  var MATCHES = [
+    { id:'r1m1', look:['Matt Hus','Tim McGuire'], feel:['Andrew Heppner','Adam Hartley'], pts:1 },
+    { id:'r1m2', look:['James Knox','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
+    { id:'r1m3', look:['Kenny Dalen'], feel:['Brandon Bartneck'], pts:1 },
+    { id:'r2m1', look:['Dan Kraft'], feel:['Dan Harras'], pts:1 },
+    { id:'r2m2', look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'], feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
+    { id:'r3m2', look:['Matt Hus','Dan Kraft'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
+    { id:'r3m3', look:['Tim McGuire','Kenny Dalen'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
+    { id:'r4m1', look:[], feel:[], pts:1 },
+    { id:'r4m2', look:[], feel:[], pts:1 },
+    { id:'r4m3', look:[], feel:[], pts:1 },
+    { id:'r4m4', look:[], feel:[], pts:1 },
+    { id:'r4m5', look:[], feel:[], pts:1 },
+    { id:'r4m6', look:[], feel:[], pts:1 }
+  ];
+  var CONTESTS = ['r1ctp','r1ld','r2ctp','r2ld','r3ctp','r3ld','r4ctp','r4ld'];
+  var LOOK = ['Matt Hus','Tim McGuire','James Knox','Dan Kraft','Kenny Dalen','Ricky Moceri'];
+  var FEEL = ['Andrew Heppner','Adam Hartley','Keegan Chicilli','Dan Harras','Brandon Bartneck','Jon Boguth'];
 
-  // Always show dash for positions when all scores are 0
-  document.querySelectorAll('.lb-pos').forEach(el => {
-    el.textContent = '—';
-    el.className = 'lb-pos';
+  function team(name) { return LOOK.indexOf(name)!==-1?'look':FEEL.indexOf(name)!==-1?'feel':null; }
+  function fmt(n) { return n%1===0?n:n.toFixed(1); }
+
+  window.lbLoad = function() {
+    var sub = document.getElementById('lb-status-sub');
+    if (sub) sub.textContent = 'Loading...';
+    fetch(SB_URL+'/rest/v1/results?select=*', {
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer '+SB_KEY }
+    })
+    .then(function(r){ return r.json(); })
+    .then(function(rows) {
+      var cache = {};
+      if (Array.isArray(rows)) rows.forEach(function(r){ cache[r.match_id]=r; });
+      var lp=0, fp=0, pp={};
+
+      MATCHES.forEach(function(m) {
+        var res = cache[m.id];
+        if (!res||!res.winner) return;
+        var w = res.winner;
+        var look = m.look.slice(), feel = m.feel.slice();
+        if (m.id.startsWith('r4') && res.extra) {
+          var ex = typeof res.extra==='string'?JSON.parse(res.extra):res.extra;
+          if (ex.lookPlayer) look = [ex.lookPlayer];
+          if (ex.feelPlayer) feel = [ex.feelPlayer];
+        }
+        if (w==='look') { lp+=m.pts; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; }); }
+        else if (w==='feel') { fp+=m.pts; feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; }); }
+        else { lp+=0.5; fp+=0.5; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); }
+      });
+
+      CONTESTS.forEach(function(cid) {
+        var res = cache[cid];
+        if (!res||!res.winner) return;
+        pp[res.winner]=(pp[res.winner]||0)+0.5;
+        var t=team(res.winner);
+        if (t==='look') lp+=0.5; else if (t==='feel') fp+=0.5;
+      });
+
+      // Update team scores
+      var lEl=document.getElementById('lb-look-score');
+      var fEl=document.getElementById('lb-feel-score');
+      var strip=document.getElementById('lb-pts-strip');
+      if (lEl) lEl.textContent = fmt(lp);
+      if (fEl) fEl.textContent = fmt(fp);
+      if (strip) strip.textContent = fmt(lp+fp)+' of 14 pts decided';
+      if (sub) sub.textContent = (lp+fp===0) ? 'Tournament begins August 28 · Huron Breeze · 9:00 AM' : 'Live · Updated just now';
+
+      // Update CGOY table
+      var tbody = document.getElementById('lb-cgoy-rows');
+      if (!tbody) return;
+      var players = Object.keys(pp).sort(function(a,b){ return pp[b]-pp[a]; });
+      if (!players.length) {
+        tbody.innerHTML = '<div class="cgoy-empty">No results yet — check back after Round 1</div>';
+        return;
+      }
+      var html = '';
+      var pos = 1, prevPts = null, displayPos = 1;
+      players.forEach(function(name, i) {
+        var pts = pp[name];
+        if (pts !== prevPts) { displayPos = pos; prevPts = pts; }
+        var t = team(name);
+        html += '<div class="cgoy-row">'
+          + '<div class="cgoy-pos">'+(pts>0?displayPos:'—')+'</div>'
+          + '<div class="cgoy-name '+(t||'')+'">' + name + '</div>'
+          + '<div class="cgoy-pts">' + fmt(pts) + '</div>'
+          + '</div>';
+        pos++;
+      });
+      tbody.innerHTML = html;
+    })
+    .catch(function() {
+      var sub = document.getElementById('lb-status-sub');
+      if (sub) sub.textContent = 'Could not load — check connection';
+    });
+  };
+
+  // Auto-load when leaderboard page becomes visible
+  document.addEventListener('DOMContentLoaded', function() {
+    // Poll for when page-leaderboard becomes active
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.target.id==='page-leaderboard' && m.target.classList.contains('active')) {
+          window.lbLoad();
+        }
+      });
+    });
+    var lbPage = document.getElementById('page-leaderboard');
+    if (lbPage) observer.observe(lbPage, { attributes: true, attributeFilter: ['class'] });
   });
-}
+})();
 </script>
-  </div>
 </div>
+
 <!-- DRAW PAGE -->
 <div id="page-draw" class="page">
   <div id="draw-gate" style="min-height:60vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
