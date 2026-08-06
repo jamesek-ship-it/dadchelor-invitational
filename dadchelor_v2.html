@@ -1951,14 +1951,18 @@ function filterTeam(team, btn) {
     if (row.style.display === 'none') return;
     const total = parseFloat(row.querySelector('.lb-cell.total').textContent) || 0;
     const posEl = row.querySelector('.lb-pos');
-    if (total === prevTotal) {
+    if (total === 0) {
+      posEl.textContent = '—';
+      posEl.className = 'lb-pos';
+    } else if (total === prevTotal) {
       posEl.textContent = prevPos;
+      posEl.className = 'lb-pos' + (prevPos === 1 ? ' p1' : prevPos === 2 ? ' p2' : prevPos === 3 ? ' p3' : '');
     } else {
       posEl.textContent = pos;
+      posEl.className = 'lb-pos' + (pos === 1 ? ' p1' : pos === 2 ? ' p2' : pos === 3 ? ' p3' : '');
       prevPos = pos;
       prevTotal = total;
     }
-    posEl.className = 'lb-pos' + (pos === 1 ? ' p1' : pos === 2 ? ' p2' : pos === 3 ? ' p3' : '');
     pos++;
   });
 }
