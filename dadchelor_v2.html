@@ -1820,42 +1820,21 @@
 </div>
 <script>
 function filterTeam(team, btn) {
-  // Update button styles
   document.querySelectorAll('.toggle-btn').forEach(b => {
     b.classList.remove('active','look-active','feel-active');
   });
   if (team === 'all') btn.classList.add('active');
   else if (team === 'look') btn.classList.add('look-active');
   else btn.classList.add('feel-active');
-  // Filter rows
+
   document.querySelectorAll('.lb-row').forEach(row => {
-    if (team === 'all') {
-      row.style.display = '';
-    } else {
-      row.style.display = row.dataset.team === team ? '' : 'none';
-    }
+    row.style.display = (team === 'all' || row.dataset.team === team) ? '' : 'none';
   });
-  // Re-number positions
-  let pos = 1;
-  let prevTotal = null;
-  let prevPos = 1;
-  document.querySelectorAll('.lb-row').forEach(row => {
-    if (row.style.display === 'none') return;
-    const total = parseFloat(row.querySelector('.lb-cell.total').textContent) || 0;
-    const posEl = row.querySelector('.lb-pos');
-    if (total === 0) {
-      posEl.textContent = '—';
-      posEl.className = 'lb-pos';
-    } else if (total === prevTotal) {
-      posEl.textContent = prevPos;
-      posEl.className = 'lb-pos' + (prevPos === 1 ? ' p1' : prevPos === 2 ? ' p2' : prevPos === 3 ? ' p3' : '');
-    } else {
-      posEl.textContent = pos;
-      posEl.className = 'lb-pos' + (pos === 1 ? ' p1' : pos === 2 ? ' p2' : pos === 3 ? ' p3' : '');
-      prevPos = pos;
-      prevTotal = total;
-    }
-    pos++;
+
+  // Always show dash for positions when all scores are 0
+  document.querySelectorAll('.lb-pos').forEach(el => {
+    el.textContent = '—';
+    el.className = 'lb-pos';
   });
 }
 </script>
