@@ -1636,7 +1636,7 @@
   .lb-isolated .lb-header-row span { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); text-align: center; }
   .lb-isolated .lb-header-row span:nth-child(2) { text-align: left; }
 
-  .lb-isolated .lb-row { display: grid; grid-template-columns: 36px 1fr 52px 52px 52px 52px; gap: 0; padding: 11px 16px; border-bottom: 1px solid var(--border); align-items: center; transition: background 0.15s; }
+  .lb-isolated .lb-row { display: grid; grid-template-columns: 36px 1fr 52px 52px 52px 52px; gap: 0; padding: 11px 16px; align-items: center; border-bottom: 1px solid var(--border); align-items: center; transition: background 0.15s; }
   .lb-isolated .lb-row:hover { background: rgba(26,58,42,0.03); }
   .lb-isolated .lb-row.look { background: var(--look-bg); }
   .lb-isolated .lb-row.feel { background: var(--feel-bg); }
@@ -1644,15 +1644,15 @@
   .lb-isolated .lb-row.feel:hover { background: rgba(77,154,190,0.13); }
   .lb-isolated .lb-row.leader { border-top: 2px solid var(--gold); border-bottom: 2px solid var(--gold); }
 
-  .lb-isolated .lb-pos { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-light); text-align: center; }
+  .lb-isolated .lb-pos { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 700; color: var(--text-light); text-align: center; align-self: center; }
   .lb-isolated .lb-pos.p1 { color: var(--gold); }
   .lb-isolated .lb-pos.p2 { color: var(--text-dark); }
   .lb-isolated .lb-pos.p3 { color: #8a7a6a; }
 
-  .lb-isolated .lb-name-cell { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+  .lb-isolated .lb-name-cell { display: flex; flex-direction: column; justify-content: center; gap: 1px; min-width: 0; }
   .lb-isolated .lb-name { font-family: 'Playfair Display', serif; font-size: 16px; font-weight: 600; display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
-  .lb-isolated .lb-name.look { color: #1e6e36; }
-  .lb-isolated .lb-name.feel { color: #1e4e6e; }
+  .lb-isolated .lb-name.look { color: #4dbe6a; }
+  .lb-isolated .lb-name.feel { color: #4d9abe; }
   .lb-isolated .lb-badges { font-size: 14px; letter-spacing: 0; display: inline; }
   .lb-isolated .lb-team-tag { font-family: 'Cormorant Garamond', serif; font-size: 11px; font-style: italic; }
   .lb-isolated .lb-team-tag.look { color: var(--look); }
@@ -1677,7 +1677,7 @@
   .lb-isolated .key-pts { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 700; color: var(--green-deep); }
 
   @media (max-width: 500px) {
-    .lb-header-row, .lb-row { grid-template-columns: 28px 1fr 44px 44px 44px 44px; padding: 10px 10px; }
+    .lb-header-row, .lb-row { grid-template-columns: 28px 1fr 44px 44px 44px 44px; padding: 10px 10px; align-items: center; }
     .lb-name { font-size: 14px; }
     .lb-cell { font-size: 13px; }
     .team-score-pts { font-size: 26px; }
