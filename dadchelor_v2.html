@@ -35,12 +35,22 @@
   .nav-logo-text .subtitle { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 11px; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
   /* Desktop nav links
   .nav-links { display: flex; list-style: none; }
-  .nav-links li span { display: block; padding: 18px 14px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green-pale); cursor: pointer; transition: color 0.2s; border-bottom: 3px solid transparent; margin-bottom: -3px; }
+  .nav-links li span { display: block; padding: 18px 10px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green-pale); cursor: pointer; transition: color 0.2s; border-bottom: 3px solid transparent; margin-bottom: -3px; }
   .nav-links li span:hover, .nav-links li span.active { color: var(--gold-light); border-bottom-color: var(--gold); background: rgba(255,255,255,0.04); }
   /* Hamburger
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px 4px; background: none; border: none; }
   .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold-light); border-radius: 2px; transition: all 0.25s; }
-  /* Mobile drawer
+  @media (max-width: 900px) {
+    .nav-links { display: none !important; }
+    .hamburger { display: flex !important; }
+  }
+  @media (min-width: 901px) {
+    .mobile-nav-drawer { display: none !important; }
+    .hamburger { display: none !important; }
+    .nav-links { display: flex !important; }
+  }
+
+  /* Mobile drawer */
   .mobile-nav-drawer { display: none; position: fixed; inset: 0; z-index: 99; }
   .mobile-nav-drawer.open { display: block; }
   .mobile-nav-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
