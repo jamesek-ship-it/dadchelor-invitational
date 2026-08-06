@@ -1590,17 +1590,17 @@
 
   /* TEAM SCORES */
   .lb-isolated .team-scores { display: grid; grid-template-columns: 1fr auto 1fr; background: var(--green-deep); border-bottom: 2px solid var(--gold); }
-  .lb-isolated .team-score { padding: 16px 20px; }
+  .lb-isolated .team-score { padding: 16px 20px; text-align: center; }
   .lb-isolated .team-score.look { border-right: 1px solid rgba(184,150,46,0.15); background: rgba(77,190,106,0.08); }
-  .lb-isolated .team-score.feel { border-left: 1px solid rgba(184,150,46,0.15); background: rgba(77,154,190,0.08); text-align: right; }
-  .lb-isolated .team-score-label { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(200,223,200,0.5); margin-bottom: 2px; }
+  .lb-isolated .team-score.feel { border-left: 1px solid rgba(184,150,46,0.15); background: rgba(77,154,190,0.08); text-align: center; }
+  .lb-isolated .team-score-label { color: rgba(200,223,200,0.7); font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: rgba(200,223,200,0.5); margin-bottom: 2px; }
   .lb-isolated .team-score-name { font-family: 'Playfair Display', serif; font-size: 14px; font-weight: 600; margin-bottom: 4px; }
-  .lb-isolated .team-score.look .team-score-name { color: var(--look); }
-  .lb-isolated .team-score.feel .team-score-name { color: var(--feel); }
+  .lb-isolated .team-score.look .team-score-name { color: rgba(120,220,140,0.95); }
+  .lb-isolated .team-score.feel .team-score-name { color: rgba(100,180,220,0.95); }
   .lb-isolated .team-score-pts { color: #fff; text-align: center; font-family: 'Playfair Display', serif; font-size: 32px; font-weight: 700; line-height: 1; }
-  .lb-isolated .team-score.look .team-score-pts { color: var(--look); }
-  .lb-isolated .team-score.feel .team-score-pts { color: var(--feel); }
-  .lb-isolated .team-score-sub { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(200,223,200,0.45); margin-top: 3px; }
+  .lb-isolated .team-score.look .team-score-pts { color: #fff; }
+  .lb-isolated .team-score.feel .team-score-pts { color: #fff; }
+  .lb-isolated .team-score-sub { font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(200,223,200,0.65); text-align: center; margin-top: 3px; }
   .lb-isolated .team-vs-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 0 16px; gap: 2px; }
   .lb-isolated .vs-label { font-family: 'Playfair Display', serif; font-size: 18px; font-weight: 700; color: var(--gold); }
   .lb-isolated .vs-sub { font-family: 'Cormorant Garamond', serif; font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(200,223,200,0.35); }
@@ -1691,7 +1691,7 @@
 <div class="header">
   <div class="header-eyebrow">The Dadchelor Invitational · 2026</div>
   <h1><em>Official</em> Leaderboard</h1>
-  <div class="header-sub">As of Saturday · End of Round 3 · The Dream Course</div>
+  <div class="header-sub">Pre-Tournament · Starting August 28, 2026</div>
 </div>
 
 <!-- TEAM SCORES -->
@@ -1700,7 +1700,7 @@
     <div class="team-score-label">Team</div>
     <div class="team-score-name">Look Good</div>
     <div class="team-score-pts" style="color:#fff;text-align:center;">0</div>
-    <div class="team-score-sub">pts through R0</div>
+    <div class="team-score-sub">pts</div>
   </div>
   <div class="team-vs-mid">
     <div class="vs-label">—</div>
@@ -1710,7 +1710,7 @@
     <div class="team-score-label">Team</div>
     <div class="team-score-name">Feel Good</div>
     <div class="team-score-pts" style="color:#fff;text-align:center;">0</div>
-    <div class="team-score-sub">pts through R0</div>
+    <div class="team-score-sub">pts</div>
   </div>
 </div>
 
@@ -1764,40 +1764,40 @@
     <span>Total</span>
   </div>
 
-  <div class="lb-row look leader" data-team="look">
+  <div class="lb-row look" data-team="look">
     <div class="lb-pos">1</div>
     <div class="lb-name-cell">
-      <div class="lb-name look">Moceri <span class="lb-badges">🎯💣</span></div>
+      <div class="lb-name look">Moceri </div>
       <div class="lb-team-tag look">Look Good</div>
     </div>
     <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">1.0</div>
+    <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">4.5</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row look" data-team="look">
     <div class="lb-pos">2</div>
     <div class="lb-name-cell">
-      <div class="lb-name look">Knox <span class="lb-badges">💣</span></div>
+      <div class="lb-name look">Knox </div>
       <div class="lb-team-tag look">Look Good</div>
     </div>
     <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">0.5</div>
+    <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">3.5</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row feel" data-team="feel">
     <div class="lb-pos">3</div>
     <div class="lb-name-cell">
-      <div class="lb-name feel">Harras <span class="lb-badges">🎯🎯</span></div>
+      <div class="lb-name feel">Harras </div>
       <div class="lb-team-tag feel">Feel Good</div>
     </div>
     <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">1.0</div>
+    <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">3.0</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row feel" data-team="feel">
@@ -1809,31 +1809,31 @@
     <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
     <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">2.5</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row look" data-team="look">
     <div class="lb-pos">4</div>
     <div class="lb-name-cell">
-      <div class="lb-name look">Hus <span class="lb-badges">💣</span></div>
+      <div class="lb-name look">Hus </div>
       <div class="lb-team-tag look">Look Good</div>
     </div>
     <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
-    <div class="lb-cell bonus">0.5</div>
+    <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">2.5</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row feel" data-team="feel">
     <div class="lb-pos">6</div>
     <div class="lb-name-cell">
-      <div class="lb-name feel">Bartneck <span class="lb-badges">🎯</span></div>
+      <div class="lb-name feel">Bartneck </div>
       <div class="lb-team-tag feel">Feel Good</div>
     </div>
     <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">0.5</div>
+    <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">2.0</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row look" data-team="look">
@@ -1845,7 +1845,7 @@
     <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
     <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">2.0</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row feel" data-team="feel">
@@ -1857,7 +1857,7 @@
     <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
     <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">1.5</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row look" data-team="look">
@@ -1869,7 +1869,7 @@
     <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
     <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">1.5</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row feel" data-team="feel">
@@ -1881,7 +1881,7 @@
     <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
     <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">1.0</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row look" data-team="look">
@@ -1893,19 +1893,19 @@
     <div class="lb-cell" style="font-size:13px;color:var(--look);">LG</div>
     <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">1.0</div>
+    <div class="lb-cell total">0</div>
   </div>
 
   <div class="lb-row feel" data-team="feel">
     <div class="lb-pos">12</div>
     <div class="lb-name-cell">
-      <div class="lb-name feel">Boguth <span class="lb-badges">🎯</span></div>
+      <div class="lb-name feel">Boguth </div>
       <div class="lb-team-tag feel">Feel Good</div>
     </div>
     <div class="lb-cell" style="font-size:13px;color:var(--feel);">FG</div>
-    <div class="lb-cell bonus">0.5</div>
+    <div class="lb-cell bonus">—</div>
     <div class="lb-cell">—</div>
-    <div class="lb-cell total">0.5</div>
+    <div class="lb-cell total">0</div>
   </div>
 </div>
 
