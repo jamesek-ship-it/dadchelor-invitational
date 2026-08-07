@@ -24,6 +24,7 @@
     --border: rgba(26,58,42,0.15);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  *, *::before, *::after { box-sizing: border-box; }
   body { font-family: 'EB Garamond', Georgia, serif; background: var(--cream); color: var(--text-dark); font-size: 17px; line-height: 1.7; }
   .nav-banner { background: var(--green-deep); color: var(--gold-pale); text-align: center; padding: 6px 0; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-family: 'Cormorant Garamond', Georgia, serif; }
   .main-nav { background: var(--green-deep); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 100; }
@@ -427,6 +428,13 @@
   .lightbox-close{position:absolute;top:14px;right:18px;font-size:30px;color:rgba(255,255,255,0.6);cursor:pointer;background:none;border:none;}
   .photo-container img{cursor:pointer;}
 
+  /* ── DESKTOP LAYOUT ── */
+  @media (min-width: 769px) {
+    .hero { padding: 100px 4rem 80px; }
+    .hero-content { max-width: 900px; margin: 0 auto; }
+    .section { padding: 70px 4rem; }
+    .section-inner, .section > div { max-width: 1100px; margin-left: auto; margin-right: auto; }
+  }
   /* ── RESPONSIVE NAV ── */
   @media (min-width: 769px) {
     .hamburger { display: none; }
