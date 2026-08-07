@@ -2507,10 +2507,15 @@ function closeUploadModal(e) {
   if (e.target === document.getElementById('upload-modal')) document.getElementById('upload-modal').classList.remove('open');
 }
 
-buildHonoursBoard();
-buildLocations();
-buildPlayers();
-buildYears();
+try {
+  buildHonoursBoard();
+  buildLocations();
+  buildPlayers();
+  buildYears();
+} catch(e) {
+  document.getElementById('players-grid').innerHTML = '<p style="color:red;padding:20px;">JS Error: ' + e.message + '</p>';
+  console.error('Build error:', e);
+}
 </script>
 <script>
 function showDrawPage() {
