@@ -1785,7 +1785,8 @@
     </div>
   </div>
   <div id="draw-content" style="display:none;">
-    <style>
+    <style>.draw-isolated { --look-accent: #4dbe6a; --feel-accent: #4d9abe; }
+
 
   
   .draw-isolated .wrapper { max-width: 860px; margin: 0 auto; }
@@ -1800,7 +1801,7 @@
 
   /* TEAMS */
   .draw-isolated .teams-row { display: grid; grid-template-columns: 1fr 52px 1fr; background: var(--green-deep); border-left: 1px solid rgba(184,150,46,0.3); border-right: 1px solid rgba(184,150,46,0.3); }
-  .draw-isolated .team-block { padding: 22px 18px; }
+  .draw-isolated .team-block { padding: 22px 18px; text-align: center; }
   .draw-isolated .team-look { border-right: 1px solid rgba(184,150,46,0.15); background: linear-gradient(160deg, rgba(26,92,42,0.35) 0%, transparent 100%); }
   .draw-isolated .team-feel { border-left: 1px solid rgba(184,150,46,0.15); background: linear-gradient(200deg, rgba(26,58,92,0.35) 0%, transparent 100%); }
   .draw-isolated .team-vs-col { display: flex; align-items: center; justify-content: center; }
@@ -1810,12 +1811,12 @@
   .draw-isolated .team-look .team-name { color: var(--look-accent); }
   .draw-isolated .team-feel .team-name { color: var(--feel-accent); }
   .draw-isolated .player-list { list-style: none; }
-  .draw-isolated .player-item { display: flex; align-items: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .draw-isolated .player-item { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
   .draw-isolated .player-item:last-child { border-bottom: none; }
   .draw-isolated .player-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
   .draw-isolated .team-look .player-dot { background: var(--look-accent); }
   .draw-isolated .team-feel .player-dot { background: var(--feel-accent); }
-  .draw-isolated .player-n { font-family: 'EB Garamond', serif; font-size: 14px; color: var(--white); }
+  .draw-isolated .player-n { font-family: 'EB Garamond', serif; font-size: 14px; color: var(--white); text-align: center; display: block; }
   .draw-isolated .sat-tag { font-family: 'Cormorant Garamond', serif; font-size: 10px; color: var(--gold-light); font-style: italic; margin-left: auto; white-space: nowrap; }
 
   /* SAT NOTE */
@@ -1847,8 +1848,8 @@
   .draw-isolated .matches-area { padding: 10px 18px 14px; }
   .draw-isolated .match-row { display: grid; grid-template-columns: 1fr 32px 1fr; gap: 6px; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.04); }
   .draw-isolated .match-row:last-child { border-bottom: none; }
-  .draw-isolated .match-label { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(200,223,200,0.3); margin-bottom: 12px; display: grid; grid-template-columns: 1fr 32px 1fr; gap: 6px; }
-  .draw-isolated .match-team { font-family: 'EB Garamond', serif; font-size: 14px; color: var(--white); line-height: 1.4; }
+  .draw-isolated .match-label { display: grid; grid-template-columns: 1fr 32px 1fr; gap: 6px; font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 1px; text-transform: uppercase; color: rgba(200,223,200,0.3); margin-bottom: 12px; display: grid; grid-template-columns: 1fr 32px 1fr; gap: 6px; }
+  .draw-isolated .match-team { font-family: 'EB Garamond', serif; font-size: 14px; color: var(--white); line-height: 1.4; text-align: center; }
   .draw-isolated .match-team.look { color: rgba(77,190,106,0.9); }
   .draw-isolated .match-team.feel { color: rgba(77,154,190,0.9); }
   .draw-isolated .match-vs { text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 11px; color: rgba(184,150,46,0.5); font-weight: 600; }
