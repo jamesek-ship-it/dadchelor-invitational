@@ -532,10 +532,10 @@
     <div style="margin-top:32px;">
       <p style="font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:3px;text-transform:uppercase;color:var(--green-pale);margin-bottom:14px;">2026 Invitational · August 28 · Au Gres, Michigan</p>
       <div style="display:flex;justify-content:center;gap:12px;flex-wrap:wrap;">
-        <div class="countdown-box"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Days</span></div>
-        <div class="countdown-box"><span class="countdown-num" id="cd-hrs">--</span><span class="countdown-label">Hours</span></div>
-        <div class="countdown-box"><span class="countdown-num" id="cd-min">--</span><span class="countdown-label">Mins</span></div>
-        <div class="countdown-box"><span class="countdown-num" id="cd-sec">--</span><span class="countdown-label">Secs</span></div>
+        <div class="countdown-box"><span class="countdown-num" data-cd="days">--</span><span class="countdown-label">Days</span></div>
+        <div class="countdown-box"><span class="countdown-num" data-cd="hrs">--</span><span class="countdown-label">Hours</span></div>
+        <div class="countdown-box"><span class="countdown-num" data-cd="min">--</span><span class="countdown-label">Mins</span></div>
+        <div class="countdown-box"><span class="countdown-num" data-cd="sec">--</span><span class="countdown-label">Secs</span></div>
       </div>
       <button onclick="showPage('tournament2026')" style="display:inline-block;margin-top:18px;background:var(--gold);color:var(--green-deep);border:none;padding:10px 28px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:700;border-radius:2px;">2026 Tournament Details →</button>
     </div>
@@ -594,10 +594,10 @@
 
     <!-- Countdown -->
     <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:40px;" id="countdown-row">
-      <div class="countdown-box"><span class="countdown-num" id="cd-days">--</span><span class="countdown-label">Days</span></div>
-      <div class="countdown-box"><span class="countdown-num" id="cd-hrs">--</span><span class="countdown-label">Hours</span></div>
-      <div class="countdown-box"><span class="countdown-num" id="cd-min">--</span><span class="countdown-label">Minutes</span></div>
-      <div class="countdown-box"><span class="countdown-num" id="cd-sec">--</span><span class="countdown-label">Seconds</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="days">--</span><span class="countdown-label">Days</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="hrs">--</span><span class="countdown-label">Hours</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="min">--</span><span class="countdown-label">Minutes</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="sec">--</span><span class="countdown-label">Seconds</span></div>
     </div>
 
     <!-- Schedule -->
@@ -612,7 +612,7 @@
         <div style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold-light);margin-bottom:8px;">Saturday · August 29</div>
         <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--white);margin-bottom:2px;">The Dream <span style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:13px;color:var(--gold-light);">9:09 AM</span></div>
         <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--white);">The Nightmare <span style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:13px;color:var(--gold-light);">3:18 PM</span></div>
-        <div style="font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--green-pale);margin-top:6px;">West Branch, Michigan · BYOB · Bring Cash</div>reen-pale);margin-top:6px;">West Branch, Michigan</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--green-pale);margin-top:6px;">West Branch, Michigan · BYOB · Bring Cash</div>
       </div>
     </div>
 
@@ -1495,10 +1495,10 @@
     </div>
     <!-- Hero Countdown -->
     <div style="display:flex;justify-content:center;gap:16px;flex-wrap:wrap;">
-      <div class="countdown-box"><span class="countdown-num" id="cd2-days">--</span><span class="countdown-label">Days</span></div>
-      <div class="countdown-box"><span class="countdown-num" id="cd2-hrs">--</span><span class="countdown-label">Hours</span></div>
-      <div class="countdown-box"><span class="countdown-num" id="cd2-min">--</span><span class="countdown-label">Minutes</span></div>
-      <div class="countdown-box"><span class="countdown-num" id="cd2-sec">--</span><span class="countdown-label">Seconds</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="days">--</span><span class="countdown-label">Days</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="hrs">--</span><span class="countdown-label">Hours</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="min">--</span><span class="countdown-label">Minutes</span></div>
+      <div class="countdown-box"><span class="countdown-num" data-cd="sec">--</span><span class="countdown-label">Seconds</span></div>
     </div>
   </section>
   <div class="stripe-divider"></div>
@@ -2532,25 +2532,14 @@ function closeMobileNav() { document.getElementById('mobile-nav-drawer').classLi
 // Countdown to August 28, 2026 6:00 AM
 function updateCountdown() {
   const target = new Date('2026-08-28T06:00:00').getTime();
-  const now = Date.now();
-  const diff = target - now;
-  if (diff <= 0) {
-    ['days','hrs','min','sec'].forEach(k => {
-      ['cd-','cd2-'].forEach(p => { const el = document.getElementById(p+k); if(el) el.textContent = '0'; });
-    });
-    return;
-  }
-  const days = Math.floor(diff / 86400000);
-  const hrs  = Math.floor((diff % 86400000) / 3600000);
-  const min  = Math.floor((diff % 3600000) / 60000);
-  const sec  = Math.floor((diff % 60000) / 1000);
-  const pad  = n => String(n).padStart(2,'0');
-  ['cd-','cd2-'].forEach(p => {
-    const d = document.getElementById(p+'days'); if(d) d.textContent = days;
-    const h = document.getElementById(p+'hrs');  if(h) h.textContent = pad(hrs);
-    const m = document.getElementById(p+'min');  if(m) m.textContent = pad(min);
-    const s = document.getElementById(p+'sec');  if(s) s.textContent = pad(sec);
-  });
+  const diff = target - Date.now();
+  const set = (field, val) => document.querySelectorAll('[data-cd="'+field+'"]').forEach(el => el.textContent = val);
+  const pad = n => String(n).padStart(2,'0');
+  if (diff <= 0) { set('days','0'); set('hrs','00'); set('min','00'); set('sec','00'); return; }
+  set('days', Math.floor(diff / 86400000));
+  set('hrs',  pad(Math.floor((diff % 86400000) / 3600000)));
+  set('min',  pad(Math.floor((diff % 3600000) / 60000)));
+  set('sec',  pad(Math.floor((diff % 60000) / 1000)));
 }
 updateCountdown();
 setInterval(updateCountdown, 1000);
