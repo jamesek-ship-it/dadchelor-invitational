@@ -41,7 +41,7 @@
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px 4px; background: none; border: none; }
   .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold-light); border-radius: 2px; transition: all 0.25s; }
   /* Mobile drawer */
-  .mobile-nav-drawer { display: none; position: fixed; inset: 0; z-index: 99; }
+  .mobile-nav-drawer { display: none; position: fixed; inset: 0; z-index: 9999; }
   .mobile-nav-drawer.open { display: block; }
   .mobile-nav-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
   .mobile-nav-menu { position: absolute; top: 0; right: 0; bottom: 0; width: 260px; background: var(--green-deep); border-left: 3px solid var(--gold); display: flex; flex-direction: column; padding-top: 60px; }
@@ -1911,7 +1911,7 @@
         <li class="player-item"><div class="player-dot"></div><span class="player-n">James Knox</span></li>
         <li class="player-item"><div class="player-dot"></div><span class="player-n">Dan Kraft</span></li>
         <li class="player-item"><div class="player-dot"></div><span class="player-n">Kenny Dalen</span></li>
-        <li class="player-item"><div class="player-dot"></div><span class="player-n">Ricky Moceri</span><span class="sat-tag">Sat only ★</span></li>
+        <li class="player-item"><div class="player-dot"></div><span class="player-n">Ricky Moceri (Sat only)</span></li>
       </ul>
     </div>
     <div class="team-vs-col"><div class="vs-text">VS</div></div>
@@ -1924,7 +1924,7 @@
         <li class="player-item"><div class="player-dot"></div><span class="player-n">Keegan Chicilli</span></li>
         <li class="player-item"><div class="player-dot"></div><span class="player-n">Dan Harras</span></li>
         <li class="player-item"><div class="player-dot"></div><span class="player-n">Brandon Bartneck</span></li>
-        <li class="player-item"><div class="player-dot"></div><span class="player-n">Jon Boguth</span><span class="sat-tag">Sat only ★</span></li>
+        <li class="player-item"><div class="player-dot"></div><span class="player-n">Jon Boguth (Sat only)</span></li>
       </ul>
     </div>
   </div>
@@ -2257,8 +2257,8 @@ function showPage(id) {
   if (mel) mel.classList.add('active');
   window.scrollTo(0,0);
 }
-function openMobileNav() { document.getElementById('mobile-nav-drawer').classList.add('open'); }
-function closeMobileNav() { document.getElementById('mobile-nav-drawer').classList.remove('open'); }
+function openMobileNav() { document.getElementById('mobile-nav-drawer').classList.add('open'); document.body.style.overflow = 'hidden'; }
+function closeMobileNav() { document.getElementById('mobile-nav-drawer').classList.remove('open'); document.body.style.overflow = ''; }
 
 // Countdown to August 28, 2026 6:00 AM
 function updateCountdown() {
