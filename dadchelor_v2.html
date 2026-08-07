@@ -446,6 +446,12 @@
   .lightbox-close{position:absolute;top:14px;right:18px;font-size:30px;color:rgba(255,255,255,0.6);cursor:pointer;background:none;border:none;}
   .photo-container img{cursor:pointer;}
 
+
+  .rule-item { display: flex; gap: 16px; align-items: flex-start; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .rule-item:last-child { border-bottom: none; }
+  .rule-item.pending { opacity: 0.5; }
+  .rule-num { font-family: 'Playfair Display', serif; font-size: 20px; font-weight: 700; color: var(--gold); min-width: 28px; text-align: center; padding-top: 2px; }
+  .rule-text { font-family: 'EB Garamond', serif; font-size: 16px; color: var(--text-dark); line-height: 1.6; flex: 1; }
 </style>
 </head>
 <body>
@@ -470,6 +476,7 @@
       <li><span onclick="showPage('tournament2026')" id="nav-tournament2026" style="color:var(--gold-light);font-weight:600;">2026 &#x2605;</span></li>
       <li><span onclick="showDrawPage()" id="nav-draw" style="color:var(--gold-light);">The Draw &#x1F3CC;&#xFE0F;</span></li>
       <li><span onclick="showPage('leaderboard')" id="nav-leaderboard" style="color:var(--gold-light);">Leaderboard &#x1F3C6;</span></li>
+      <li><span onclick="showPage('rules')" id="nav-rules">Rules</span></li>
     </ul>
     <button class="hamburger" onclick="openMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -1771,6 +1778,173 @@
 })();
 </script>
 </div>
+
+<!-- RULES PAGE -->
+<div id="page-rules" class="page">
+  <section class="hero" style="padding:60px 2rem 50px;">
+    <h1 style="font-size:clamp(28px,4vw,46px);">The <em>Rules</em></h1>
+    <p class="hero-tagline">By Which The Game Is Played</p>
+  </section>
+  <div class="stripe-divider"></div>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Official</span>
+      <h2 class="section-title">Tournament <em>Rules</em></h2>
+      <div class="section-rule"></div>
+    </div>
+
+    <div style="max-width:680px;margin:0 auto;">
+
+      <!-- Official Rules -->
+      <div id="rules-official-list">
+        <div class="rule-item">
+          <div class="rule-num">1</div>
+          <div class="rule-text">Captains must be present for all matches.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">2</div>
+          <div class="rule-text">The highest point scorer on both teams becomes team captain for the following year.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">3</div>
+          <div class="rule-text">Rules within a match may be altered upon unanimous vote of the group (breakfast ball policies, the wearing of shoes, etc).</div>
+        </div>
+      </div>
+
+      <!-- Community submitted rules -->
+      <div style="margin-top:32px;border-top:1px solid var(--border);padding-top:28px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:16px;">Submitted by the Field</div>
+        <div id="rules-submitted-list">
+          <div style="font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--text-light);text-align:center;padding:20px 0;">No submitted rules yet — be the first.</div>
+        </div>
+      </div>
+
+      <!-- Admin bar -->
+      <div class="admin-bar" id="rules-admin-bar" style="margin-top:24px;">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted rules.</span>
+          <button class="admin-toggle-btn" onclick="rulesToggleAdmin()">Admin</button>
+        </div>
+        <div class="admin-pw-row" id="rules-pw-row">
+          <input class="admin-pw-input" id="rules-pw-input" type="password" placeholder="Password" onkeydown="if(event.key===&apos;Enter&apos;)rulesCheckAdmin()">
+          <button class="admin-pw-submit" onclick="rulesCheckAdmin()">Enter</button>
+        </div>
+      </div>
+
+      <!-- Submit a Rule -->
+      <div style="margin-top:28px;background:var(--cream-dark);border:1px solid var(--border);border-radius:2px;padding:20px;">
+        <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--green-deep);margin-bottom:14px;">Submit a Rule</div>
+        <input id="rule-name" class="story-input" type="text" placeholder="Your name" maxlength="60" style="margin-bottom:10px;">
+        <textarea id="rule-text" class="story-input story-textarea" placeholder="Propose a rule..." maxlength="500" style="min-height:80px;margin-bottom:10px;"></textarea>
+        <button class="story-submit-btn" onclick="rulesSubmit()">Submit Rule</button>
+        <div id="rule-submit-msg" class="story-submit-msg"></div>
+      </div>
+
+    </div>
+  </section>
+</div>
+
+<script>
+(function() {
+  var SB_URL = 'https://fjyusvkmjnununycqufk.supabase.co';
+  var SB_KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
+  var ADMIN_PW = 'Daddy';
+  var rulesAdmin = false;
+
+  function sbFetch(path, opts) {
+    return fetch(SB_URL + '/rest/v1/' + path, Object.assign({
+      headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' }
+    }, opts || {}));
+  }
+
+  function rulesLoad() {
+    var filter = rulesAdmin ? 'rules?order=created_at.asc' : 'rules?approved=eq.true&order=created_at.asc';
+    sbFetch(filter)
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        var list = document.getElementById('rules-submitted-list');
+        if (!list) return;
+        if (!Array.isArray(rows) || !rows.length) {
+          list.innerHTML = '<div style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-style:italic;color:var(--text-light);text-align:center;padding:20px 0;">No submitted rules yet — be the first.</div>';
+          return;
+        }
+        var official = document.getElementById('rules-official-list');
+        var startNum = official ? official.querySelectorAll('.rule-item').length + 1 : 4;
+        list.innerHTML = rows.map(function(r, i) {
+          var adminBtns = rulesAdmin ? '<div style="margin-top:8px;display:flex;gap:8px;">' +
+            (!r.approved ? '<button class="story-btn-sm story-btn-approve" onclick="rulesApprove(' + r.id + ')">✓ Approve</button>' : '') +
+            '<button class="story-btn-sm story-btn-delete" onclick="rulesDelete(' + r.id + ')">✕ Delete</button>' +
+            '</div>' : '';
+          return '<div class="rule-item' + (!r.approved ? ' pending' : '') + '">' +
+            '<div class="rule-num">' + (startNum + i) + '</div>' +
+            '<div class="rule-text">' + r.rule_text +
+            '<div style="font-family:\'Cormorant Garamond\',serif;font-size:11px;color:var(--text-light);margin-top:4px;">— ' + r.submitted_by + (r.approved ? '' : ' · <em>Awaiting approval</em>') + '</div>' +
+            adminBtns + '</div></div>';
+        }).join('');
+      })
+      .catch(function() {});
+  }
+
+  window.rulesSubmit = function() {
+    var name = document.getElementById('rule-name').value.trim();
+    var text = document.getElementById('rule-text').value.trim();
+    var msg = document.getElementById('rule-submit-msg');
+    var btn = document.querySelector('#page-rules .story-submit-btn');
+    function showMsg(t, cls) { msg.textContent = t; msg.className = 'story-submit-msg ' + cls; msg.style.display = 'block'; setTimeout(function() { msg.style.display = 'none'; }, 5000); }
+    if (!name || !text) { showMsg('Please enter your name and a rule.', 'error'); return; }
+    btn.disabled = true; btn.textContent = 'Submitting...';
+    sbFetch('rules', { method: 'POST', body: JSON.stringify({ rule_text: text, submitted_by: name, approved: false }) })
+      .then(function(r) {
+        if (!r.ok) throw new Error('Failed');
+        document.getElementById('rule-name').value = '';
+        document.getElementById('rule-text').value = '';
+        showMsg('Rule submitted — the commissioner will review it before it appears.', 'success');
+        rulesLoad();
+      })
+      .catch(function() { showMsg('Something went wrong — try again.', 'error'); })
+      .finally(function() { btn.disabled = false; btn.textContent = 'Submit Rule'; });
+  };
+
+  window.rulesApprove = function(id) {
+    sbFetch('rules?id=eq.' + id, { method: 'PATCH', body: JSON.stringify({ approved: true }) })
+      .then(function() { rulesLoad(); });
+  };
+
+  window.rulesDelete = function(id) {
+    if (!confirm('Delete this rule?')) return;
+    sbFetch('rules?id=eq.' + id, { method: 'DELETE' }).then(function() { rulesLoad(); });
+  };
+
+  window.rulesToggleAdmin = function() {
+    document.getElementById('rules-pw-row').classList.toggle('visible');
+  };
+
+  window.rulesCheckAdmin = function() {
+    var inp = document.getElementById('rules-pw-input');
+    if (inp.value === ADMIN_PW) {
+      rulesAdmin = true;
+      var bar = document.getElementById('rules-admin-bar');
+      bar.style.background = 'rgba(184,150,46,0.1)';
+      bar.style.borderColor = 'rgba(184,150,46,0.3)';
+      bar.querySelector('.admin-bar-text').textContent = '🔑 Admin mode active';
+      bar.querySelector('.admin-toggle-btn').textContent = 'Active';
+      document.getElementById('rules-pw-row').classList.remove('visible');
+      rulesLoad();
+    } else { inp.value = ''; inp.placeholder = 'Wrong password'; }
+  };
+
+  // Load when page becomes active
+  document.addEventListener('DOMContentLoaded', function() {
+    var observer = new MutationObserver(function(mutations) {
+      mutations.forEach(function(m) {
+        if (m.target.id === 'page-rules' && m.target.classList.contains('active')) rulesLoad();
+      });
+    });
+    var pg = document.getElementById('page-rules');
+    if (pg) observer.observe(pg, { attributes: true, attributeFilter: ['class'] });
+  });
+})();
+</script>
 
 <!-- DRAW PAGE -->
 <div id="page-draw" class="page">
