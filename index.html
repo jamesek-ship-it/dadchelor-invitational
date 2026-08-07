@@ -573,8 +573,8 @@
       <table style="width:100%;border-collapse:collapse;font-size:16px;">
         <thead><tr>
           <th style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;text-align:left;border-bottom:2px solid var(--gold);">Year</th>
-          <th style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;text-align:left;border-bottom:2px solid var(--gold);">Course</th>
           <th style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;text-align:left;border-bottom:2px solid var(--gold);">Location</th>
+          <th style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;text-align:left;border-bottom:2px solid var(--gold);">Event Name</th>
           <th style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);padding:8px 16px;text-align:right;border-bottom:2px solid var(--gold);">Champion</th>
         </tr></thead>
         <tbody id="honours-board"></tbody>
@@ -2329,10 +2329,25 @@ const PLAYERS = [
 
 const TOURNAMENTS = [
   {
+    year: 2018,
+    edition: "The Original",
+    dates: "Summer 2018",
+    location: "Au Gres, Michigan",
+    venue: "Au Gres",
+    eventName: "The Original Dadchelor",
+    champion: "TBD",
+    courses: [],
+    summary: "The one that started it all. Before the green jackets, before the Ryder Cup format, before a single result was ever written down — a group of friends made the pilgrimage to Au Gres and, without fully realizing it, founded an institution. The Original Dadchelor lives on in legend far more than in the record books.",
+    highlight: "The genesis. The scorecards are long gone, the details are hazy, and the stories only get better with age.",
+    results: []
+  },
+  {
     year: 2019,
     edition: "Inaugural Edition",
     dates: "September 13–15, 2019",
     location: "Gaylord & Onaway, Michigan",
+    venue: "Treetops",
+    eventName: "Tussle at Treetops",
     champion: "TBD",
     courses: ["Threetops", "Black Lake Golf Club", "The Tradition Course", "The Premier Course", "Loon"],
     summary: "The inaugural Dadchelor Invitational — the one that started it all. A three-day pilgrimage through some of Michigan's finest northern courses, including the legendary Black Lake and the wild par-3 Threetops. Five courses over three days set the standard for every edition to follow.",
@@ -2344,6 +2359,8 @@ const TOURNAMENTS = [
     edition: "2nd Edition",
     dates: "September 11–13, 2020",
     location: "Harbor Springs, Michigan",
+    venue: "Boyne",
+    eventName: "Battle of Boyne",
     champion: "TBD",
     courses: ["Crooked Tree Golf Club", "Donald Ross Memorial Course", "Arthur Hills Course", "Heather Course"],
     summary: "Year two took the field to the iconic Boyne Highlands resort in Harbor Springs, home to four world-class courses. The Donald Ross Memorial and Arthur Hills layouts provided a proper test, while the Heather Course delivered one of the most scenic rounds in tournament history.",
@@ -2355,6 +2372,8 @@ const TOURNAMENTS = [
     edition: "3rd Edition",
     dates: "July 30 – August 1, 2021",
     location: "Gaylord, Michigan",
+    venue: "Treetops",
+    eventName: "Second Tussle at Treetops",
     champion: "TBD",
     courses: ["Threetops (Treetops Resort)", "The Tribute at Otsego Club", "Premier Course (Treetops Resort)", "Signature Course (Treetops Resort)"],
     summary: "The Dadchelor returned to Gaylord for a second crack at Treetops, this time in the heat of summer. The field took on the legendary Threetops par-3 course, the historic Tribute layout at Otsego Club, and rounded out the weekend on Treetops' Premier and Signature tracks.",
@@ -2366,6 +2385,8 @@ const TOURNAMENTS = [
     edition: "4th Edition",
     dates: "August 26–28, 2022",
     location: "Forest Dunes, Roscommon, Michigan",
+    venue: "Forest Dunes / Au Sable",
+    eventName: "Battle on the Au Sable",
     champion: "TBD",
     courses: ["The Loop (Clockwise)", "The Loop (Counter-Clockwise)", "Bootlegger Short Course", "Dream Course", "Nightmare Course", "The Fortress"],
     summary: "The most ambitious edition yet. Forest Dunes is home to The Loop — the only reversible 18-hole golf course in the world, designed by Tom Doak — playable in both directions on the same day. Add the Dream and Nightmare courses at Garland Lodge and the fortress-like Fortress course and this was a weekend of golf unlike any other.",
@@ -2377,6 +2398,8 @@ const TOURNAMENTS = [
     edition: "5th Edition",
     dates: "August 5–6, 2023",
     location: "Ann Arbor & Northville, Michigan",
+    venue: "UofM / EMU",
+    eventName: "The Southern Swing (Battle of Higher Ed)",
     champion: "TBD",
     courses: ["Eagle Crest Golf Club", "The Michigan Course (Radrick Farms)", "Northville Hills Golf Club"],
     summary: "A rare southern swing brought the field to the Ann Arbor area for the 2023 edition — closer to home but no less competitive. Eagle Crest, the University of Michigan's Radrick Farms, and Northville Hills delivered three distinct tests over two days.",
@@ -2388,6 +2411,8 @@ const TOURNAMENTS = [
     edition: "6th Edition",
     dates: "August 23–24, 2024",
     location: "Lake Orion, Michigan",
+    venue: "The Orchards",
+    eventName: "The Homeward Drive",
     champion: "TBD",
     courses: ["The Orchards Golf Club", "The Orchards Golf Club"],
     summary: "The field descended on The Orchards Golf Club in Lake Orion for back-to-back rounds on one of Michigan's most respected layouts. Two days, same course, entirely different results — a true test of consistency and nerve.",
@@ -2399,6 +2424,8 @@ const TOURNAMENTS = [
     edition: "7th Edition",
     dates: "August 22–24, 2025",
     location: "Tawas City & Au Gres, Michigan",
+    venue: "Au Gres",
+    eventName: "The Reverse Sear",
     champion: "TBD",
     courses: ["Red Hawk Golf Course", "Huron Breeze Golf & Country Club", "The Fortress Golf Course"],
     summary: "The 2025 edition heads to the Tawas/Au Gres area on the shores of Lake Huron. Red Hawk, Huron Breeze, and The Fortress make up the three-course slate for what promises to be another memorable chapter in Dadchelor history.",
@@ -2478,8 +2505,8 @@ function buildHonoursBoard() {
   document.getElementById('honours-board').innerHTML = TOURNAMENTS.map(t => `
     <tr>
       <td style="padding:12px 16px;border-bottom:1px solid var(--border);font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--green-deep);">${t.year}</td>
-      <td style="padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-mid);font-size:15px;">${t.courses ? t.courses[0] : ''}</td>
-      <td style="padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-light);font-size:14px;font-family:'Cormorant Garamond',serif;">${t.location}</td>
+      <td style="padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-mid);font-size:15px;">${t.venue || (t.courses ? t.courses[0] : '')}</td>
+      <td style="padding:12px 16px;border-bottom:1px solid var(--border);color:var(--text-light);font-size:14px;font-family:'Cormorant Garamond',serif;">${t.eventName || ''}</td>
       <td style="padding:12px 16px;border-bottom:1px solid var(--border);text-align:right;font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--gold);">${t.champion}</td>
     </tr>`).join('');
 }
@@ -2489,8 +2516,8 @@ function buildLocations() {
     <div class="location-card">
       <div class="location-card-header"><span class="location-year">${t.year}</span><span class="location-edition">${t.edition}</span></div>
       <div class="location-card-body">
-        <div class="location-name">${t.courses ? t.courses[0] : t.location}</div>
-        <div class="location-place">${t.location} · ${t.dates}</div>
+        <div class="location-name">${t.eventName || (t.courses ? t.courses[0] : t.location)}</div>
+        <div class="location-place">${t.venue || t.location} · ${t.dates}</div>
         <div class="location-winner"><span class="location-winner-label">Champion</span><span style="flex:1;border-left:1px solid rgba(184,150,46,0.3);margin-left:8px;padding-left:10px;font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--green-deep);">${t.champion}</span></div>
         ${t.courses && t.courses.length > 1 ? `<div style="margin-bottom:10px;">${t.courses.map(c=>`<span style="display:inline-block;background:var(--green-mist);color:var(--green-deep);font-family:'Cormorant Garamond',serif;font-size:12px;letter-spacing:1px;padding:3px 8px;margin:2px 3px 2px 0;border-radius:2px;">${c}</span>`).join('')}</div>` : ''}
         <div class="location-detail">${t.summary.substring(0,120)}...</div>
