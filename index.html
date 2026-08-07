@@ -24,7 +24,6 @@
     --border: rgba(26,58,42,0.15);
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  *, *::before, *::after { box-sizing: border-box; }
   body { font-family: 'EB Garamond', Georgia, serif; background: var(--cream); color: var(--text-dark); font-size: 17px; line-height: 1.7; }
   .nav-banner { background: var(--green-deep); color: var(--gold-pale); text-align: center; padding: 6px 0; font-size: 11px; letter-spacing: 3px; text-transform: uppercase; font-family: 'Cormorant Garamond', Georgia, serif; }
   .main-nav { background: var(--green-deep); border-bottom: 3px solid var(--gold); position: sticky; top: 0; z-index: 100; }
@@ -35,14 +34,13 @@
   .nav-logo-text .title { font-family: 'Playfair Display', Georgia, serif; font-size: 15px; font-weight: 600; color: var(--white); letter-spacing: 0.5px; line-height: 1.2; }
   .nav-logo-text .subtitle { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 11px; color: var(--gold-light); letter-spacing: 2px; text-transform: uppercase; }
   /* Desktop nav links
-  .nav-links { display: flex; list-style: none; margin: 0; padding: 0; gap: 0; }
-  .nav-links li { list-style: none; }
-  .nav-links li span { display: block; padding: 18px 8px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green-pale); cursor: pointer; transition: color 0.2s; border-bottom: 3px solid transparent; margin-bottom: -3px; }
+  .nav-links { display: flex; list-style: none; }
+  .nav-links li span { display: block; padding: 18px 14px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 13px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--green-pale); cursor: pointer; transition: color 0.2s; border-bottom: 3px solid transparent; margin-bottom: -3px; }
   .nav-links li span:hover, .nav-links li span.active { color: var(--gold-light); border-bottom-color: var(--gold); background: rgba(255,255,255,0.04); }
   /* Hamburger
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px 4px; background: none; border: none; }
   .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold-light); border-radius: 2px; transition: all 0.25s; }
-  /* Mobile drawer */
+  /* Mobile drawer
   .mobile-nav-drawer { display: none; position: fixed; inset: 0; z-index: 99; }
   .mobile-nav-drawer.open { display: block; }
   .mobile-nav-backdrop { position: absolute; inset: 0; background: rgba(0,0,0,0.5); }
@@ -52,9 +50,6 @@
   .mobile-nav-menu li span { display: block; padding: 16px 28px; font-family: 'Cormorant Garamond', Georgia, serif; font-size: 18px; letter-spacing: 2px; text-transform: uppercase; color: var(--green-pale); cursor: pointer; transition: background 0.2s, color 0.2s; }
   .mobile-nav-menu li span:hover, .mobile-nav-menu li span.active { color: var(--gold-light); background: rgba(255,255,255,0.05); }
   .page { display: none; }
-  @media (min-width: 769px) {
-    .section { max-width: 1100px; margin-left: auto; margin-right: auto; padding-left: 2rem; padding-right: 2rem; }
-  }
   .page.active { display: block; }
   /* HERO
   .hero { background: var(--green-deep); background-image: radial-gradient(ellipse at 20% 50%, rgba(45,90,61,0.6) 0%, transparent 60%), radial-gradient(ellipse at 80% 20%, rgba(184,150,46,0.12) 0%, transparent 50%); color: var(--white); text-align: center; padding: 80px 2rem 70px; position: relative; overflow: hidden; }
@@ -268,6 +263,7 @@
     .year-acc-info p { font-size: 12px; }
     .year-acc-winner { display: none; }
     .section { padding: 40px 1.25rem; }
+    .hero { padding: 50px 1.25rem 44px; }
     .modal-body { padding: 22px 20px; }
     .modal-header { padding: 24px 20px; }
   }
@@ -426,21 +422,6 @@
   .lightbox-img{max-width:100%;max-height:90vh;object-fit:contain;}
   .lightbox-close{position:absolute;top:14px;right:18px;font-size:30px;color:rgba(255,255,255,0.6);cursor:pointer;background:none;border:none;}
   .photo-container img{cursor:pointer;}
-
-  /* ── DESKTOP LAYOUT ── */
-  @media (min-width: 769px) {
-    .section-inner, .section > div { max-width: 1100px; margin-left: auto; margin-right: auto; }
-  }
-  /* ── RESPONSIVE ── */
-  @media (min-width: 769px) {
-    .hamburger { display: none; }
-    .nav-links { display: flex; }
-    .mobile-nav-drawer { display: none !important; }
-  }
-  @media (max-width: 768px) {
-    .nav-links { display: none; }
-    .hamburger { display: flex; }
-  }
 </style>
 </head>
 <body>
