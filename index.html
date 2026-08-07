@@ -1811,11 +1811,11 @@
   .draw-isolated .team-look .team-name { color: var(--look-accent); }
   .draw-isolated .team-feel .team-name { color: var(--feel-accent); }
   .draw-isolated .player-list { list-style: none; }
-  .draw-isolated .player-item { display: flex; align-items: center; justify-content: center; gap: 8px; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .draw-isolated .player-item { display: flex; align-items: center; justify-content: center; padding: 5px 0; border-bottom: 1px solid rgba(255,255,255,0.05); }
   .draw-isolated .player-item:last-child { border-bottom: none; }
-  .draw-isolated .player-dot { width: 5px; height: 5px; border-radius: 50%; flex-shrink: 0; }
-  .draw-isolated .team-look .player-dot { background: var(--look-accent); }
-  .draw-isolated .team-feel .player-dot { background: var(--feel-accent); }
+  .draw-isolated .player-dot { display: none; }
+  .draw-isolated .team-look .player-dot { display: none; }
+  .draw-isolated .team-feel .player-dot { display: none; }
   .draw-isolated .player-n { font-family: 'EB Garamond', serif; font-size: 14px; color: var(--white); text-align: center; display: block; }
   .draw-isolated .sat-tag { font-family: 'Cormorant Garamond', serif; font-size: 10px; color: var(--gold-light); font-style: italic; margin-left: auto; white-space: nowrap; }
 
@@ -1831,7 +1831,7 @@
   .draw-isolated .rounds-section { border: 1px solid rgba(184,150,46,0.2); border-top: none; }
   .draw-isolated .round-block { border-bottom: 1px solid rgba(184,150,46,0.12); }
   .draw-isolated .round-block:last-child { border-bottom: none; }
-  .draw-isolated .round-header { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px; padding: 12px 18px; background: rgba(0,0,0,0.25); border-bottom: 1px solid rgba(184,150,46,0.1); cursor: pointer; }
+  .draw-isolated .round-header { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; padding: 12px 18px; background: rgba(0,0,0,0.25); border-bottom: 1px solid rgba(184,150,46,0.1); cursor: pointer; }
   .draw-isolated .round-num { font-family: 'Playfair Display', serif; font-size: 11px; font-weight: 700; color: var(--gold); background: rgba(184,150,46,0.15); border: 1px solid rgba(184,150,46,0.3); padding: 2px 8px; border-radius: 2px; white-space: nowrap; }
   .draw-isolated .round-title-group { }
   .draw-isolated .round-title { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; color: var(--white); margin-bottom: 1px; }
@@ -1885,7 +1885,10 @@
     .match-row { grid-template-columns: 1fr 24px 1fr; }
   }
 
-    </style>
+    
+  .draw-isolated .round-title-group { display: flex; flex-direction: column; flex: 1; }
+  .draw-isolated .round-header-bottom { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 8px; }
+</style>
     <div class="draw-isolated" style="background:#0b160e;padding:20px 14px 40px;">
 <div class="wrapper">
 
