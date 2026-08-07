@@ -40,16 +40,6 @@
   /* Hamburger
   .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 10px 4px; background: none; border: none; }
   .hamburger span { display: block; width: 24px; height: 2px; background: var(--gold-light); border-radius: 2px; transition: all 0.25s; }
-  @media (max-width: 900px) {
-    .nav-links { display: none !important; }
-    .hamburger { display: flex !important; }
-  }
-  @media (min-width: 901px) {
-    .mobile-nav-drawer { display: none !important; }
-    .hamburger { display: none !important; }
-    .nav-links { display: flex !important; }
-  }
-
   /* Mobile drawer */
   .mobile-nav-drawer { display: none; position: fixed; inset: 0; z-index: 99; }
   .mobile-nav-drawer.open { display: block; }
@@ -432,6 +422,17 @@
   .lightbox-img{max-width:100%;max-height:90vh;object-fit:contain;}
   .lightbox-close{position:absolute;top:14px;right:18px;font-size:30px;color:rgba(255,255,255,0.6);cursor:pointer;background:none;border:none;}
   .photo-container img{cursor:pointer;}
+
+  /* ── RESPONSIVE NAV ── */
+  @media (min-width: 769px) {
+    .hamburger { display: none; }
+    .nav-links { display: flex; }
+    .mobile-nav-drawer { display: none !important; }
+  }
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+  }
 </style>
 </head>
 <body>
