@@ -1688,7 +1688,7 @@
     </div>
     <div class="lb-vs-mid">
       <div class="lb-vs-dash">—</div>
-      <div class="lb-vs-total">of 14</div>
+      <div class="lb-vs-total" id="lb-vs-total">of 19</div>
     </div>
     <div class="lb-team-side feel">
       <div class="lb-team-label">Team</div>
@@ -1698,7 +1698,7 @@
     </div>
   </div>
 
-  <div class="lb-status-strip" id="lb-pts-strip">0 of 14 pts decided</div>
+  <div class="lb-status-strip" id="lb-pts-strip">0 of 19 pts decided</div>
 
   <div class="lb-cgoy-section">
     <div class="lb-cgoy-title">🏅 Champion Golfer of the Year Standings</div>
@@ -1816,6 +1816,8 @@
       var strip=document.getElementById('lb-pts-strip');
       if (lEl) lEl.textContent = fmt(lp);
       if (fEl) fEl.textContent = fmt(fp);
+      var vsTotal = document.getElementById('lb-vs-total');
+      if (vsTotal) vsTotal.textContent = 'of 19';
       if (strip) {
         var decided = fmt(lp+fp);
         var lookRec = lw+'-'+ll+(lh>0?'-'+lh:'');
@@ -3881,7 +3883,7 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
     var bEl = document.getElementById('live-pts-breakdown');
     if (lEl) lEl.textContent = lookPts % 1 === 0 ? lookPts : lookPts.toFixed(1);
     if (fEl) fEl.textContent = feelPts % 1 === 0 ? feelPts : feelPts.toFixed(1);
-    if (bEl) bEl.textContent = (lookPts + feelPts).toFixed(1) + ' of 14 pts decided';
+    if (bEl) bEl.textContent = (lookPts + feelPts).toFixed(1) + ' of 19 pts decided';
 
     // CGOY table
     var tbody = document.getElementById('live-cgoy-tbody');
@@ -4069,6 +4071,8 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
       var strip=document.getElementById('lb-pts-strip');
       if (lEl) lEl.textContent = fmt(lp);
       if (fEl) fEl.textContent = fmt(fp);
+      var vsTotal = document.getElementById('lb-vs-total');
+      if (vsTotal) vsTotal.textContent = 'of 19';
       if (strip) {
         var decided = fmt(lp+fp);
         var lookRec = lw+'-'+ll+(lh>0?'-'+lh:'');
