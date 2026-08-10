@@ -1767,12 +1767,19 @@
         else { lp+=0.5; fp+=0.5; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); }
       });
 
+      var ctpWins = {}, ldWins = {};
       CONTESTS.forEach(function(cid) {
         var res = cache[cid];
         if (!res||!res.winner) return;
         pp[res.winner]=(pp[res.winner]||0)+0.5;
         var t=team(res.winner);
         if (t==='look') lp+=0.5; else if (t==='feel') fp+=0.5;
+        // Track CTP vs LD separately for badges
+        if (cid.indexOf('ctp')!==-1) {
+          ctpWins[res.winner] = (ctpWins[res.winner]||0)+1;
+        } else {
+          ldWins[res.winner] = (ldWins[res.winner]||0)+1;
+        }
       });
 
       // Update team scores
@@ -1798,9 +1805,12 @@
         var pts = pp[name];
         if (pts !== prevPts) { displayPos = pos; prevPts = pts; }
         var t = team(name);
+        var badges = '';
+        if (ctpWins[name]) badges += '🎯'.repeat(ctpWins[name]);
+        if (ldWins[name]) badges += '💣'.repeat(ldWins[name]);
         html += '<div class="cgoy-row">'
           + '<div class="cgoy-pos">'+(pts>0?displayPos:'—')+'</div>'
-          + '<div class="cgoy-name '+(t||'')+'">' + name + '</div>'
+          + '<div class="cgoy-name '+(t||'')+'">' + name + (badges?' <span style="font-size:12px;">'+badges+'</span>':'') + '</div>'
           + '<div class="cgoy-pts">' + fmt(pts) + '</div>'
           + '</div>';
         pos++;
@@ -3855,12 +3865,19 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
         else { lp+=0.5; fp+=0.5; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); }
       });
 
+      var ctpWins = {}, ldWins = {};
       CONTESTS.forEach(function(cid) {
         var res = cache[cid];
         if (!res||!res.winner) return;
         pp[res.winner]=(pp[res.winner]||0)+0.5;
         var t=team(res.winner);
         if (t==='look') lp+=0.5; else if (t==='feel') fp+=0.5;
+        // Track CTP vs LD separately for badges
+        if (cid.indexOf('ctp')!==-1) {
+          ctpWins[res.winner] = (ctpWins[res.winner]||0)+1;
+        } else {
+          ldWins[res.winner] = (ldWins[res.winner]||0)+1;
+        }
       });
 
       // Update team scores
@@ -3886,9 +3903,12 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
         var pts = pp[name];
         if (pts !== prevPts) { displayPos = pos; prevPts = pts; }
         var t = team(name);
+        var badges = '';
+        if (ctpWins[name]) badges += '🎯'.repeat(ctpWins[name]);
+        if (ldWins[name]) badges += '💣'.repeat(ldWins[name]);
         html += '<div class="cgoy-row">'
           + '<div class="cgoy-pos">'+(pts>0?displayPos:'—')+'</div>'
-          + '<div class="cgoy-name '+(t||'')+'">' + name + '</div>'
+          + '<div class="cgoy-name '+(t||'')+'">' + name + (badges?' <span style="font-size:12px;">'+badges+'</span>':'') + '</div>'
           + '<div class="cgoy-pts">' + fmt(pts) + '</div>'
           + '</div>';
         pos++;
