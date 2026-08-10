@@ -495,7 +495,8 @@
   .admin-contest-row { display:flex; align-items:center; gap:8px; padding:4px 0; flex-wrap:wrap; }
   .admin-contest-label { font-family:'Cormorant Garamond',serif; font-size:12px; min-width:45px; }
   .admin-contest-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 10px; border:1px solid var(--border); border-radius:2px; flex:1; min-width:150px; background:var(--white); cursor:pointer; }
-  .admin-contest-save { font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid var(--gold); color:var(--gold); background:none; cursor:pointer; border-radius:2px; white-space:nowrap; }
+  .admin-contest-save { font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid var(--gold); color:var(--gold); background:none; cursor:pointer; border-radius:2px; white-space:nowrap; transition:all 0.2s; }
+  .admin-contest-save.saved { background:var(--green-mid); border-color:var(--green-mid); color:#fff; }
   .admin-contest-current { font-family:'Cormorant Garamond',serif; font-size:13px; color:var(--gold); font-style:italic; min-width:30px; }
   .admin-r4-row { display:flex; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid rgba(0,0,0,0.05); flex-wrap:wrap; }
   .admin-r4-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 8px; border:1px solid var(--border); border-radius:2px; width:150px; background:var(--white); cursor:pointer; }
@@ -2289,7 +2290,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-          <button class="admin-contest-save" onclick="adminSaveR4('r4m1')">Save</button>
+          <button class="admin-contest-save" id="r4-save-btn-r4m1" onclick="adminSaveR4('r4m1')">Save</button><span class="admin-contest-current" id="ar4-r4m1"></span>
         </div><div class="admin-r4-row" data-match="r4m2">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 2</span>
           <select class="admin-r4-input" data-match="r4m2" data-side="look"><option value="">Look Good player...</option>
@@ -2311,7 +2312,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-          <button class="admin-contest-save" onclick="adminSaveR4('r4m2')">Save</button>
+          <button class="admin-contest-save" id="r4-save-btn-r4m2" onclick="adminSaveR4('r4m2')">Save</button><span class="admin-contest-current" id="ar4-r4m2"></span>
         </div><div class="admin-r4-row" data-match="r4m3">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 3</span>
           <select class="admin-r4-input" data-match="r4m3" data-side="look"><option value="">Look Good player...</option>
@@ -2333,7 +2334,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-          <button class="admin-contest-save" onclick="adminSaveR4('r4m3')">Save</button>
+          <button class="admin-contest-save" id="r4-save-btn-r4m3" onclick="adminSaveR4('r4m3')">Save</button><span class="admin-contest-current" id="ar4-r4m3"></span>
         </div><div class="admin-r4-row" data-match="r4m4">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 4</span>
           <select class="admin-r4-input" data-match="r4m4" data-side="look"><option value="">Look Good player...</option>
@@ -2355,7 +2356,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-          <button class="admin-contest-save" onclick="adminSaveR4('r4m4')">Save</button>
+          <button class="admin-contest-save" id="r4-save-btn-r4m4" onclick="adminSaveR4('r4m4')">Save</button><span class="admin-contest-current" id="ar4-r4m4"></span>
         </div><div class="admin-r4-row" data-match="r4m5">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 5</span>
           <select class="admin-r4-input" data-match="r4m5" data-side="look"><option value="">Look Good player...</option>
@@ -2377,7 +2378,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-          <button class="admin-contest-save" onclick="adminSaveR4('r4m5')">Save</button>
+          <button class="admin-contest-save" id="r4-save-btn-r4m5" onclick="adminSaveR4('r4m5')">Save</button><span class="admin-contest-current" id="ar4-r4m5"></span>
         </div><div class="admin-r4-row" data-match="r4m6">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 6</span>
           <select class="admin-r4-input" data-match="r4m6" data-side="look"><option value="">Look Good player...</option>
@@ -2399,7 +2400,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-          <button class="admin-contest-save" onclick="adminSaveR4('r4m6')">Save</button>
+          <button class="admin-contest-save" id="r4-save-btn-r4m6" onclick="adminSaveR4('r4m6')">Save</button><span class="admin-contest-current" id="ar4-r4m6"></span>
         </div>
         <div class="admin-contests">
           <div class="admin-contest-row">
@@ -2527,9 +2528,30 @@
         // Update contest displays
         ['r1ctp','r1ld','r2ctp','r2ld','r3ctp','r3ld','r4ctp','r4ld'].forEach(function(cid) {
           var el = document.getElementById('ac-'+cid);
-          if (el) el.textContent = (cache[cid] && cache[cid].winner) ? cache[cid].winner : '—';
+          var saved = cache[cid] && cache[cid].winner;
+          if (el) el.textContent = saved ? cache[cid].winner : '—';
           var inp = document.querySelector('.admin-contest-input[data-contest="'+cid+'"]');
-          if (inp && cache[cid] && cache[cid].winner) inp.value = cache[cid].winner;
+          if (inp && saved) inp.value = cache[cid].winner;
+          var btn = document.querySelector('.admin-contest-save[onclick="adminSaveContest(''+cid+'')"]');
+          if (btn) btn.classList.toggle('saved', !!saved);
+        });
+
+        // Restore R4 saved state
+        ['r4m1','r4m2','r4m3','r4m4','r4m5','r4m6'].forEach(function(mid) {
+          var res = cache[mid];
+          if (!res || !res.winner) return;
+          var ex = res.extra ? (typeof res.extra==='string'?JSON.parse(res.extra):res.extra) : {};
+          var lookInp = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
+          var feelInp = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
+          var selEl = document.querySelector('.admin-r4-sel[data-match="'+mid+'"]');
+          var disp = document.getElementById('ar4-'+mid);
+          var btn = document.getElementById('r4-save-btn-'+mid);
+          if (lookInp && ex.lookPlayer) lookInp.value = ex.lookPlayer;
+          if (feelInp && ex.feelPlayer) feelInp.value = ex.feelPlayer;
+          if (selEl) selEl.value = res.winner;
+          var winner = res.winner==='look' ? (ex.lookPlayer||'Look Good') : (ex.feelPlayer||'Feel Good');
+          if (disp) disp.textContent = winner;
+          if (btn) btn.classList.add('saved');
         });
       });
   }
@@ -2596,12 +2618,21 @@
   window.adminScore = function(mid, winner, btn) {
     var cur = btn.classList.contains('selected');
     saveResult(mid, cur ? null : winner);
+    // Flash the row buttons to show selection registered
+    var row = btn.closest('.admin-match-row');
+    if (row) {
+      row.querySelectorAll('.awb').forEach(function(b){ b.classList.remove('selected'); });
+      if (!cur) btn.classList.add('selected');
+    }
   };
 
   window.adminSaveContest = function(cid) {
     var inp = document.querySelector('.admin-contest-input[data-contest="'+cid+'"]');
     if (!inp) return;
-    saveResult(cid, inp.value.trim()||null);
+    saveResult(cid, inp.value||null);
+    // Turn button green
+    var btn = document.querySelector('.admin-contest-save[onclick="adminSaveContest(''+cid+'')"]');
+    if (btn) { btn.classList.add('saved'); }
   };
 
   window.adminSaveR4 = function(mid) {
@@ -2609,10 +2640,16 @@
     var feelInp = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
     var sel = document.querySelector('.admin-r4-sel[data-match="'+mid+'"]');
     if (!sel||!sel.value) { alert('Select a winner'); return; }
-    var extra = {lookPlayer:lookInp?lookInp.value.trim():'', feelPlayer:feelInp?feelInp.value.trim():''};
+    var extra = {lookPlayer:lookInp?lookInp.value:'', feelPlayer:feelInp?feelInp.value:''};
     var idx = MATCHES.findIndex(function(m){return m.id===mid;});
     if (idx!==-1) { MATCHES[idx].look=extra.lookPlayer?[extra.lookPlayer]:[]; MATCHES[idx].feel=extra.feelPlayer?[extra.feelPlayer]:[]; }
     saveResult(mid, sel.value, extra);
+    // Show winner name + green button
+    var winner = sel.value==='look' ? (lookInp?lookInp.value:'Look Good') : (feelInp?feelInp.value:'Feel Good');
+    var disp = document.getElementById('ar4-'+mid);
+    var btn = document.getElementById('r4-save-btn-'+mid);
+    if (disp) disp.textContent = winner;
+    if (btn) btn.classList.add('saved');
   };
 
   window.adminApproveRule = function(id) {
