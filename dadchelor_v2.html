@@ -1738,7 +1738,23 @@
   var FEEL = ['Andrew Heppner','Adam Hartley','Keegan Chicilli','Dan Harras','Brandon Bartneck','Jon Boguth'];
 
   function team(name) { return LOOK.indexOf(name)!==-1?'look':FEEL.indexOf(name)!==-1?'feel':null; }
-  function fmt(n) { return n%1===0?n:n.toFixed(1); }
+  function fmt(n) {
+    if (n % 1 === 0) return n;
+    // Convert to fraction string
+    var whole = Math.floor(n);
+    var dec = n - whole;
+    var frac = '';
+    // Common fractions using Unicode
+    if (Math.abs(dec - 0.125) < 0.001) frac = '⅛';
+    else if (Math.abs(dec - 0.25)  < 0.001) frac = '¼';
+    else if (Math.abs(dec - 0.375) < 0.001) frac = '⅜';
+    else if (Math.abs(dec - 0.5)   < 0.001) frac = '½';
+    else if (Math.abs(dec - 0.625) < 0.001) frac = '⅝';
+    else if (Math.abs(dec - 0.75)  < 0.001) frac = '¾';
+    else if (Math.abs(dec - 0.875) < 0.001) frac = '⅞';
+    else frac = dec.toFixed(2).replace('0.','.');
+    return whole > 0 ? whole + frac : frac;
+  }
 
   window.lbLoad = function() {
     var sub = document.getElementById('lb-status-sub');
@@ -3836,7 +3852,23 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
   var FEEL = ['Andrew Heppner','Adam Hartley','Keegan Chicilli','Dan Harras','Brandon Bartneck','Jon Boguth'];
 
   function team(name) { return LOOK.indexOf(name)!==-1?'look':FEEL.indexOf(name)!==-1?'feel':null; }
-  function fmt(n) { return n%1===0?n:n.toFixed(1); }
+  function fmt(n) {
+    if (n % 1 === 0) return n;
+    // Convert to fraction string
+    var whole = Math.floor(n);
+    var dec = n - whole;
+    var frac = '';
+    // Common fractions using Unicode
+    if (Math.abs(dec - 0.125) < 0.001) frac = '⅛';
+    else if (Math.abs(dec - 0.25)  < 0.001) frac = '¼';
+    else if (Math.abs(dec - 0.375) < 0.001) frac = '⅜';
+    else if (Math.abs(dec - 0.5)   < 0.001) frac = '½';
+    else if (Math.abs(dec - 0.625) < 0.001) frac = '⅝';
+    else if (Math.abs(dec - 0.75)  < 0.001) frac = '¾';
+    else if (Math.abs(dec - 0.875) < 0.001) frac = '⅞';
+    else frac = dec.toFixed(2).replace('0.','.');
+    return whole > 0 ? whole + frac : frac;
+  }
 
   window.lbLoad = function() {
     var sub = document.getElementById('lb-status-sub');
