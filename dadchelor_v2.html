@@ -2638,6 +2638,8 @@
     var lookInp = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
     var feelInp = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
     var sel = document.querySelector('.admin-r4-sel[data-match="'+mid+'"]');
+    if (!lookInp||!lookInp.value) { alert('Select a Look Good player first'); return; }
+    if (!feelInp||!feelInp.value) { alert('Select a Feel Good player first'); return; }
     if (!sel||!sel.value) { alert('Select a winner'); return; }
     var extra = {lookPlayer:lookInp?lookInp.value:'', feelPlayer:feelInp?feelInp.value:''};
     var idx = MATCHES.findIndex(function(m){return m.id===mid;});
@@ -2650,6 +2652,65 @@
     if (disp) disp.textContent = winner;
     if (btn) btn.classList.add('saved');
   };
+
+
+  // R4 player exclusion - remove already-selected players from other dropdowns
+  function updateR4Dropdowns() {
+    var LOOK_PLAYERS = ['Matt Hus','Tim McGuire','James Knox','Dan Kraft','Kenny Dalen','Ricky Moceri'];
+    var FEEL_PLAYERS = ['Andrew Heppner','Adam Hartley','Keegan Chicilli','Dan Harras','Brandon Bartneck','Jon Boguth'];
+    var matches = ['r4m1','r4m2','r4m3','r4m4','r4m5','r4m6'];
+
+    // Get all currently selected look/feel players
+    var usedLook = {}, usedFeel = {};
+    matches.forEach(function(mid) {
+      var l = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
+      var f = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
+      if (l && l.value) usedLook[l.value] = mid;
+      if (f && f.value) usedFeel[f.value] = mid;
+    });
+
+    // Update each dropdown - remove used players from other matches
+    matches.forEach(function(mid) {
+      var lSel = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
+      var fSel = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
+
+      if (lSel) {
+        var curL = lSel.value;
+        lSel.innerHTML = '<option value="">Look Good player...</option>';
+        LOOK_PLAYERS.forEach(function(p) {
+          if (!usedLook[p] || usedLook[p] === mid) {
+            var opt = document.createElement('option');
+            opt.value = p; opt.textContent = p;
+            if (p === curL) opt.selected = true;
+            lSel.appendChild(opt);
+          }
+        });
+      }
+
+      if (fSel) {
+        var curF = fSel.value;
+        fSel.innerHTML = '<option value="">Feel Good player...</option>';
+        FEEL_PLAYERS.forEach(function(p) {
+          if (!usedFeel[p] || usedFeel[p] === mid) {
+            var opt = document.createElement('option');
+            opt.value = p; opt.textContent = p;
+            if (p === curF) opt.selected = true;
+            fSel.appendChild(opt);
+          }
+        });
+      }
+    });
+  }
+
+  // Attach change listeners to all R4 dropdowns
+  document.addEventListener('DOMContentLoaded', function() {
+    ['r4m1','r4m2','r4m3','r4m4','r4m5','r4m6'].forEach(function(mid) {
+      var l = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
+      var f = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
+      if (l) l.addEventListener('change', updateR4Dropdowns);
+      if (f) f.addEventListener('change', updateR4Dropdowns);
+    });
+  });
 
   window.adminApproveRule = function(id) {
     sbFetch('rules?id=eq.'+id, {method:'PATCH', body:JSON.stringify({approved:true})})
