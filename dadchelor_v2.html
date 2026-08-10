@@ -494,11 +494,11 @@
   .admin-contests { padding:10px 0 4px; border-top:1px solid var(--border); margin-top:8px; }
   .admin-contest-row { display:flex; align-items:center; gap:8px; padding:4px 0; flex-wrap:wrap; }
   .admin-contest-label { font-family:'Cormorant Garamond',serif; font-size:12px; min-width:45px; }
-  .admin-contest-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 10px; border:1px solid var(--border); border-radius:2px; flex:1; min-width:120px; }
+  .admin-contest-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 10px; border:1px solid var(--border); border-radius:2px; flex:1; min-width:150px; background:var(--white); cursor:pointer; }
   .admin-contest-save { font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid var(--gold); color:var(--gold); background:none; cursor:pointer; border-radius:2px; white-space:nowrap; }
   .admin-contest-current { font-family:'Cormorant Garamond',serif; font-size:13px; color:var(--gold); font-style:italic; min-width:30px; }
   .admin-r4-row { display:flex; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid rgba(0,0,0,0.05); flex-wrap:wrap; }
-  .admin-r4-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 8px; border:1px solid var(--border); border-radius:2px; width:130px; }
+  .admin-r4-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 8px; border:1px solid var(--border); border-radius:2px; width:150px; background:var(--white); cursor:pointer; }
   .admin-r4-sel { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 8px; border:1px solid rgba(184,150,46,0.35); background:none; color:var(--gold); border-radius:2px; }
   .admin-pending-item { padding:14px 18px; border-bottom:1px solid var(--border); }
   .admin-pending-item:last-child { border-bottom:none; }
@@ -2054,13 +2054,37 @@
         <div class="admin-contests">
           <div class="admin-contest-row">
             <span class="admin-contest-label">🎯 CTP</span>
-            <input class="admin-contest-input" data-contest="r1ctp" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r1ctp"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r1ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r1ctp">—</span>
           </div>
           <div class="admin-contest-row">
             <span class="admin-contest-label">💣 LD</span>
-            <input class="admin-contest-input" data-contest="r1ld" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r1ld"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r1ld')">Save</button>
             <span class="admin-contest-current" id="ac-r1ld">—</span>
           </div>
@@ -2090,13 +2114,37 @@
         <div class="admin-contests">
           <div class="admin-contest-row">
             <span class="admin-contest-label">🎯 CTP</span>
-            <input class="admin-contest-input" data-contest="r2ctp" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r2ctp"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r2ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r2ctp">—</span>
           </div>
           <div class="admin-contest-row">
             <span class="admin-contest-label">💣 LD</span>
-            <input class="admin-contest-input" data-contest="r2ld" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r2ld"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r2ld')">Save</button>
             <span class="admin-contest-current" id="ac-r2ld">—</span>
           </div>
@@ -2135,13 +2183,37 @@
         <div class="admin-contests">
           <div class="admin-contest-row">
             <span class="admin-contest-label">🎯 CTP</span>
-            <input class="admin-contest-input" data-contest="r3ctp" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r3ctp"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r3ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r3ctp">—</span>
           </div>
           <div class="admin-contest-row">
             <span class="admin-contest-label">💣 LD</span>
-            <input class="admin-contest-input" data-contest="r3ld" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r3ld"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r3ld')">Save</button>
             <span class="admin-contest-current" id="ac-r3ld">—</span>
           </div>
@@ -2153,75 +2225,171 @@
         <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-light);margin-bottom:10px;">Enter player names and winner for each match day-of</div>
         <div class="admin-r4-row" data-match="r4m1">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 1</span>
-          <input class="admin-r4-input" data-match="r4m1" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-input" data-match="r4m1" data-side="look"><option value="">Look Good player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option></select>
           <select class="admin-r4-sel" data-match="r4m1">
             <option value="">Winner</option>
             <option value="look">Look Good</option>
             <option value="feel">Feel Good</option>
           </select>
-          <input class="admin-r4-input" data-match="r4m1" data-side="feel" placeholder="Feel Good">
+          <select class="admin-r4-input" data-match="r4m1" data-side="feel"><option value="">Feel Good player...</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
           <button class="admin-contest-save" onclick="adminSaveR4('r4m1')">Save</button>
         </div><div class="admin-r4-row" data-match="r4m2">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 2</span>
-          <input class="admin-r4-input" data-match="r4m2" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-input" data-match="r4m2" data-side="look"><option value="">Look Good player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option></select>
           <select class="admin-r4-sel" data-match="r4m2">
             <option value="">Winner</option>
             <option value="look">Look Good</option>
             <option value="feel">Feel Good</option>
           </select>
-          <input class="admin-r4-input" data-match="r4m2" data-side="feel" placeholder="Feel Good">
+          <select class="admin-r4-input" data-match="r4m2" data-side="feel"><option value="">Feel Good player...</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
           <button class="admin-contest-save" onclick="adminSaveR4('r4m2')">Save</button>
         </div><div class="admin-r4-row" data-match="r4m3">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 3</span>
-          <input class="admin-r4-input" data-match="r4m3" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-input" data-match="r4m3" data-side="look"><option value="">Look Good player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option></select>
           <select class="admin-r4-sel" data-match="r4m3">
             <option value="">Winner</option>
             <option value="look">Look Good</option>
             <option value="feel">Feel Good</option>
           </select>
-          <input class="admin-r4-input" data-match="r4m3" data-side="feel" placeholder="Feel Good">
+          <select class="admin-r4-input" data-match="r4m3" data-side="feel"><option value="">Feel Good player...</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
           <button class="admin-contest-save" onclick="adminSaveR4('r4m3')">Save</button>
         </div><div class="admin-r4-row" data-match="r4m4">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 4</span>
-          <input class="admin-r4-input" data-match="r4m4" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-input" data-match="r4m4" data-side="look"><option value="">Look Good player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option></select>
           <select class="admin-r4-sel" data-match="r4m4">
             <option value="">Winner</option>
             <option value="look">Look Good</option>
             <option value="feel">Feel Good</option>
           </select>
-          <input class="admin-r4-input" data-match="r4m4" data-side="feel" placeholder="Feel Good">
+          <select class="admin-r4-input" data-match="r4m4" data-side="feel"><option value="">Feel Good player...</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
           <button class="admin-contest-save" onclick="adminSaveR4('r4m4')">Save</button>
         </div><div class="admin-r4-row" data-match="r4m5">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 5</span>
-          <input class="admin-r4-input" data-match="r4m5" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-input" data-match="r4m5" data-side="look"><option value="">Look Good player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option></select>
           <select class="admin-r4-sel" data-match="r4m5">
             <option value="">Winner</option>
             <option value="look">Look Good</option>
             <option value="feel">Feel Good</option>
           </select>
-          <input class="admin-r4-input" data-match="r4m5" data-side="feel" placeholder="Feel Good">
+          <select class="admin-r4-input" data-match="r4m5" data-side="feel"><option value="">Feel Good player...</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
           <button class="admin-contest-save" onclick="adminSaveR4('r4m5')">Save</button>
         </div><div class="admin-r4-row" data-match="r4m6">
           <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 6</span>
-          <input class="admin-r4-input" data-match="r4m6" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-input" data-match="r4m6" data-side="look"><option value="">Look Good player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option></select>
           <select class="admin-r4-sel" data-match="r4m6">
             <option value="">Winner</option>
             <option value="look">Look Good</option>
             <option value="feel">Feel Good</option>
           </select>
-          <input class="admin-r4-input" data-match="r4m6" data-side="feel" placeholder="Feel Good">
+          <select class="admin-r4-input" data-match="r4m6" data-side="feel"><option value="">Feel Good player...</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
           <button class="admin-contest-save" onclick="adminSaveR4('r4m6')">Save</button>
         </div>
         <div class="admin-contests">
           <div class="admin-contest-row">
             <span class="admin-contest-label">🎯 CTP</span>
-            <input class="admin-contest-input" data-contest="r4ctp" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r4ctp"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r4ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r4ctp">—</span>
           </div>
           <div class="admin-contest-row">
             <span class="admin-contest-label">💣 LD</span>
-            <input class="admin-contest-input" data-contest="r4ld" placeholder="Winner name">
+            <select class="admin-contest-input" data-contest="r4ld"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
             <button class="admin-contest-save" onclick="adminSaveContest('r4ld')">Save</button>
             <span class="admin-contest-current" id="ac-r4ld">—</span>
           </div>
