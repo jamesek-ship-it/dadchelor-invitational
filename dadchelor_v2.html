@@ -2459,6 +2459,7 @@
       </div>
     </div>
 
+    <button class="admin-logout-btn" style="border-color:#cc3333;color:#cc3333;margin-bottom:8px;" onclick="adminClearAll()">⚠ Clear All Results</button>
     <button class="admin-logout-btn" onclick="adminLogout()">Log Out</button>
   </div>
 </div>
@@ -2608,6 +2609,25 @@
       document.getElementById('admin-gate-pw').value = '';
       document.getElementById('admin-gate-pw').focus();
     }
+  };
+
+  window.adminClearAll = function() {
+    if (!confirm('Clear ALL results? This cannot be undone.')) return;
+    sbFetch('results?match_id=neq.NONE', {method:'DELETE'})
+      .then(function() {
+        adminLoadResults();
+        // Reset all button states
+        document.querySelectorAll('.awb').forEach(function(b){ b.classList.remove('selected'); });
+        document.querySelectorAll('.admin-contest-save').forEach(function(b){ b.classList.remove('saved'); });
+        document.querySelectorAll('.admin-contest-current').forEach(function(el){ el.textContent = '—'; });
+        document.querySelectorAll('#admin-dashboard .admin-contest-input').forEach(function(el){ el.value = ''; });
+        document.querySelectorAll('.admin-r4-input').forEach(function(el){ el.value = ''; });
+        document.querySelectorAll('.admin-r4-sel').forEach(function(el){ el.value = ''; });
+        document.querySelectorAll('[id^="ar4-"]').forEach(function(el){ el.textContent = ''; });
+        document.querySelectorAll('[id^="r4-save-btn-"]').forEach(function(el){ el.classList.remove('saved'); });
+        updateR4Dropdowns();
+      })
+      .catch(function(e){ alert('Error clearing results: '+e); });
   };
 
   window.adminLogout = function() {
