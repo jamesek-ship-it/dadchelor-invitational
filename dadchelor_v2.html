@@ -1660,7 +1660,7 @@
   .lb-cgoy-header { display: grid; grid-template-columns: 32px 1fr 60px; padding: 6px 16px; border-bottom: 1px solid rgba(184,150,46,0.1); }
   .lb-cgoy-header span { font-family: 'Cormorant Garamond', serif; font-size: 10px; letter-spacing: 1.5px; text-transform: uppercase; color: rgba(184,150,46,0.4); }
   .lb-cgoy-header span:last-child { text-align: right; }
-  #lb-cgoy-rows .cgoy-row { display: grid; grid-template-columns: 32px 1fr 60px; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); align-items: center; }
+  #lb-cgoy-rows .cgoy-row { display: grid; grid-template-columns: 32px 1fr 50px 60px; padding: 10px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); align-items: center; }
   #lb-cgoy-rows .cgoy-row:last-child { border-bottom: none; }
   .cgoy-pos { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 700; color: rgba(200,223,200,0.3); text-align: center; }
   .cgoy-name { font-family: 'Playfair Display', serif; font-size: 15px; font-weight: 600; }
@@ -1722,7 +1722,7 @@
     { id:'r1m2', look:['James Knox','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
     { id:'r1m3', look:['Kenny Dalen'], feel:['Brandon Bartneck'], pts:1 },
     { id:'r2m1', look:['Dan Kraft'], feel:['Dan Harras'], pts:1 },
-    { id:'r2m2', look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'], feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r2m2', look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'], feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'], pts:2 },
     { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
     { id:'r3m2', look:['Matt Hus','Dan Kraft'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
     { id:'r3m3', look:['Tim McGuire','Kenny Dalen'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
@@ -1766,7 +1766,8 @@
     .then(function(rows) {
       var cache = {};
       if (Array.isArray(rows)) rows.forEach(function(r){ cache[r.match_id]=r; });
-      var lp=0, fp=0, pp={};
+      var lp=0, fp=0, pp={}, pw={}, pl={}, ph={};
+      var lw=0, ll=0, lh=0, fw=0, fl=0, fh=0;
 
       MATCHES.forEach(function(m) {
         var res = cache[m.id];
@@ -1778,19 +1779,29 @@
           if (ex.lookPlayer) look = [ex.lookPlayer];
           if (ex.feelPlayer) feel = [ex.feelPlayer];
         }
-        if (w==='look') { lp+=m.pts; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; }); }
-        else if (w==='feel') { fp+=m.pts; feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; }); }
-        else { lp+=0.5; fp+=0.5; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); }
+        if (w==='look') {
+          lp+=m.pts; lw+=1; fl+=1;
+          look.forEach(function(p){ pp[p]=(pp[p]||0)+1; pw[p]=(pw[p]||0)+1; });
+          feel.forEach(function(p){ pl[p]=(pl[p]||0)+1; });
+        } else if (w==='feel') {
+          fp+=m.pts; fw+=1; ll+=1;
+          feel.forEach(function(p){ pp[p]=(pp[p]||0)+1; pw[p]=(pw[p]||0)+1; });
+          look.forEach(function(p){ pl[p]=(pl[p]||0)+1; });
+        } else {
+          lp+=m.pts/2; fp+=m.pts/2; lh+=1; fh+=1;
+          look.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; ph[p]=(ph[p]||0)+1; });
+          feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; ph[p]=(ph[p]||0)+1; });
+        }
       });
 
-      var ctpWins = {}, ldWins = {};
+      var ctpWins = {}, ldWins = {}, bonusPts = {};
       CONTESTS.forEach(function(cid) {
         var res = cache[cid];
         if (!res||!res.winner) return;
+        bonusPts[res.winner] = (bonusPts[res.winner]||0)+0.5;
         pp[res.winner]=(pp[res.winner]||0)+0.5;
         var t=team(res.winner);
         if (t==='look') lp+=0.5; else if (t==='feel') fp+=0.5;
-        // Track CTP vs LD separately for badges
         if (cid.indexOf('ctp')!==-1) {
           ctpWins[res.winner] = (ctpWins[res.winner]||0)+1;
         } else {
@@ -1804,7 +1815,12 @@
       var strip=document.getElementById('lb-pts-strip');
       if (lEl) lEl.textContent = fmt(lp);
       if (fEl) fEl.textContent = fmt(fp);
-      if (strip) strip.textContent = fmt(lp+fp)+' of 14 pts decided';
+      if (strip) {
+        var decided = fmt(lp+fp);
+        var lookRec = lw+'-'+ll+(lh>0?'-'+lh:'');
+        var feelRec = fw+'-'+fl+(fh>0?'-'+fh:'');
+        strip.innerHTML = decided+' pts decided &nbsp;·&nbsp; Look Good: <strong>'+lookRec+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+feelRec+'</strong>';
+      }
       if (sub) sub.textContent = (lp+fp===0) ? 'Tournament begins August 28 · Huron Breeze · 9:00 AM' : 'Live · Updated just now';
 
       // Update CGOY table
@@ -1824,9 +1840,12 @@
         var badges = '';
         if (ctpWins[name]) badges += '🎯'.repeat(ctpWins[name]);
         if (ldWins[name]) badges += '💣'.repeat(ldWins[name]);
+        var matchPts = pts - (bonusPts[name]||0);
+        var rec = (pw[name]||0)+'-'+(pl[name]||0)+(ph[name]?'-'+ph[name]:'');
         html += '<div class="cgoy-row">'
           + '<div class="cgoy-pos">'+(pts>0?displayPos:'—')+'</div>'
           + '<div class="cgoy-name '+(t||'')+'">' + name + (badges?' <span style="font-size:12px;">'+badges+'</span>':'') + '</div>'
+          + '<div class="cgoy-pts" style="font-size:11px;color:rgba(200,223,200,0.5);">' + rec + '</div>'
           + '<div class="cgoy-pts">' + fmt(pts) + '</div>'
           + '</div>';
         pos++;
@@ -2453,7 +2472,7 @@
     {id:'r1m2',look:['James Knox','Dan Kraft'],feel:['Keegan Chicilli','Dan Harras'],pts:1},
     {id:'r1m3',look:['Kenny Dalen'],feel:['Brandon Bartneck'],pts:1},
     {id:'r2m1',look:['Dan Kraft'],feel:['Dan Harras'],pts:1},
-    {id:'r2m2',look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'],feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'],pts:1},
+    {id:'r2m2',look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'],feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'],pts:2},
     {id:'r3m1',look:['James Knox','Ricky Moceri'],feel:['Dan Harras','Brandon Bartneck'],pts:1},
     {id:'r3m2',look:['Matt Hus','Dan Kraft'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1},
     {id:'r3m3',look:['Tim McGuire','Kenny Dalen'],feel:['Adam Hartley','Jon Boguth'],pts:1},
@@ -3836,7 +3855,7 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
     { id:'r1m2', look:['James Knox','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
     { id:'r1m3', look:['Kenny Dalen'], feel:['Brandon Bartneck'], pts:1 },
     { id:'r2m1', look:['Dan Kraft'], feel:['Dan Harras'], pts:1 },
-    { id:'r2m2', look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'], feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r2m2', look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'], feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'], pts:2 },
     { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
     { id:'r3m2', look:['Matt Hus','Dan Kraft'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
     { id:'r3m3', look:['Tim McGuire','Kenny Dalen'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
@@ -3880,7 +3899,8 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
     .then(function(rows) {
       var cache = {};
       if (Array.isArray(rows)) rows.forEach(function(r){ cache[r.match_id]=r; });
-      var lp=0, fp=0, pp={};
+      var lp=0, fp=0, pp={}, pw={}, pl={}, ph={};
+      var lw=0, ll=0, lh=0, fw=0, fl=0, fh=0;
 
       MATCHES.forEach(function(m) {
         var res = cache[m.id];
@@ -3892,19 +3912,29 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
           if (ex.lookPlayer) look = [ex.lookPlayer];
           if (ex.feelPlayer) feel = [ex.feelPlayer];
         }
-        if (w==='look') { lp+=m.pts; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; }); }
-        else if (w==='feel') { fp+=m.pts; feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; }); }
-        else { lp+=0.5; fp+=0.5; look.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.25; }); }
+        if (w==='look') {
+          lp+=m.pts; lw+=1; fl+=1;
+          look.forEach(function(p){ pp[p]=(pp[p]||0)+1; pw[p]=(pw[p]||0)+1; });
+          feel.forEach(function(p){ pl[p]=(pl[p]||0)+1; });
+        } else if (w==='feel') {
+          fp+=m.pts; fw+=1; ll+=1;
+          feel.forEach(function(p){ pp[p]=(pp[p]||0)+1; pw[p]=(pw[p]||0)+1; });
+          look.forEach(function(p){ pl[p]=(pl[p]||0)+1; });
+        } else {
+          lp+=m.pts/2; fp+=m.pts/2; lh+=1; fh+=1;
+          look.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; ph[p]=(ph[p]||0)+1; });
+          feel.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; ph[p]=(ph[p]||0)+1; });
+        }
       });
 
-      var ctpWins = {}, ldWins = {};
+      var ctpWins = {}, ldWins = {}, bonusPts = {};
       CONTESTS.forEach(function(cid) {
         var res = cache[cid];
         if (!res||!res.winner) return;
+        bonusPts[res.winner] = (bonusPts[res.winner]||0)+0.5;
         pp[res.winner]=(pp[res.winner]||0)+0.5;
         var t=team(res.winner);
         if (t==='look') lp+=0.5; else if (t==='feel') fp+=0.5;
-        // Track CTP vs LD separately for badges
         if (cid.indexOf('ctp')!==-1) {
           ctpWins[res.winner] = (ctpWins[res.winner]||0)+1;
         } else {
@@ -3918,7 +3948,12 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
       var strip=document.getElementById('lb-pts-strip');
       if (lEl) lEl.textContent = fmt(lp);
       if (fEl) fEl.textContent = fmt(fp);
-      if (strip) strip.textContent = fmt(lp+fp)+' of 14 pts decided';
+      if (strip) {
+        var decided = fmt(lp+fp);
+        var lookRec = lw+'-'+ll+(lh>0?'-'+lh:'');
+        var feelRec = fw+'-'+fl+(fh>0?'-'+fh:'');
+        strip.innerHTML = decided+' pts decided &nbsp;·&nbsp; Look Good: <strong>'+lookRec+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+feelRec+'</strong>';
+      }
       if (sub) sub.textContent = (lp+fp===0) ? 'Tournament begins August 28 · Huron Breeze · 9:00 AM' : 'Live · Updated just now';
 
       // Update CGOY table
@@ -3938,9 +3973,12 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
         var badges = '';
         if (ctpWins[name]) badges += '🎯'.repeat(ctpWins[name]);
         if (ldWins[name]) badges += '💣'.repeat(ldWins[name]);
+        var matchPts = pts - (bonusPts[name]||0);
+        var rec = (pw[name]||0)+'-'+(pl[name]||0)+(ph[name]?'-'+ph[name]:'');
         html += '<div class="cgoy-row">'
           + '<div class="cgoy-pos">'+(pts>0?displayPos:'—')+'</div>'
           + '<div class="cgoy-name '+(t||'')+'">' + name + (badges?' <span style="font-size:12px;">'+badges+'</span>':'') + '</div>'
+          + '<div class="cgoy-pts" style="font-size:11px;color:rgba(200,223,200,0.5);">' + rec + '</div>'
           + '<div class="cgoy-pts">' + fmt(pts) + '</div>'
           + '</div>';
         pos++;
