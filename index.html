@@ -471,6 +471,42 @@
   .scoring-round .match-vs { text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 11px; color: var(--text-light); font-weight: 600; letter-spacing: 1px; }
   .scoring-round .match-winner-ctrl { display: none; justify-content: center; gap: 6px; padding: 6px 0 8px; flex-wrap: wrap; }
   .scoring-round .match-winner-ctrl.admin-on { display: flex; }
+
+  /* == ADMIN PAGE == */
+  .admin-section { background:var(--white); border:1px solid var(--border); border-radius:2px; margin-bottom:16px; overflow:hidden; }
+  .admin-section-title { font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--green-deep); padding:14px 18px; border-bottom:1px solid var(--border); }
+  .admin-round-block { padding:14px 18px; border-bottom:1px solid var(--border); }
+  .admin-round-block:last-child { border-bottom:none; }
+  .admin-round-label { font-family:'Cormorant Garamond',serif; font-size:12px; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); margin-bottom:10px; }
+  .admin-match-row { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; padding:6px 0; border-bottom:1px solid rgba(0,0,0,0.05); }
+  .admin-match-row:last-of-type { border-bottom:none; }
+  .admin-match-name { font-family:'EB Garamond',serif; font-size:14px; }
+  .admin-match-name.look { color:#2a6e3a; text-align:left; }
+  .admin-match-name.feel { color:#1e4f6e; text-align:right; }
+  .admin-win-btns { display:flex; gap:4px; justify-content:center; }
+  .awb { font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:700; letter-spacing:0.5px; padding:5px 10px; border:1px solid; background:none; cursor:pointer; border-radius:2px; transition:all 0.15s; }
+  .awb-look { border-color:rgba(77,190,106,0.4); color:#2a6e3a; }
+  .awb-look.selected { background:#2a6e3a; color:#fff; border-color:#2a6e3a; }
+  .awb-half { border-color:rgba(184,150,46,0.4); color:var(--gold); }
+  .awb-half.selected { background:var(--gold); color:#fff; border-color:var(--gold); }
+  .awb-feel { border-color:rgba(77,154,190,0.4); color:#1e4f6e; }
+  .awb-feel.selected { background:#1e4f6e; color:#fff; border-color:#1e4f6e; }
+  .admin-contests { padding:10px 0 4px; border-top:1px solid var(--border); margin-top:8px; }
+  .admin-contest-row { display:flex; align-items:center; gap:8px; padding:4px 0; flex-wrap:wrap; }
+  .admin-contest-label { font-family:'Cormorant Garamond',serif; font-size:12px; min-width:45px; }
+  .admin-contest-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 10px; border:1px solid var(--border); border-radius:2px; flex:1; min-width:120px; }
+  .admin-contest-save { font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:5px 12px; border:1px solid var(--gold); color:var(--gold); background:none; cursor:pointer; border-radius:2px; white-space:nowrap; }
+  .admin-contest-current { font-family:'Cormorant Garamond',serif; font-size:13px; color:var(--gold); font-style:italic; min-width:30px; }
+  .admin-r4-row { display:flex; align-items:center; gap:6px; padding:6px 0; border-bottom:1px solid rgba(0,0,0,0.05); flex-wrap:wrap; }
+  .admin-r4-input { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 8px; border:1px solid var(--border); border-radius:2px; width:130px; }
+  .admin-r4-sel { font-family:'Cormorant Garamond',serif; font-size:13px; padding:5px 8px; border:1px solid rgba(184,150,46,0.35); background:none; color:var(--gold); border-radius:2px; }
+  .admin-pending-item { padding:14px 18px; border-bottom:1px solid var(--border); }
+  .admin-pending-item:last-child { border-bottom:none; }
+  .admin-pending-text { font-family:'EB Garamond',serif; font-size:15px; color:var(--text-dark); margin-bottom:4px; line-height:1.5; }
+  .admin-pending-meta { font-family:'Cormorant Garamond',serif; font-size:12px; color:var(--text-light); margin-bottom:8px; }
+  .admin-pending-actions { display:flex; gap:8px; }
+  .admin-empty { font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:var(--text-light); padding:16px 18px; }
+  .admin-logout-btn { width:100%; margin-top:8px; padding:12px; background:none; border:1px solid var(--border); font-family:'Cormorant Garamond',serif; font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); cursor:pointer; border-radius:2px; }
 </style>
 </head>
 <body>
@@ -496,6 +532,7 @@
       <li><span onclick="showDrawPage()" id="nav-draw" style="color:var(--gold-light);">The Draw &#x1F3CC;&#xFE0F;</span></li>
       <li><span onclick="showPage('leaderboard')" id="nav-leaderboard" style="color:var(--gold-light);">Leaderboard &#x1F3C6;</span></li>
       <li><span onclick="showPage('rules')" id="nav-rules">Rules</span></li>
+      <li><span onclick="showPage('admin')" id="nav-admin" style="color:var(--gold);">⚙</span></li>
     </ul>
     <button class="hamburger" onclick="openMobileNav()" aria-label="Menu">
       <span></span><span></span><span></span>
@@ -518,6 +555,7 @@
       
       <li><span onclick="showPage('leaderboard');closeMobileNav();" id="mnav-leaderboard" style="color:var(--gold-light);">Leaderboard 🏆</span></li>
       <li><span onclick="showPage('rules');closeMobileNav();" id="mnav-rules">Rules</span></li>
+      <li><span onclick="showPage('admin');closeMobileNav();" id="mnav-admin" style="color:var(--gold);">⚙ Admin</span></li>
     </ul>
   </div>
 </div>
@@ -1588,66 +1626,6 @@
       </div>
     </div>
   </section>
-
-  <!-- ADMIN SCORING SECTION -->
-  <section class="section" style="padding-top:0;">
-    <div class="admin-score-bar" id="scoring-admin-bar">
-      <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;">
-        <span class="admin-score-label">Commissioner Scoring</span>
-        <button class="score-2026-btn" onclick="scoringTogglePw()">Admin Login</button>
-      </div>
-      <div class="score-pw-row">
-        <input class="score-pw-input" type="password" placeholder="Password" onkeydown="if(event.key===&apos;Enter&apos;)scoringCheckPw()">
-        <button class="score-pw-submit" onclick="scoringCheckPw()">Enter</button>
-      </div>
-    </div>
-    <div class="live-score-board">
-      <div class="live-score-title">&#127942; Live Standings</div>
-      <div class="live-team-scores">
-        <div class="live-team-name look">Look Good</div>
-        <div class="live-score-display">
-          <span class="live-score-num look" id="live-look-score">0</span>
-          <span class="live-score-sep">&#8211;</span>
-          <span class="live-score-num feel" id="live-feel-score">0</span>
-        </div>
-        <div class="live-team-name feel">Feel Good</div>
-      </div>
-      <div class="live-pts-breakdown" id="live-pts-breakdown">0 of 14 pts decided</div>
-      <table class="live-cgoy-table">
-        <thead><tr><th>#</th><th>Player</th><th style="text-align:right;">Pts</th></tr></thead>
-        <tbody id="live-cgoy-tbody"><tr><td colspan="3" style="text-align:center;opacity:0.4;font-style:italic;">No results yet</td></tr></tbody>
-      </table>
-    </div>
-    <div class="scoring-round">
-      <div class="scoring-round-title">Round 1 &mdash; Huron Breeze <span class="scoring-round-sub">Fri AM &middot; Fourball</span></div>
-      <div class="match-label"><span style="color:rgba(77,190,106,0.7);">Look Good</span><span></span><span style="color:rgba(77,154,190,0.7);">Feel Good</span></div>
-      <div class="match-row" data-match="r1m1"><div class="match-team look">TBD</div><div class="match-vs">vs</div><div class="match-team feel">TBD</div></div><div class="match-winner-ctrl" data-match="r1m1"><button class="win-btn win-btn-look" data-match="r1m1" data-val="look" onclick="scoreMatch('r1m1','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r1m1" data-val="draw" onclick="scoreMatch('r1m1','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r1m1" data-val="feel" onclick="scoreMatch('r1m1','feel')">Feel Good</button></div>
-      <div class="match-row" data-match="r1m2"><div class="match-team look">TBD</div><div class="match-vs">vs</div><div class="match-team feel">TBD</div></div><div class="match-winner-ctrl" data-match="r1m2"><button class="win-btn win-btn-look" data-match="r1m2" data-val="look" onclick="scoreMatch('r1m2','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r1m2" data-val="draw" onclick="scoreMatch('r1m2','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r1m2" data-val="feel" onclick="scoreMatch('r1m2','feel')">Feel Good</button></div>
-      <div class="match-row" data-match="r1m3"><div class="match-team look">TBD</div><div class="match-vs">vs</div><div class="match-team feel">TBD</div></div><div class="match-winner-ctrl" data-match="r1m3"><button class="win-btn win-btn-look" data-match="r1m3" data-val="look" onclick="scoreMatch('r1m3','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r1m3" data-val="draw" onclick="scoreMatch('r1m3','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r1m3" data-val="feel" onclick="scoreMatch('r1m3','feel')">Feel Good</button></div>
-      <div class="scoring-contests"><div class="contest-winner-row"><span class="contest-label">CTP</span><span class="contest-winner-display" data-contest="r1ctp">&#x2014;</span><input class="contest-winner-input" data-contest="r1ctp" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r1ctp')">Save</button></div><div class="contest-winner-row"><span class="contest-label">Long Drive</span><span class="contest-winner-display" data-contest="r1ld">&#x2014;</span><input class="contest-winner-input" data-contest="r1ld" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r1ld')">Save</button></div></div>
-    </div>
-    <div class="scoring-round">
-      <div class="scoring-round-title">Round 2 &mdash; Red Hawk <span class="scoring-round-sub">Fri PM &middot; Scramble</span></div>
-      <div class="match-label"><span style="color:rgba(77,190,106,0.7);">Look Good</span><span></span><span style="color:rgba(77,154,190,0.7);">Feel Good</span></div>
-      <div class="match-row" data-match="r2m1"><div class="match-team look">TBD</div><div class="match-vs" style="display:flex;flex-direction:column;align-items:center;"><span style="font-size:9px;color:var(--text-light);">Singles &#x2694;</span><span>vs</span></div><div class="match-team feel">TBD</div></div><div class="match-winner-ctrl" data-match="r2m1"><button class="win-btn win-btn-look" data-match="r2m1" data-val="look" onclick="scoreMatch('r2m1','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r2m1" data-val="draw" onclick="scoreMatch('r2m1','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r2m1" data-val="feel" onclick="scoreMatch('r2m1','feel')">Feel Good</button></div>
-      <div class="match-row" data-match="r2m2"><div class="match-team look" style="font-size:12px;">TBD</div><div class="match-vs" style="display:flex;flex-direction:column;align-items:center;"><span style="font-size:9px;color:var(--text-light);">4-man</span><span>vs</span></div><div class="match-team feel" style="font-size:12px;">TBD</div></div><div class="match-winner-ctrl" data-match="r2m2"><button class="win-btn win-btn-look" data-match="r2m2" data-val="look" onclick="scoreMatch('r2m2','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r2m2" data-val="draw" onclick="scoreMatch('r2m2','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r2m2" data-val="feel" onclick="scoreMatch('r2m2','feel')">Feel Good</button></div>
-      <div class="scoring-contests"><div class="contest-winner-row"><span class="contest-label">CTP</span><span class="contest-winner-display" data-contest="r2ctp">&#x2014;</span><input class="contest-winner-input" data-contest="r2ctp" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r2ctp')">Save</button></div><div class="contest-winner-row"><span class="contest-label">Long Drive</span><span class="contest-winner-display" data-contest="r2ld">&#x2014;</span><input class="contest-winner-input" data-contest="r2ld" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r2ld')">Save</button></div></div>
-    </div>
-    <div class="scoring-round">
-      <div class="scoring-round-title">Round 3 &mdash; The Dream <span class="scoring-round-sub">Sat AM &middot; Fourball</span></div>
-      <div class="match-label"><span style="color:rgba(77,190,106,0.7);">Look Good</span><span></span><span style="color:rgba(77,154,190,0.7);">Feel Good</span></div>
-      <div class="match-row" data-match="r3m1"><div class="match-team look">TBD</div><div class="match-vs">vs</div><div class="match-team feel">TBD</div></div><div class="match-winner-ctrl" data-match="r3m1"><button class="win-btn win-btn-look" data-match="r3m1" data-val="look" onclick="scoreMatch('r3m1','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r3m1" data-val="draw" onclick="scoreMatch('r3m1','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r3m1" data-val="feel" onclick="scoreMatch('r3m1','feel')">Feel Good</button></div>
-      <div class="match-row" data-match="r3m2"><div class="match-team look">TBD</div><div class="match-vs">vs</div><div class="match-team feel">TBD</div></div><div class="match-winner-ctrl" data-match="r3m2"><button class="win-btn win-btn-look" data-match="r3m2" data-val="look" onclick="scoreMatch('r3m2','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r3m2" data-val="draw" onclick="scoreMatch('r3m2','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r3m2" data-val="feel" onclick="scoreMatch('r3m2','feel')">Feel Good</button></div>
-      <div class="match-row" data-match="r3m3"><div class="match-team look">TBD</div><div class="match-vs">vs</div><div class="match-team feel">TBD</div></div><div class="match-winner-ctrl" data-match="r3m3"><button class="win-btn win-btn-look" data-match="r3m3" data-val="look" onclick="scoreMatch('r3m3','look')">Look Good</button><button class="win-btn win-btn-draw" data-match="r3m3" data-val="draw" onclick="scoreMatch('r3m3','draw')">Halved</button><button class="win-btn win-btn-feel" data-match="r3m3" data-val="feel" onclick="scoreMatch('r3m3','feel')">Feel Good</button></div>
-      <div class="scoring-contests"><div class="contest-winner-row"><span class="contest-label">CTP</span><span class="contest-winner-display" data-contest="r3ctp">&#x2014;</span><input class="contest-winner-input" data-contest="r3ctp" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r3ctp')">Save</button></div><div class="contest-winner-row"><span class="contest-label">Long Drive</span><span class="contest-winner-display" data-contest="r3ld">&#x2014;</span><input class="contest-winner-input" data-contest="r3ld" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r3ld')">Save</button></div></div>
-    </div>
-    <div class="scoring-round">
-      <div class="scoring-round-title">Round 4 &mdash; The Nightmare <span class="scoring-round-sub">Sat PM &middot; Individual Match Play &middot; Draw day-of</span></div>
-      <div class="match-label"><span style="color:rgba(77,190,106,0.7);">Look Good</span><span></span><span style="color:rgba(77,154,190,0.7);">Feel Good</span></div>
-      <div class="match-row" data-match="r4m1"><div class="match-team look">TBD</div><div class="match-vs"><span style="font-size:9px;color:var(--text-light);">Match 1</span></div><div class="match-team feel">TBD</div></div><div class="r4-match-input-row" data-match="r4m1"><input class="r4-player-input r4-look-input" data-match="r4m1" placeholder="Look Good player"><select class="r4-win-sel" data-match="r4m1"><option value="">Winner</option><option value="look">Look Good</option><option value="feel">Feel Good</option></select><input class="r4-player-input r4-feel-input" data-match="r4m1" placeholder="Feel Good player"><button class="win-btn win-btn-look" style="font-size:10px;padding:4px 10px;" onclick="scoreR4Match('r4m1')">Save</button></div><div class="match-row" data-match="r4m2"><div class="match-team look">TBD</div><div class="match-vs"><span style="font-size:9px;color:var(--text-light);">Match 2</span></div><div class="match-team feel">TBD</div></div><div class="r4-match-input-row" data-match="r4m2"><input class="r4-player-input r4-look-input" data-match="r4m2" placeholder="Look Good player"><select class="r4-win-sel" data-match="r4m2"><option value="">Winner</option><option value="look">Look Good</option><option value="feel">Feel Good</option></select><input class="r4-player-input r4-feel-input" data-match="r4m2" placeholder="Feel Good player"><button class="win-btn win-btn-look" style="font-size:10px;padding:4px 10px;" onclick="scoreR4Match('r4m2')">Save</button></div><div class="match-row" data-match="r4m3"><div class="match-team look">TBD</div><div class="match-vs"><span style="font-size:9px;color:var(--text-light);">Match 3</span></div><div class="match-team feel">TBD</div></div><div class="r4-match-input-row" data-match="r4m3"><input class="r4-player-input r4-look-input" data-match="r4m3" placeholder="Look Good player"><select class="r4-win-sel" data-match="r4m3"><option value="">Winner</option><option value="look">Look Good</option><option value="feel">Feel Good</option></select><input class="r4-player-input r4-feel-input" data-match="r4m3" placeholder="Feel Good player"><button class="win-btn win-btn-look" style="font-size:10px;padding:4px 10px;" onclick="scoreR4Match('r4m3')">Save</button></div><div class="match-row" data-match="r4m4"><div class="match-team look">TBD</div><div class="match-vs"><span style="font-size:9px;color:var(--text-light);">Match 4</span></div><div class="match-team feel">TBD</div></div><div class="r4-match-input-row" data-match="r4m4"><input class="r4-player-input r4-look-input" data-match="r4m4" placeholder="Look Good player"><select class="r4-win-sel" data-match="r4m4"><option value="">Winner</option><option value="look">Look Good</option><option value="feel">Feel Good</option></select><input class="r4-player-input r4-feel-input" data-match="r4m4" placeholder="Feel Good player"><button class="win-btn win-btn-look" style="font-size:10px;padding:4px 10px;" onclick="scoreR4Match('r4m4')">Save</button></div><div class="match-row" data-match="r4m5"><div class="match-team look">TBD</div><div class="match-vs"><span style="font-size:9px;color:var(--text-light);">Match 5</span></div><div class="match-team feel">TBD</div></div><div class="r4-match-input-row" data-match="r4m5"><input class="r4-player-input r4-look-input" data-match="r4m5" placeholder="Look Good player"><select class="r4-win-sel" data-match="r4m5"><option value="">Winner</option><option value="look">Look Good</option><option value="feel">Feel Good</option></select><input class="r4-player-input r4-feel-input" data-match="r4m5" placeholder="Feel Good player"><button class="win-btn win-btn-look" style="font-size:10px;padding:4px 10px;" onclick="scoreR4Match('r4m5')">Save</button></div><div class="match-row" data-match="r4m6"><div class="match-team look">TBD</div><div class="match-vs"><span style="font-size:9px;color:var(--text-light);">Match 6</span></div><div class="match-team feel">TBD</div></div><div class="r4-match-input-row" data-match="r4m6"><input class="r4-player-input r4-look-input" data-match="r4m6" placeholder="Look Good player"><select class="r4-win-sel" data-match="r4m6"><option value="">Winner</option><option value="look">Look Good</option><option value="feel">Feel Good</option></select><input class="r4-player-input r4-feel-input" data-match="r4m6" placeholder="Feel Good player"><button class="win-btn win-btn-look" style="font-size:10px;padding:4px 10px;" onclick="scoreR4Match('r4m6')">Save</button></div>
-      <div class="scoring-contests"><div class="contest-winner-row"><span class="contest-label">CTP</span><span class="contest-winner-display" data-contest="r4ctp">&#x2014;</span><input class="contest-winner-input" data-contest="r4ctp" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r4ctp')">Save</button></div><div class="contest-winner-row"><span class="contest-label">Long Drive</span><span class="contest-winner-display" data-contest="r4ld">&#x2014;</span><input class="contest-winner-input" data-contest="r4ld" placeholder="Winner" maxlength="40"><button class="contest-save-btn" onclick="saveContest('r4ld')">Save</button></div></div>
-    </div>
-  </section>
 </div>
 
 
@@ -2016,6 +1994,429 @@
     var pg = document.getElementById('page-rules');
     if (pg) observer.observe(pg, { attributes: true, attributeFilter: ['class'] });
   });
+})();
+</script>
+
+<!-- ADMIN PAGE -->
+<div id="page-admin" class="page">
+  <section class="hero" style="padding:50px 2rem 40px;">
+    <h1 style="font-size:clamp(24px,4vw,36px);">Commissioner <em>Panel</em></h1>
+    <p class="hero-tagline">Password required</p>
+  </section>
+  <div class="stripe-divider"></div>
+
+  <!-- LOGIN GATE -->
+  <div id="admin-gate" style="max-width:400px;margin:40px auto;padding:0 16px;">
+    <div style="background:var(--white);border:1px solid var(--border);border-radius:2px;padding:28px 24px;">
+      <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--green-deep);margin-bottom:16px;">Commissioner Login</div>
+      <input id="admin-gate-pw" type="password" class="story-input" placeholder="Password" style="margin-bottom:12px;" onkeydown="if(event.key===&apos;Enter&apos;)adminLogin()">
+      <button class="story-submit-btn" style="width:100%;" onclick="adminLogin()">Enter</button>
+      <div id="admin-gate-err" style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#cc3333;margin-top:8px;display:none;">Wrong password.</div>
+    </div>
+  </div>
+
+  <!-- ADMIN DASHBOARD (hidden until login) -->
+  <div id="admin-dashboard" style="display:none;max-width:680px;margin:0 auto;padding:0 16px 60px;">
+
+    <!-- MATCH SCORING -->
+    <div class="admin-section">
+      <div class="admin-section-title">⚔️ Match Scoring</div>
+
+      <div class="admin-round-block">
+        <div class="admin-round-label">Round 1 — Huron Breeze · Fri AM · Fourball</div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look">Hus / McGuire</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r1m1" data-val="look" onclick="adminScore('r1m1','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r1m1" data-val="draw" onclick="adminScore('r1m1','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r1m1" data-val="feel" onclick="adminScore('r1m1','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel">Heppner / Hartley</span>
+        </div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look">Knox / Kraft</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r1m2" data-val="look" onclick="adminScore('r1m2','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r1m2" data-val="draw" onclick="adminScore('r1m2','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r1m2" data-val="feel" onclick="adminScore('r1m2','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel">Chicilli / Harras</span>
+        </div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look">Dalen</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r1m3" data-val="look" onclick="adminScore('r1m3','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r1m3" data-val="draw" onclick="adminScore('r1m3','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r1m3" data-val="feel" onclick="adminScore('r1m3','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel">Bartneck</span>
+        </div>
+        <div class="admin-contests">
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">🎯 CTP</span>
+            <input class="admin-contest-input" data-contest="r1ctp" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r1ctp')">Save</button>
+            <span class="admin-contest-current" id="ac-r1ctp">—</span>
+          </div>
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">💣 LD</span>
+            <input class="admin-contest-input" data-contest="r1ld" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r1ld')">Save</button>
+            <span class="admin-contest-current" id="ac-r1ld">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-round-block">
+        <div class="admin-round-label">Round 2 — Red Hawk · Fri PM · Scramble</div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look">Kraft</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r2m1" data-val="look" onclick="adminScore('r2m1','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r2m1" data-val="draw" onclick="adminScore('r2m1','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r2m1" data-val="feel" onclick="adminScore('r2m1','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel">Harras · Singles ⚔️</span>
+        </div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look" style="font-size:12px;">Hus/McGuire/Knox/Dalen</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r2m2" data-val="look" onclick="adminScore('r2m2','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r2m2" data-val="draw" onclick="adminScore('r2m2','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r2m2" data-val="feel" onclick="adminScore('r2m2','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel" style="font-size:12px;">Heppner/Hartley/Chicilli/Bartneck</span>
+        </div>
+        <div class="admin-contests">
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">🎯 CTP</span>
+            <input class="admin-contest-input" data-contest="r2ctp" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r2ctp')">Save</button>
+            <span class="admin-contest-current" id="ac-r2ctp">—</span>
+          </div>
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">💣 LD</span>
+            <input class="admin-contest-input" data-contest="r2ld" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r2ld')">Save</button>
+            <span class="admin-contest-current" id="ac-r2ld">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-round-block">
+        <div class="admin-round-label">Round 3 — The Dream · Sat AM · Fourball</div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look">Knox / Moceri</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r3m1" data-val="look" onclick="adminScore('r3m1','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r3m1" data-val="draw" onclick="adminScore('r3m1','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r3m1" data-val="feel" onclick="adminScore('r3m1','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel">Harras / Bartneck</span>
+        </div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look">Hus / Kraft</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r3m2" data-val="look" onclick="adminScore('r3m2','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r3m2" data-val="draw" onclick="adminScore('r3m2','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r3m2" data-val="feel" onclick="adminScore('r3m2','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel">Heppner / Chicilli</span>
+        </div>
+        <div class="admin-match-row">
+          <span class="admin-match-name look">McGuire / Dalen</span>
+          <div class="admin-win-btns">
+            <button class="awb awb-look" data-match="r3m3" data-val="look" onclick="adminScore('r3m3','look',this)">LG</button>
+            <button class="awb awb-half" data-match="r3m3" data-val="draw" onclick="adminScore('r3m3','draw',this)">½</button>
+            <button class="awb awb-feel" data-match="r3m3" data-val="feel" onclick="adminScore('r3m3','feel',this)">FG</button>
+          </div>
+          <span class="admin-match-name feel">Hartley / Boguth</span>
+        </div>
+        <div class="admin-contests">
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">🎯 CTP</span>
+            <input class="admin-contest-input" data-contest="r3ctp" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r3ctp')">Save</button>
+            <span class="admin-contest-current" id="ac-r3ctp">—</span>
+          </div>
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">💣 LD</span>
+            <input class="admin-contest-input" data-contest="r3ld" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r3ld')">Save</button>
+            <span class="admin-contest-current" id="ac-r3ld">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="admin-round-block">
+        <div class="admin-round-label">Round 4 — The Nightmare · Sat PM · Individual Match Play</div>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-light);margin-bottom:10px;">Enter player names and winner for each match day-of</div>
+        <div class="admin-r4-row" data-match="r4m1">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 1</span>
+          <input class="admin-r4-input" data-match="r4m1" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-sel" data-match="r4m1">
+            <option value="">Winner</option>
+            <option value="look">Look Good</option>
+            <option value="feel">Feel Good</option>
+          </select>
+          <input class="admin-r4-input" data-match="r4m1" data-side="feel" placeholder="Feel Good">
+          <button class="admin-contest-save" onclick="adminSaveR4('r4m1')">Save</button>
+        </div><div class="admin-r4-row" data-match="r4m2">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 2</span>
+          <input class="admin-r4-input" data-match="r4m2" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-sel" data-match="r4m2">
+            <option value="">Winner</option>
+            <option value="look">Look Good</option>
+            <option value="feel">Feel Good</option>
+          </select>
+          <input class="admin-r4-input" data-match="r4m2" data-side="feel" placeholder="Feel Good">
+          <button class="admin-contest-save" onclick="adminSaveR4('r4m2')">Save</button>
+        </div><div class="admin-r4-row" data-match="r4m3">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 3</span>
+          <input class="admin-r4-input" data-match="r4m3" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-sel" data-match="r4m3">
+            <option value="">Winner</option>
+            <option value="look">Look Good</option>
+            <option value="feel">Feel Good</option>
+          </select>
+          <input class="admin-r4-input" data-match="r4m3" data-side="feel" placeholder="Feel Good">
+          <button class="admin-contest-save" onclick="adminSaveR4('r4m3')">Save</button>
+        </div><div class="admin-r4-row" data-match="r4m4">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 4</span>
+          <input class="admin-r4-input" data-match="r4m4" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-sel" data-match="r4m4">
+            <option value="">Winner</option>
+            <option value="look">Look Good</option>
+            <option value="feel">Feel Good</option>
+          </select>
+          <input class="admin-r4-input" data-match="r4m4" data-side="feel" placeholder="Feel Good">
+          <button class="admin-contest-save" onclick="adminSaveR4('r4m4')">Save</button>
+        </div><div class="admin-r4-row" data-match="r4m5">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 5</span>
+          <input class="admin-r4-input" data-match="r4m5" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-sel" data-match="r4m5">
+            <option value="">Winner</option>
+            <option value="look">Look Good</option>
+            <option value="feel">Feel Good</option>
+          </select>
+          <input class="admin-r4-input" data-match="r4m5" data-side="feel" placeholder="Feel Good">
+          <button class="admin-contest-save" onclick="adminSaveR4('r4m5')">Save</button>
+        </div><div class="admin-r4-row" data-match="r4m6">
+          <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-light);min-width:50px;">Match 6</span>
+          <input class="admin-r4-input" data-match="r4m6" data-side="look" placeholder="Look Good">
+          <select class="admin-r4-sel" data-match="r4m6">
+            <option value="">Winner</option>
+            <option value="look">Look Good</option>
+            <option value="feel">Feel Good</option>
+          </select>
+          <input class="admin-r4-input" data-match="r4m6" data-side="feel" placeholder="Feel Good">
+          <button class="admin-contest-save" onclick="adminSaveR4('r4m6')">Save</button>
+        </div>
+        <div class="admin-contests">
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">🎯 CTP</span>
+            <input class="admin-contest-input" data-contest="r4ctp" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r4ctp')">Save</button>
+            <span class="admin-contest-current" id="ac-r4ctp">—</span>
+          </div>
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">💣 LD</span>
+            <input class="admin-contest-input" data-contest="r4ld" placeholder="Winner name">
+            <button class="admin-contest-save" onclick="adminSaveContest('r4ld')">Save</button>
+            <span class="admin-contest-current" id="ac-r4ld">—</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PENDING RULES -->
+    <div class="admin-section">
+      <div class="admin-section-title">📋 Pending Rules</div>
+      <div id="admin-pending-rules">
+        <div class="admin-empty">Loading...</div>
+      </div>
+    </div>
+
+    <!-- PENDING STORIES -->
+    <div class="admin-section">
+      <div class="admin-section-title">📖 Pending Stories</div>
+      <div id="admin-pending-stories">
+        <div class="admin-empty">Loading...</div>
+      </div>
+    </div>
+
+    <button class="admin-logout-btn" onclick="adminLogout()">Log Out</button>
+  </div>
+</div>
+
+<script>
+(function() {
+  var SB_URL =  + SB_URL + ;
+  var SB_KEY =  + SB_KEY + ;
+  var ADMIN_PW = 'Daddy';
+  var MATCHES = [
+    {id:'r1m1',look:['Matt Hus','Tim McGuire'],feel:['Andrew Heppner','Adam Hartley'],pts:1},
+    {id:'r1m2',look:['James Knox','Dan Kraft'],feel:['Keegan Chicilli','Dan Harras'],pts:1},
+    {id:'r1m3',look:['Kenny Dalen'],feel:['Brandon Bartneck'],pts:1},
+    {id:'r2m1',look:['Dan Kraft'],feel:['Dan Harras'],pts:1},
+    {id:'r2m2',look:['Matt Hus','Tim McGuire','James Knox','Kenny Dalen'],feel:['Andrew Heppner','Adam Hartley','Keegan Chicilli','Brandon Bartneck'],pts:1},
+    {id:'r3m1',look:['James Knox','Ricky Moceri'],feel:['Dan Harras','Brandon Bartneck'],pts:1},
+    {id:'r3m2',look:['Matt Hus','Dan Kraft'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1},
+    {id:'r3m3',look:['Tim McGuire','Kenny Dalen'],feel:['Adam Hartley','Jon Boguth'],pts:1},
+    {id:'r4m1',look:[],feel:[],pts:1},{id:'r4m2',look:[],feel:[],pts:1},
+    {id:'r4m3',look:[],feel:[],pts:1},{id:'r4m4',look:[],feel:[],pts:1},
+    {id:'r4m5',look:[],feel:[],pts:1},{id:'r4m6',look:[],feel:[],pts:1}
+  ];
+
+  function sbFetch(path, opts) {
+    return fetch(SB_URL+'/rest/v1/'+path, Object.assign({
+      headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Content-Type':'application/json','Prefer':'return=representation'}
+    }, opts||{}));
+  }
+
+  function saveResult(mid, winner, extra) {
+    sbFetch('results?match_id=eq.'+mid, {method:'DELETE'})
+      .then(function() {
+        if (!winner) { adminLoadResults(); return; }
+        var p = {match_id:mid, winner:winner};
+        if (extra) p.extra = extra;
+        return sbFetch('results', {method:'POST', body:JSON.stringify(p)});
+      })
+      .then(function() { adminLoadResults(); })
+      .catch(function(e) { console.error(e); });
+  }
+
+  function adminLoadResults() {
+    sbFetch('results?select=*')
+      .then(function(r){return r.json();})
+      .then(function(rows) {
+        var cache = {};
+        if (Array.isArray(rows)) rows.forEach(function(r){cache[r.match_id]=r;});
+
+        // Update match buttons
+        MATCHES.forEach(function(m) {
+          ['look','draw','feel'].forEach(function(v) {
+            var btn = document.querySelector('.awb[data-match="'+m.id+'"][data-val="'+v+'"]');
+            if (btn) btn.classList.toggle('selected', !!(cache[m.id] && cache[m.id].winner===v));
+          });
+          // R4 — fill in player names
+          if (m.id.startsWith('r4') && cache[m.id] && cache[m.id].extra) {
+            var ex = typeof cache[m.id].extra==='string' ? JSON.parse(cache[m.id].extra) : cache[m.id].extra;
+            var lookInp = document.querySelector('.admin-r4-input[data-match="'+m.id+'"][data-side="look"]');
+            var feelInp = document.querySelector('.admin-r4-input[data-match="'+m.id+'"][data-side="feel"]');
+            var sel = document.querySelector('.admin-r4-sel[data-match="'+m.id+'"]');
+            if (lookInp && ex.lookPlayer) lookInp.value = ex.lookPlayer;
+            if (feelInp && ex.feelPlayer) feelInp.value = ex.feelPlayer;
+            if (sel && cache[m.id].winner) sel.value = cache[m.id].winner;
+          }
+        });
+
+        // Update contest displays
+        ['r1ctp','r1ld','r2ctp','r2ld','r3ctp','r3ld','r4ctp','r4ld'].forEach(function(cid) {
+          var el = document.getElementById('ac-'+cid);
+          if (el) el.textContent = (cache[cid] && cache[cid].winner) ? cache[cid].winner : '—';
+          var inp = document.querySelector('.admin-contest-input[data-contest="'+cid+'"]');
+          if (inp && cache[cid] && cache[cid].winner) inp.value = cache[cid].winner;
+        });
+      });
+  }
+
+  function adminLoadPending() {
+    // Pending rules
+    sbFetch('rules?approved=eq.false&order=created_at.asc')
+      .then(function(r){return r.json();})
+      .then(function(rows) {
+        var el = document.getElementById('admin-pending-rules');
+        if (!el) return;
+        if (!Array.isArray(rows)||!rows.length) { el.innerHTML='<div class="admin-empty">No pending rules.</div>'; return; }
+        el.innerHTML = rows.map(function(r) {
+          return '<div class="admin-pending-item">'
+            +'<div class="admin-pending-text">'+r.rule_text+'</div>'
+            +'<div class="admin-pending-meta">Submitted by '+r.submitted_by+'</div>'
+            +'<div class="admin-pending-actions">'
+            +'<button class="awb awb-look" onclick="adminApproveRule('+r.id+')">✓ Approve</button>'
+            +'<button class="awb awb-feel" onclick="adminDeleteRule('+r.id+')">✕ Delete</button>'
+            +'</div></div>';
+        }).join('');
+      });
+
+    // Pending stories
+    sbFetch('stories?approved=eq.false&order=created_at.asc')
+      .then(function(r){return r.json();})
+      .then(function(rows) {
+        var el = document.getElementById('admin-pending-stories');
+        if (!el) return;
+        if (!Array.isArray(rows)||!rows.length) { el.innerHTML='<div class="admin-empty">No pending stories.</div>'; return; }
+        el.innerHTML = rows.map(function(r) {
+          return '<div class="admin-pending-item">'
+            +'<div class="admin-pending-meta">'+r.year+' · '+r.author+'</div>'
+            +'<div class="admin-pending-text">'+r.text+'</div>'
+            +'<div class="admin-pending-actions">'
+            +'<button class="awb awb-look" onclick="adminApproveStory('+r.id+')">✓ Approve</button>'
+            +'<button class="awb awb-feel" onclick="adminDeleteStory('+r.id+')">✕ Delete</button>'
+            +'</div></div>';
+        }).join('');
+      });
+  }
+
+  window.adminLogin = function() {
+    var pw = document.getElementById('admin-gate-pw').value;
+    var err = document.getElementById('admin-gate-err');
+    if (pw === ADMIN_PW) {
+      document.getElementById('admin-gate').style.display = 'none';
+      document.getElementById('admin-dashboard').style.display = 'block';
+      adminLoadResults();
+      adminLoadPending();
+    } else {
+      err.style.display = 'block';
+      document.getElementById('admin-gate-pw').value = '';
+    }
+  };
+
+  window.adminLogout = function() {
+    document.getElementById('admin-gate').style.display = 'block';
+    document.getElementById('admin-dashboard').style.display = 'none';
+    document.getElementById('admin-gate-pw').value = '';
+  };
+
+  window.adminScore = function(mid, winner, btn) {
+    var cur = btn.classList.contains('selected');
+    saveResult(mid, cur ? null : winner);
+  };
+
+  window.adminSaveContest = function(cid) {
+    var inp = document.querySelector('.admin-contest-input[data-contest="'+cid+'"]');
+    if (!inp) return;
+    saveResult(cid, inp.value.trim()||null);
+  };
+
+  window.adminSaveR4 = function(mid) {
+    var lookInp = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
+    var feelInp = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
+    var sel = document.querySelector('.admin-r4-sel[data-match="'+mid+'"]');
+    if (!sel||!sel.value) { alert('Select a winner'); return; }
+    var extra = {lookPlayer:lookInp?lookInp.value.trim():'', feelPlayer:feelInp?feelInp.value.trim():''};
+    var idx = MATCHES.findIndex(function(m){return m.id===mid;});
+    if (idx!==-1) { MATCHES[idx].look=extra.lookPlayer?[extra.lookPlayer]:[]; MATCHES[idx].feel=extra.feelPlayer?[extra.feelPlayer]:[]; }
+    saveResult(mid, sel.value, extra);
+  };
+
+  window.adminApproveRule = function(id) {
+    sbFetch('rules?id=eq.'+id, {method:'PATCH', body:JSON.stringify({approved:true})})
+      .then(function(){adminLoadPending();});
+  };
+  window.adminDeleteRule = function(id) {
+    if (!confirm('Delete this rule?')) return;
+    sbFetch('rules?id=eq.'+id, {method:'DELETE'}).then(function(){adminLoadPending();});
+  };
+  window.adminApproveStory = function(id) {
+    sbFetch('stories?id=eq.'+id, {method:'PATCH', body:JSON.stringify({approved:true})})
+      .then(function(){adminLoadPending();});
+  };
+  window.adminDeleteStory = function(id) {
+    if (!confirm('Delete this story?')) return;
+    sbFetch('stories?id=eq.'+id, {method:'DELETE'}).then(function(){adminLoadPending();});
+  };
 })();
 </script>
 
