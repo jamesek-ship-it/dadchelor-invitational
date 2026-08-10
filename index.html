@@ -2602,6 +2602,7 @@
       document.getElementById('admin-dashboard').style.display = 'block';
       adminLoadResults();
       adminLoadPending();
+      attachR4Listeners();
     } else {
       if (err) { err.style.display = 'block'; }
       document.getElementById('admin-gate-pw').value = '';
@@ -2702,15 +2703,16 @@
     });
   }
 
-  // Attach change listeners to all R4 dropdowns
-  document.addEventListener('DOMContentLoaded', function() {
+  // Attach change listeners after login (dropdowns not in DOM until dashboard shown)
+  function attachR4Listeners() {
     ['r4m1','r4m2','r4m3','r4m4','r4m5','r4m6'].forEach(function(mid) {
       var l = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
       var f = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
       if (l) l.addEventListener('change', updateR4Dropdowns);
       if (f) f.addEventListener('change', updateR4Dropdowns);
     });
-  });
+    updateR4Dropdowns();
+  }
 
   window.adminApproveRule = function(id) {
     sbFetch('rules?id=eq.'+id, {method:'PATCH', body:JSON.stringify({approved:true})})
