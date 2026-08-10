@@ -2656,60 +2656,62 @@
 
 
   // R4 player exclusion - remove already-selected players from other dropdowns
-  function updateR4Dropdowns() {
-    var LOOK_PLAYERS = ['Matt Hus','Tim McGuire','James Knox','Dan Kraft','Kenny Dalen','Ricky Moceri'];
-    var FEEL_PLAYERS = ['Andrew Heppner','Adam Hartley','Keegan Chicilli','Dan Harras','Brandon Bartneck','Jon Boguth'];
-    var matches = ['r4m1','r4m2','r4m3','r4m4','r4m5','r4m6'];
+  var LOOK_PLAYERS = ['Matt Hus','Tim McGuire','James Knox','Dan Kraft','Kenny Dalen','Ricky Moceri'];
+  var FEEL_PLAYERS = ['Andrew Heppner','Adam Hartley','Keegan Chicilli','Dan Harras','Brandon Bartneck','Jon Boguth'];
+  var R4_MATCHES = ['r4m1','r4m2','r4m3','r4m4','r4m5','r4m6'];
 
-    // Get all currently selected look/feel players
-    var usedLook = {}, usedFeel = {};
-    matches.forEach(function(mid) {
+  function updateR4Dropdowns() {
+    // Snapshot current values BEFORE any rebuild
+    var curVals = {};
+    R4_MATCHES.forEach(function(mid) {
       var l = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
       var f = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
-      if (l && l.value) usedLook[l.value] = mid;
-      if (f && f.value) usedFeel[f.value] = mid;
+      curVals[mid] = { look: l ? l.value : '', feel: f ? f.value : '' };
     });
 
-    // Update each dropdown - remove used players from other matches
-    matches.forEach(function(mid) {
+    // Build used maps from snapshot
+    var usedLook = {}, usedFeel = {};
+    R4_MATCHES.forEach(function(mid) {
+      if (curVals[mid].look) usedLook[curVals[mid].look] = mid;
+      if (curVals[mid].feel) usedFeel[curVals[mid].feel] = mid;
+    });
+
+    // Rebuild each dropdown, disable (not remove) taken options so order stays stable
+    R4_MATCHES.forEach(function(mid) {
       var lSel = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
       var fSel = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
 
       if (lSel) {
-        var curL = lSel.value;
-        lSel.innerHTML = '<option value="">Look Good player...</option>';
-        LOOK_PLAYERS.forEach(function(p) {
-          if (!usedLook[p] || usedLook[p] === mid) {
-            var opt = document.createElement('option');
-            opt.value = p; opt.textContent = p;
-            if (p === curL) opt.selected = true;
-            lSel.appendChild(opt);
-          }
+        Array.from(lSel.options).forEach(function(opt) {
+          if (!opt.value) return; // keep placeholder
+          var takenByOther = usedLook[opt.value] && usedLook[opt.value] !== mid;
+          opt.disabled = takenByOther;
+          opt.style.display = takenByOther ? 'none' : '';
         });
+        lSel.value = curVals[mid].look;
       }
 
       if (fSel) {
-        var curF = fSel.value;
-        fSel.innerHTML = '<option value="">Feel Good player...</option>';
-        FEEL_PLAYERS.forEach(function(p) {
-          if (!usedFeel[p] || usedFeel[p] === mid) {
-            var opt = document.createElement('option');
-            opt.value = p; opt.textContent = p;
-            if (p === curF) opt.selected = true;
-            fSel.appendChild(opt);
-          }
+        Array.from(fSel.options).forEach(function(opt) {
+          if (!opt.value) return;
+          var takenByOther = usedFeel[opt.value] && usedFeel[opt.value] !== mid;
+          opt.disabled = takenByOther;
+          opt.style.display = takenByOther ? 'none' : '';
         });
+        fSel.value = curVals[mid].feel;
       }
     });
   }
 
-  // Attach change listeners after login (dropdowns not in DOM until dashboard shown)
+  // Use event delegation on the dashboard - survives any DOM changes
   function attachR4Listeners() {
-    ['r4m1','r4m2','r4m3','r4m4','r4m5','r4m6'].forEach(function(mid) {
-      var l = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="look"]');
-      var f = document.querySelector('.admin-r4-input[data-match="'+mid+'"][data-side="feel"]');
-      if (l) l.addEventListener('change', updateR4Dropdowns);
-      if (f) f.addEventListener('change', updateR4Dropdowns);
+    var dashboard = document.getElementById('admin-dashboard');
+    if (!dashboard) return;
+    dashboard.addEventListener('change', function(e) {
+      var el = e.target;
+      if (el.classList.contains('admin-r4-input')) {
+        updateR4Dropdowns();
+      }
     });
     updateR4Dropdowns();
   }
