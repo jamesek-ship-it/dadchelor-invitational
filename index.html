@@ -2011,7 +2011,7 @@
       <div style="font-family:'Playfair Display',serif;font-size:18px;font-weight:700;color:var(--green-deep);margin-bottom:16px;">Commissioner Login</div>
       <input id="admin-gate-pw" type="password" class="story-input" placeholder="Password" style="margin-bottom:12px;" onkeydown="if(event.key==='Enter')adminLogin()">
       <button class="story-submit-btn" style="width:100%;" onclick="adminLogin()">Enter</button>
-      <div id="admin-gate-err" style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#cc3333;margin-top:8px;display:none;">Wrong password.</div>
+      <div id="admin-gate-err" style="font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:600;color:#cc3333;margin-top:10px;text-align:center;display:none;">Incorrect password. Try again.</div>
     </div>
   </div>
 
@@ -2368,8 +2368,9 @@
       adminLoadResults();
       adminLoadPending();
     } else {
-      err.style.display = 'block';
+      if (err) { err.style.display = 'block'; }
       document.getElementById('admin-gate-pw').value = '';
+      document.getElementById('admin-gate-pw').focus();
     }
   };
 
