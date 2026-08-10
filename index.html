@@ -2113,7 +2113,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r1ctp')">Save</button>
+            <button class="admin-contest-save" id="csave-r1ctp" onclick="adminSaveContest('r1ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r1ctp">—</span>
           </div>
           <div class="admin-contest-row">
@@ -2131,7 +2131,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r1ld')">Save</button>
+            <button class="admin-contest-save" id="csave-r1ld" onclick="adminSaveContest('r1ld')">Save</button>
             <span class="admin-contest-current" id="ac-r1ld">—</span>
           </div>
         </div>
@@ -2173,7 +2173,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r2ctp')">Save</button>
+            <button class="admin-contest-save" id="csave-r2ctp" onclick="adminSaveContest('r2ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r2ctp">—</span>
           </div>
           <div class="admin-contest-row">
@@ -2191,7 +2191,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r2ld')">Save</button>
+            <button class="admin-contest-save" id="csave-r2ld" onclick="adminSaveContest('r2ld')">Save</button>
             <span class="admin-contest-current" id="ac-r2ld">—</span>
           </div>
         </div>
@@ -2242,7 +2242,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r3ctp')">Save</button>
+            <button class="admin-contest-save" id="csave-r3ctp" onclick="adminSaveContest('r3ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r3ctp">—</span>
           </div>
           <div class="admin-contest-row">
@@ -2260,7 +2260,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r3ld')">Save</button>
+            <button class="admin-contest-save" id="csave-r3ld" onclick="adminSaveContest('r3ld')">Save</button>
             <span class="admin-contest-current" id="ac-r3ld">—</span>
           </div>
         </div>
@@ -2418,7 +2418,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r4ctp')">Save</button>
+            <button class="admin-contest-save" id="csave-r4ctp" onclick="adminSaveContest('r4ctp')">Save</button>
             <span class="admin-contest-current" id="ac-r4ctp">—</span>
           </div>
           <div class="admin-contest-row">
@@ -2436,7 +2436,7 @@
 <option value="Dan Harras">Dan Harras</option>
 <option value="Brandon Bartneck">Brandon Bartneck</option>
 <option value="Jon Boguth">Jon Boguth</option></select>
-            <button class="admin-contest-save" onclick="adminSaveContest('r4ld')">Save</button>
+            <button class="admin-contest-save" id="csave-r4ld" onclick="adminSaveContest('r4ld')">Save</button>
             <span class="admin-contest-current" id="ac-r4ld">—</span>
           </div>
         </div>
@@ -2532,7 +2532,7 @@
           if (el) el.textContent = saved ? cache[cid].winner : '—';
           var inp = document.querySelector('.admin-contest-input[data-contest="'+cid+'"]');
           if (inp && saved) inp.value = cache[cid].winner;
-          var btn = document.querySelector('.admin-contest-save[onclick="adminSaveContest(''+cid+'')"]');
+          var btn = document.getElementById('csave-'+cid);
           if (btn) btn.classList.toggle('saved', !!saved);
         });
 
@@ -2630,9 +2630,8 @@
     var inp = document.querySelector('.admin-contest-input[data-contest="'+cid+'"]');
     if (!inp) return;
     saveResult(cid, inp.value||null);
-    // Turn button green
-    var btn = document.querySelector('.admin-contest-save[onclick="adminSaveContest(''+cid+'')"]');
-    if (btn) { btn.classList.add('saved'); }
+    var btn = document.getElementById('csave-'+cid);
+    if (btn) btn.classList.add('saved');
   };
 
   window.adminSaveR4 = function(mid) {
