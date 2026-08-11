@@ -508,6 +508,33 @@
   .admin-pending-actions { display:flex; gap:8px; }
   .admin-empty { font-family:'Cormorant Garamond',serif; font-size:14px; font-style:italic; color:var(--text-light); padding:16px 18px; }
   .admin-logout-btn { width:100%; margin-top:8px; padding:12px; background:none; border:1px solid var(--border); font-family:'Cormorant Garamond',serif; font-size:13px; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); cursor:pointer; border-radius:2px; }
+
+  /* == PHOTO WALLS == */
+  .photo-wall { margin: 0 0 0; padding: 20px 0 0; }
+  .photo-carousel-wrap { padding: 0 16px 12px; min-height: 60px; }
+  .photo-carousel { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+  .photo-carousel::-webkit-scrollbar { height: 3px; }
+  .photo-carousel::-webkit-scrollbar-thumb { background: var(--gold); border-radius: 2px; }
+  .photo-thumb { flex: 0 0 auto; width: 120px; height: 90px; object-fit: cover; border-radius: 2px; scroll-snap-align: start; cursor: pointer; border: 1px solid var(--border); }
+  .photo-thumb.featured { border: 2px solid var(--gold); }
+  .photo-loading { font-family: 'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text-light); padding: 8px 16px; }
+  .photo-empty { font-family: 'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text-light); padding: 8px 16px; }
+  .photo-upload-toggle { padding: 8px 16px 0; }
+  .photo-upload-btn { font-family: 'Cormorant Garamond',serif; font-size:11px; letter-spacing:2px; text-transform:uppercase; padding: 8px 18px; border: 1px solid var(--gold); color: var(--gold); background: none; cursor: pointer; border-radius: 2px; }
+  .photo-upload-form { padding: 14px 16px; background: rgba(201,168,76,0.04); border-top: 1px solid var(--border); margin-top: 10px; }
+  .photo-warning { font-family: 'Cormorant Garamond',serif; font-size:13px; font-weight:600; color: #cc3333; margin-bottom: 12px; line-height:1.5; }
+  .photo-auth-gate { display:flex; flex-direction:column; gap:8px; }
+  .photo-pw-input, .photo-name-input, .photo-file-input { font-family: 'Cormorant Garamond',serif; font-size:14px; padding: 8px 12px; border: 1px solid var(--border); border-radius: 2px; width:100%; background: var(--white); }
+  .photo-upload-panel { display:flex; flex-direction:column; gap:10px; }
+  .photo-submit-btn { font-family: 'Cormorant Garamond',serif; font-size:12px; letter-spacing:1px; text-transform:uppercase; padding: 8px 18px; background: var(--green-mid); color:#fff; border:none; cursor:pointer; border-radius:2px; }
+  .photo-limit-note { font-family: 'Cormorant Garamond',serif; font-size:11px; color:var(--text-light); font-style:italic; }
+  .photo-err { font-family: 'Cormorant Garamond',serif; font-size:13px; color:#cc3333; }
+  .photo-upload-status { font-family: 'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text-light); }
+  /* Lightbox */
+  .photo-lightbox { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.92); z-index:9999; align-items:center; justify-content:center; }
+  .photo-lightbox.open { display:flex; }
+  .photo-lightbox img { max-width:90vw; max-height:88vh; object-fit:contain; border-radius:2px; }
+  .photo-lightbox-close { position:fixed; top:16px; right:20px; color:#fff; font-size:28px; cursor:pointer; z-index:10000; font-family:serif; line-height:1; }
 </style>
 </head>
 <body>
@@ -924,6 +951,35 @@
       </div>
     </div>
 
+    <!-- PHOTO SECTION 2019 -->
+    <div class="photo-wall" data-year="2019">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2019</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2019">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2019')">📷 PHOTO UPLOAD — 2019</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2019" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2019 — The Original Dadchelor — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2019">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2019">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2019')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2019" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2019" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2019">
+          <input type="file" class="photo-file-input" id="photo-file-2019" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2019')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2019"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="course-year-divider"></div>
 
     <div class="story-wall" data-year="2019">
@@ -1120,6 +1176,35 @@
       </div>
     </div>
 
+    <!-- PHOTO SECTION 2020 -->
+    <div class="photo-wall" data-year="2020">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2020</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2020">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2020')">📷 PHOTO UPLOAD — 2020</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2020" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2020 — Battle of Boyne — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2020">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2020">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2020')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2020" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2020" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2020">
+          <input type="file" class="photo-file-input" id="photo-file-2020" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2020')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2020"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="course-year-divider"></div>
 
     <div class="story-wall" data-year="2021">
@@ -1237,6 +1322,35 @@
       </div>
     </div>
 
+    <!-- PHOTO SECTION 2021 -->
+    <div class="photo-wall" data-year="2021">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2021</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2021">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2021')">📷 PHOTO UPLOAD — 2021</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2021" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2021 — Second Tussle at Treetops — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2021">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2021">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2021')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2021" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2021" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2021">
+          <input type="file" class="photo-file-input" id="photo-file-2021" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2021')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2021"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="course-year-divider"></div>
 
     <div class="story-wall" data-year="2022">
@@ -1320,6 +1434,35 @@
       </div>
     </div>
 
+    <!-- PHOTO SECTION 2022 -->
+    <div class="photo-wall" data-year="2022">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2022</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2022">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2022')">📷 PHOTO UPLOAD — 2022</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2022" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2022 — Battle on the Au Sable — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2022">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2022">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2022')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2022" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2022" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2022">
+          <input type="file" class="photo-file-input" id="photo-file-2022" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2022')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2022"></div>
+        </div>
+      </div>
+    </div>
+
     <div class="course-year-divider"></div>
 
     <div class="story-wall" data-year="2023">
@@ -1370,6 +1513,35 @@
             <p class="course-card-desc">A Robert Trent Jones Jr. masterpiece consistently ranked among Michigan's top ten courses. The Orchards features dramatic elevation changes, pristine conditioning, and a layout that rewards course management over brute force. The 2024 Dadchelor doubled down — same course, two days, with completely different results on the board each time.</p>
             <div class="course-card-tags"><span class="course-tag">Michigan Top 10</span><span class="course-tag">R.T. Jones Jr.</span><span class="course-tag">Played Twice</span></div>
           </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2023 -->
+    <div class="photo-wall" data-year="2023">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2023</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2023">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2023')">📷 PHOTO UPLOAD — 2023</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2023" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2023 — The Southern Swing — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2023">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2023">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2023')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2023" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2023" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2023">
+          <input type="file" class="photo-file-input" id="photo-file-2023" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2023')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2023"></div>
         </div>
       </div>
     </div>
@@ -1479,6 +1651,64 @@
         <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
         <button class="story-submit-btn" onclick="storySubmit('2025')">Submit Story</button>
         <div class="story-submit-msg"></div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2024 -->
+    <div class="photo-wall" data-year="2024">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2024</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2024">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2024')">📷 PHOTO UPLOAD — 2024</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2024" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2024 — The Homeward Drive — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2024">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2024">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2024')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2024" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2024" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2024">
+          <input type="file" class="photo-file-input" id="photo-file-2024" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2024')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2024"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2025 -->
+    <div class="photo-wall" data-year="2025">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2025</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2025">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2025')">📷 PHOTO UPLOAD — 2025</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2025" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2025 — The Reverse Sear — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2025">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2025">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2025')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2025" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2025" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2025">
+          <input type="file" class="photo-file-input" id="photo-file-2025" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2025')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2025"></div>
+        </div>
       </div>
     </div>
 
@@ -2454,6 +2684,26 @@
       </div>
     </div>
 
+    
+    <!-- PHOTO CURATION -->
+    <div class="admin-section">
+      <div class="admin-section-title">📸 Photo Curation</div>
+      <div style="padding:10px 18px 6px;">
+        <select id="admin-photo-year" class="admin-r4-sel" style="width:100%;margin-bottom:10px;" onchange="adminLoadPhotos(this.value)">
+          <option value="">Select a year...</option>
+          <option value="2019">2019 — The Original Dadchelor</option>
+          <option value="2020">2020 — Battle of Boyne</option>
+          <option value="2021">2021 — Second Tussle at Treetops</option>
+          <option value="2022">2022 — Battle on the Au Sable</option>
+          <option value="2023">2023 — The Southern Swing</option>
+          <option value="2024">2024 — The Homeward Drive</option>
+          <option value="2025">2025 — The Reverse Sear</option>
+          <option value="2026">2026 — The Dadchelor Invitational</option>
+        </select>
+        <div id="admin-photo-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;"></div>
+      </div>
+    </div>
+
     <!-- PENDING RULES -->
     <div class="admin-section">
       <div class="admin-section-title">📋 Pending Rules</div>
@@ -2746,6 +2996,68 @@
     });
     updateR4Dropdowns();
   }
+
+
+  window.adminLoadPhotos = function(year) {
+    var grid = document.getElementById('admin-photo-grid');
+    if (!grid || !year) return;
+    grid.innerHTML = '<div class="admin-empty">Loading...</div>';
+    sbFetch('photos?year=eq.'+year+'&order=featured.desc,created_at.asc&select=*')
+      .then(function(r){return r.json();})
+      .then(function(rows) {
+        if (!Array.isArray(rows)||!rows.length) {
+          grid.innerHTML = '<div class="admin-empty">No photos for this year.</div>';
+          return;
+        }
+        grid.innerHTML = '';
+        rows.forEach(function(p) {
+          var cell = document.createElement('div');
+          cell.style.cssText = 'position:relative;';
+          var img = document.createElement('img');
+          img.src = 'https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/'+p.storage_path;
+          img.style.cssText = 'width:100%;height:80px;object-fit:cover;border-radius:2px;border:'+(p.featured?'2px solid var(--gold)':'1px solid var(--border)')+';cursor:pointer;';
+          var badge = document.createElement('div');
+          badge.style.cssText = 'position:absolute;bottom:3px;left:3px;right:3px;font-family:Cormorant Garamond,serif;font-size:9px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.9);';
+          badge.textContent = p.uploader_name || '';
+          var btn = document.createElement('button');
+          btn.className = 'admin-contest-save' + (p.featured?' saved':'');
+          btn.style.cssText = 'width:100%;margin-top:3px;font-size:9px;padding:3px;';
+          btn.textContent = p.featured ? '★ Featured' : 'Feature';
+          btn.onclick = function() { adminToggleFeature(p.id, !p.featured, year); };
+          var del = document.createElement('button');
+          del.style.cssText = 'width:100%;margin-top:2px;font-size:9px;padding:3px;font-family:Cormorant Garamond,serif;letter-spacing:1px;text-transform:uppercase;border:1px solid #cc3333;color:#cc3333;background:none;cursor:pointer;border-radius:2px;';
+          del.textContent = 'Delete';
+          del.onclick = function() { adminDeletePhoto(p.id, p.storage_path, year); };
+          cell.appendChild(img);
+          cell.appendChild(badge);
+          cell.appendChild(btn);
+          cell.appendChild(del);
+          grid.appendChild(cell);
+        });
+      });
+  };
+
+  window.adminToggleFeature = function(id, featured, year) {
+    sbFetch('photos?id=eq.'+id, {method:'PATCH', body:JSON.stringify({featured:featured})})
+      .then(function(){
+        adminLoadPhotos(year);
+        photoLoad(year);
+      });
+  };
+
+  window.adminDeletePhoto = function(id, path, year) {
+    if (!confirm('Delete this photo?')) return;
+    // Delete from storage
+    fetch('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/photos/'+path, {
+      method:'DELETE',
+      headers:{'apikey':'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA','Authorization':'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA'}
+    }).then(function() {
+      return sbFetch('photos?id=eq.'+id, {method:'DELETE'});
+    }).then(function(){
+      adminLoadPhotos(year);
+      photoLoad(year);
+    });
+  };
 
   window.adminApproveRule = function(id) {
     sbFetch('rules?id=eq.'+id, {method:'PATCH', body:JSON.stringify({approved:true})})
@@ -4136,6 +4448,149 @@ if ('serviceWorker' in navigator) {
       .catch(function(err) { console.log('SW failed:', err); });
   });
 }
+</script>
+
+<script>
+(function() {
+  var SB_URL = 'https://fjyusvkmjnununycqufk.supabase.co';
+  var SB_KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
+  var UPLOAD_PW = 'DI2026';
+  var MAX_PHOTOS = 15;
+
+  function sbFetch(path, opts) {
+    return fetch(SB_URL + '/rest/v1/' + path, Object.assign({
+      headers: {'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation'}
+    }, opts || {}));
+  }
+
+  function storageFetch(path, opts) {
+    return fetch(SB_URL + '/storage/v1/' + path, Object.assign({
+      headers: {'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY}
+    }, opts || {}));
+  }
+
+  function photoUrl(path) {
+    return SB_URL + '/storage/v1/object/public/photos/' + path;
+  }
+
+  // Load photos for a year - show all, featured first
+  window.photoLoad = function(year) {
+    var wrap = document.getElementById('photo-carousel-' + year);
+    if (!wrap) return;
+    sbFetch('photos?year=eq.' + year + '&order=featured.desc,created_at.asc&select=*')
+      .then(function(r) { return r.json(); })
+      .then(function(rows) {
+        if (!Array.isArray(rows) || !rows.length) {
+          wrap.innerHTML = '<div class="photo-empty">No photos yet — be the first to upload.</div>';
+          return;
+        }
+        var carousel = document.createElement('div');
+        carousel.className = 'photo-carousel';
+        rows.forEach(function(p) {
+          var img = document.createElement('img');
+          img.src = photoUrl(p.storage_path);
+          img.className = 'photo-thumb' + (p.featured ? ' featured' : '');
+          img.alt = p.uploader_name || '';
+          img.onclick = function() { photoLightbox(photoUrl(p.storage_path)); };
+          carousel.appendChild(img);
+        });
+        wrap.innerHTML = '';
+        wrap.appendChild(carousel);
+      })
+      .catch(function() {
+        wrap.innerHTML = '<div class="photo-empty">Could not load photos.</div>';
+      });
+  };
+
+  window.photoToggleUpload = function(year) {
+    var form = document.getElementById('photo-form-' + year);
+    form.style.display = form.style.display === 'none' ? 'block' : 'none';
+  };
+
+  window.photoCheckPw = function(year) {
+    var pw = document.getElementById('photo-pw-' + year).value;
+    var err = document.getElementById('photo-err-' + year);
+    if (pw === UPLOAD_PW) {
+      document.getElementById('photo-auth-' + year).style.display = 'none';
+      document.getElementById('photo-panel-' + year).style.display = 'flex';
+    } else {
+      err.style.display = 'block';
+      document.getElementById('photo-pw-' + year).value = '';
+    }
+  };
+
+  window.photoUpload = function(year) {
+    var nameEl = document.getElementById('photo-name-' + year);
+    var fileEl = document.getElementById('photo-file-' + year);
+    var status = document.getElementById('photo-status-' + year);
+    var name = nameEl.value.trim();
+    var files = fileEl.files;
+    if (!name) { alert('Please enter your name.'); return; }
+    if (!files.length) { alert('Please select at least one photo.'); return; }
+    if (files.length > MAX_PHOTOS) { alert('Max ' + MAX_PHOTOS + ' photos per upload.'); return; }
+
+    status.textContent = 'Uploading... 0 of ' + files.length;
+    var uploaded = 0;
+    var failed = 0;
+
+    Array.from(files).forEach(function(file, i) {
+      var ext = file.name.split('.').pop().toLowerCase();
+      var path = year + '/' + name.replace(/\s+/g,'_') + '_' + Date.now() + '_' + i + '.' + ext;
+
+      storageFetch('object/photos/' + path, {
+        method: 'POST',
+        headers: {'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': file.type},
+        body: file
+      })
+      .then(function(r) {
+        if (!r.ok) throw new Error('Upload failed');
+        return sbFetch('photos', {
+          method: 'POST',
+          body: JSON.stringify({
+            year: parseInt(year),
+            uploader_name: name,
+            storage_path: path,
+            featured: false
+          })
+        });
+      })
+      .then(function() {
+        uploaded++;
+        status.textContent = 'Uploading... ' + uploaded + ' of ' + files.length;
+        if (uploaded + failed === files.length) {
+          status.textContent = uploaded + ' photo' + (uploaded>1?'s':'') + ' uploaded! Thank you.';
+          fileEl.value = '';
+          photoLoad(year);
+        }
+      })
+      .catch(function() {
+        failed++;
+        if (uploaded + failed === files.length) {
+          status.textContent = uploaded + ' uploaded, ' + failed + ' failed.';
+          photoLoad(year);
+        }
+      });
+    });
+  };
+
+  // Lightbox
+  var lb = document.createElement('div');
+  lb.className = 'photo-lightbox';
+  lb.innerHTML = '<span class="photo-lightbox-close" onclick="this.parentNode.classList.remove(\'open\')">&times;</span><img id="lb-img" src="">';
+  document.addEventListener('DOMContentLoaded', function() { document.body.appendChild(lb); });
+
+  window.photoLightbox = function(src) {
+    document.getElementById('lb-img').src = src;
+    lb.classList.add('open');
+  };
+
+  // Load photos for all years on page load
+  document.addEventListener('DOMContentLoaded', function() {
+    ['2019','2020','2021','2022','2023','2024','2025'].forEach(function(y) {
+      photoLoad(y);
+    });
+  });
+})();
 </script>
 </body>
 </html>
