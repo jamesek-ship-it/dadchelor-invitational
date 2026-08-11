@@ -3838,20 +3838,15 @@ if ('serviceWorker' in navigator) {
 
 
 
-<!-- PHOTO LIGHTBOX -->
-<div id="photo-lightbox" onclick="if(event.target===this)lbClose()" style="position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:99999;align-items:center;justify-content:center;flex-direction:column;display:none;">
-  <style>
-    
-    #lb-photo-img { max-width:94vw;max-height:78vh;object-fit:contain;border-radius:3px;user-select:none; }
-    .lb-nav { position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:28px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px); }
-    .lb-nav:active { background:rgba(255,255,255,0.3); }
-  </style>
-  <button onclick="lbClose()" style="position:fixed;top:16px;right:18px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;z-index:2;">×</button>
-  <img id="lb-photo-img" src="" alt="">
-  <div id="lb-counter" style="color:rgba(255,255,255,0.5);font-family:'Cormorant Garamond',serif;font-size:14px;margin-top:14px;letter-spacing:1px;"></div>
-  <button class="lb-nav" onclick="lbPrev()" style="left:10px;">‹</button>
-  <button class="lb-nav" onclick="lbNext()" style="right:10px;">›</button>
-</div>
 
+
+<!-- PHOTO LIGHTBOX -->
+<div id="photo-lightbox" onclick="if(event.target===this)lbClose()" style="position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:99999;display:none;align-items:center;justify-content:center;flex-direction:column;">
+  <button onclick="lbClose()" style="position:fixed;top:16px;right:18px;background:none;border:none;color:#fff;font-size:36px;cursor:pointer;line-height:1;z-index:2;padding:8px;">×</button>
+  <img id="lb-photo-img" src="" alt="" style="max-width:94vw;max-height:78vh;object-fit:contain;border-radius:3px;">
+  <div id="lb-counter" style="color:rgba(255,255,255,0.5);font-family:'Cormorant Garamond',serif;font-size:14px;margin-top:14px;letter-spacing:1px;"></div>
+  <button onclick="lbPrev()" style="position:fixed;top:50%;left:10px;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:28px;width:44px;height:44px;border-radius:50%;cursor:pointer;">‹</button>
+  <button onclick="lbNext()" style="position:fixed;top:50%;right:10px;transform:translateY(-50%);background:rgba(255,255,255,0.2);border:none;color:#fff;font-size:28px;width:44px;height:44px;border-radius:50%;cursor:pointer;">›</button>
+</div>
 </body>
 </html>
