@@ -2178,8 +2178,12 @@
           var btn = document.createElement('button');
           btn.className = 'admin-contest-save' + (p.featured?' saved':'');
           btn.style.cssText = 'width:100%;margin-top:3px;font-size:9px;padding:3px;';
-          btn.textContent = '★ Feature';
-          btn.onclick = function() { adminToggleFeature(p.id, true, year); };
+          var isFeatured = !!p.featured;
+          btn.textContent = isFeatured ? '★ Featured' : '☆ Feature';
+          btn.style.cssText = 'width:100%;margin-top:3px;font-size:9px;padding:3px;font-family:Cormorant Garamond,serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;border:'+(isFeatured?'1px solid var(--gold);background:var(--gold);color:#fff':'1px solid #ccc;background:none;color:#666')+';';
+          btn.onclick = function() { adminToggleFeature(p.id, !isFeatured, year); };
+          // Gold border on image if featured
+          if (isFeatured) img.style.border = '2px solid var(--gold)';
           var del = document.createElement('button');
           del.style.cssText = 'width:100%;margin-top:2px;font-size:9px;padding:3px;font-family:Cormorant Garamond,serif;letter-spacing:1px;text-transform:uppercase;border:1px solid #cc3333;color:#cc3333;background:none;cursor:pointer;border-radius:2px;';
           del.textContent = 'Delete';
@@ -2194,8 +2198,9 @@
   };
 
   window.adminToggleFeature = function(id, featured, year) {
-    // featured column not in schema - skip for now
-    adminLoadPhotos(year);
+    sbFetch('photos?id=eq.'+id, {method:'PATCH', body:JSON.stringify({featured:featured})})
+      .then(function(){ adminLoadPhotos(year); })
+      .catch(function(){ adminLoadPhotos(year); });
   };
 
   window.adminDeletePhoto = function(id, path, year) {
