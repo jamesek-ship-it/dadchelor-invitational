@@ -201,7 +201,7 @@
   .footer-copy { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 13px; color: rgba(200,223,200,0.5); }
   .stripe-divider { height: 6px; background: repeating-linear-gradient(90deg, var(--green-deep) 0px, var(--green-deep) 10px, var(--gold) 10px, var(--gold) 20px); }
 
-  .photo-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; }
+  .photo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; margin-top: 12px; }
 
   /* UPLOAD MODAL */
   .upload-modal-overlay { display: none; position: fixed; inset: 0; background: rgba(10,25,16,0.85); z-index: 300; align-items: center; justify-content: center; padding: 2rem; }
@@ -2972,20 +2972,69 @@ function submitPhoto() {
   .catch(() => { status.textContent = 'Upload failed. Try again.'; });
 }
 
+// Photo lightbox state
+var _lbPhotos = [], _lbIdx = 0;
+
+function openLightbox(photos, idx) {
+  _lbPhotos = photos; _lbIdx = idx;
+  var lb = document.getElementById('photo-lightbox');
+  if (!lb) return;
+  updateLightbox();
+  lb.classList.add('open');
+}
+
+function updateLightbox() {
+  var lb = document.getElementById('photo-lightbox');
+  var img = document.getElementById('lb-photo-img');
+  var counter = document.getElementById('lb-counter');
+  if (!img) return;
+  img.src = _lbPhotos[_lbIdx];
+  if (counter) counter.textContent = (_lbIdx + 1) + ' / ' + _lbPhotos.length;
+}
+
+function lbNext() { _lbIdx = (_lbIdx + 1) % _lbPhotos.length; updateLightbox(); }
+function lbPrev() { _lbIdx = (_lbIdx - 1 + _lbPhotos.length) % _lbPhotos.length; updateLightbox(); }
+function lbClose() { document.getElementById('photo-lightbox').classList.remove('open'); }
+
+// Swipe support
+(function() {
+  var startX = 0;
+  document.addEventListener('touchstart', function(e) { startX = e.touches[0].clientX; });
+  document.addEventListener('touchend', function(e) {
+    var diff = startX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50 && document.getElementById('photo-lightbox').classList.contains('open')) {
+      diff > 0 ? lbNext() : lbPrev();
+    }
+  });
+})();
+
 function renderPhotos(year) {
-  const wrap = document.getElementById('photos-' + year);
-  const grid = wrap ? wrap.querySelector('.photo-grid') : null;
+  var wrap = document.getElementById('photos-' + year);
+  var grid = wrap ? wrap.querySelector('.photo-grid') : null;
+  var noMsg = document.getElementById('no-photos-' + year);
   if (!grid) return;
-  grid.innerHTML = '<div style="font-family:Cormorant Garamond,serif;font-size:13px;font-style:italic;color:#999;">Loading...</div>';
   fetch('https://fjyusvkmjnununycqufk.supabase.co/rest/v1/photos?year=eq.' + year + '&order=created_at.asc&select=*', {
     headers: {'apikey': 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Authorization': 'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA'}
   })
-  .then(r => r.json())
-  .then(rows => {
-    if (!rows.length) { grid.innerHTML = '<div style="font-family:Cormorant Garamond,serif;font-size:13px;font-style:italic;color:#999;">No photos yet — be the first to upload.</div>'; return; }
-    grid.innerHTML = rows.map(p => `<img src="${p.url || 'https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/' + p.path}" style="width:120px;height:90px;object-fit:cover;border-radius:2px;cursor:pointer;border:'1px solid rgba(0,0,0,0.1)'" onclick="this.requestFullscreen&&this.requestFullscreen()" alt="${p.uploader_name||''}">`).join('');
+  .then(function(r) { return r.json(); })
+  .then(function(rows) {
+    if (!rows || !rows.length) {
+      grid.innerHTML = '';
+      if (noMsg) noMsg.style.display = 'block';
+      return;
+    }
+    if (noMsg) noMsg.style.display = 'none';
+    var srcs = rows.map(function(p) { return p.url || ('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/' + p.path); });
+    grid.innerHTML = '';
+    srcs.forEach(function(src, i) {
+      var img = document.createElement('img');
+      img.src = src;
+      img.style.cssText = 'width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;cursor:pointer;display:block;';
+      img.onclick = function() { openLightbox(srcs, i); };
+      grid.appendChild(img);
+    });
   })
-  .catch(() => { grid.innerHTML = ''; });
+  .catch(function() { grid.innerHTML = ''; });
 }
 
 function closeUploadModal(e) {
@@ -3785,6 +3834,22 @@ if ('serviceWorker' in navigator) {
       <button onclick="submitPhoto()" style="width:100%;padding:10px;background:var(--green-mid);color:#fff;border:none;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;">Upload Photos</button>
     </div>
   </div>
+</div>
+
+
+<!-- PHOTO LIGHTBOX -->
+<div id="photo-lightbox" onclick="if(event.target===this)lbClose()" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.95);z-index:99999;align-items:center;justify-content:center;flex-direction:column;">
+  <style>
+    #photo-lightbox.open { display:flex !important; }
+    #lb-photo-img { max-width:94vw;max-height:78vh;object-fit:contain;border-radius:3px;user-select:none; }
+    .lb-nav { position:fixed;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.15);border:none;color:#fff;font-size:28px;width:44px;height:44px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px); }
+    .lb-nav:active { background:rgba(255,255,255,0.3); }
+  </style>
+  <button onclick="lbClose()" style="position:fixed;top:16px;right:18px;background:none;border:none;color:#fff;font-size:32px;cursor:pointer;line-height:1;z-index:2;">×</button>
+  <img id="lb-photo-img" src="" alt="">
+  <div id="lb-counter" style="color:rgba(255,255,255,0.5);font-family:'Cormorant Garamond',serif;font-size:14px;margin-top:14px;letter-spacing:1px;"></div>
+  <button class="lb-nav" onclick="lbPrev()" style="left:10px;">‹</button>
+  <button class="lb-nav" onclick="lbNext()" style="right:10px;">›</button>
 </div>
 
 </body>
