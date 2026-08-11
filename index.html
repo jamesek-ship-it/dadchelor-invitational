@@ -2876,7 +2876,7 @@ function buildYears() {
         </div>
 
         <!-- PHOTO SECTION -->
-        <div class="photo-section" id="photos-${t.year}">
+        <div class="photo-section" id="photos-${t.year}" data-loaded="false">
           <div style="display:flex;align-items:center;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--border);margin-bottom:14px;">
             <h4 style="font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--green-deep);">📸 Photos from ${t.year}</h4>
             <button onclick="openUpload(${t.year})" style="background:var(--green-deep);color:var(--gold-pale);border:none;padding:8px 18px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:2px;">+ Add Photo</button>
@@ -2895,15 +2895,17 @@ function buildYears() {
 function toggleYear(el) { el.classList.toggle('open'); }
 
 // ── PHOTO UPLOAD ──
-const UPLOAD_PASSWORD = 'Daddy';
+const UPLOAD_PASSWORD = 'DI2026';
 let uploadTargetYear = null;
 
 function openUpload(year) {
   uploadTargetYear = year;
+  const YEAR_NAMES = {'2019':'The Original Dadchelor','2020':'Battle of Boyne','2021':'Second Tussle at Treetops','2022':'Battle on the Au Sable','2023':'The Southern Swing','2024':'The Homeward Drive','2025':'The Reverse Sear','2026':'The Dadchelor Invitational'};
   document.getElementById('upload-modal').classList.add('open');
+  document.getElementById('upload-year-label').textContent = year + ' — ' + (YEAR_NAMES[year] || '');
+  document.getElementById('upload-warning').textContent = '⚠️ YOU are uploading photos for ' + year + ' — ' + (YEAR_NAMES[year]||'') + ' — please do not include photos from other years in this upload.';
   document.getElementById('upload-pw').value = '';
   document.getElementById('upload-file').value = '';
-  document.getElementById('upload-caption').value = '';
   document.getElementById('upload-error').textContent = '';
   document.getElementById('upload-step-1').style.display = 'block';
   document.getElementById('upload-step-2').style.display = 'none';
@@ -2922,56 +2924,51 @@ function checkUploadPassword() {
 
 function submitPhoto() {
   const file = document.getElementById('upload-file').files[0];
-  const caption = document.getElementById('upload-caption').value.trim();
+  const name = document.getElementById('upload-name').value.trim();
   if (!file) { document.getElementById('upload-error2').textContent = 'Please select a photo.'; return; }
+  if (!name) { document.getElementById('upload-error2').textContent = 'Please enter your name.'; return; }
 
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const photos = getPhotos(uploadTargetYear);
-    photos.push({ src: e.target.result, caption: caption, ts: Date.now() });
-    savePhotos(uploadTargetYear, photos);
-    renderPhotos(uploadTargetYear);
+  const year = uploadTargetYear;
+  const ext = file.name.split('.').pop().toLowerCase();
+  const path = year + '/' + name.replace(/\s+/g,'_') + '_' + Date.now() + '.' + ext;
+  const status = document.getElementById('upload-error2');
+  status.textContent = 'Uploading...';
+
+  fetch('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/photos/' + path, {
+    method: 'POST',
+    headers: {'apikey': 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Authorization': 'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Content-Type': file.type},
+    body: file
+  })
+  .then(r => { if (!r.ok) throw new Error('Upload failed'); })
+  .then(() => fetch('https://fjyusvkmjnununycqufk.supabase.co/rest/v1/photos', {
+    method: 'POST',
+    headers: {'apikey': 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Authorization': 'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Content-Type': 'application/json', 'Prefer': 'return=representation'},
+    body: JSON.stringify({ year: parseInt(year), uploader_name: name, storage_path: path, featured: false })
+  }))
+  .then(() => {
+    status.textContent = 'Uploaded!';
     document.getElementById('upload-modal').classList.remove('open');
-    // Open the accordion for that year
-    const acc = document.querySelector('[data-year="' + uploadTargetYear + '"]');
+    renderPhotos(year);
+    const acc = document.querySelector('[data-year="' + year + '"]');
     if (acc) acc.classList.add('open');
-  };
-  reader.readAsDataURL(file);
-}
-
-function getPhotos(year) {
-  try { return JSON.parse(localStorage.getItem('dadchelor_photos_' + year) || '[]'); } catch(e) { return []; }
-}
-
-function savePhotos(year, photos) {
-  try { localStorage.setItem('dadchelor_photos_' + year, JSON.stringify(photos)); } catch(e) {}
-}
-
-function deletePhoto(year, idx) {
-  if (!confirm('Remove this photo?')) return;
-  const photos = getPhotos(year);
-  photos.splice(idx, 1);
-  savePhotos(year, photos);
-  renderPhotos(year);
+  })
+  .catch(() => { status.textContent = 'Upload failed. Try again.'; });
 }
 
 function renderPhotos(year) {
-  const grid = document.getElementById('photo-grid-' + year);
-  const noMsg = document.getElementById('no-photos-' + year);
+  const wrap = document.getElementById('photos-' + year);
+  const grid = wrap ? wrap.querySelector('.photo-grid') : null;
   if (!grid) return;
-  const photos = getPhotos(year);
-  if (photos.length === 0) {
-    grid.innerHTML = '';
-    if (noMsg) noMsg.style.display = 'block';
-    return;
-  }
-  if (noMsg) noMsg.style.display = 'none';
-  grid.innerHTML = photos.map((p, i) => `
-    <div style="position:relative;border-radius:2px;overflow:hidden;background:var(--green-deep);aspect-ratio:4/3;">
-      <img src="${p.src}" alt="${p.caption||''}" style="width:100%;height:100%;object-fit:cover;display:block;">
-      ${p.caption ? `<div style="position:absolute;bottom:0;left:0;right:0;background:linear-gradient(transparent,rgba(10,25,16,0.85));padding:10px 10px 8px;font-family:'Cormorant Garamond',serif;font-size:13px;color:var(--cream);font-style:italic;">${p.caption}</div>` : ''}
-      <button onclick="deletePhoto(${year},${i})" style="position:absolute;top:6px;right:6px;background:rgba(10,25,16,0.7);color:white;border:none;border-radius:50%;width:24px;height:24px;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;line-height:1;">✕</button>
-    </div>`).join('');
+  grid.innerHTML = '<div style="font-family:Cormorant Garamond,serif;font-size:13px;font-style:italic;color:#999;">Loading...</div>';
+  fetch('https://fjyusvkmjnununycqufk.supabase.co/rest/v1/photos?year=eq.' + year + '&order=featured.desc,created_at.asc&select=*', {
+    headers: {'apikey': 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Authorization': 'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA'}
+  })
+  .then(r => r.json())
+  .then(rows => {
+    if (!rows.length) { grid.innerHTML = '<div style="font-family:Cormorant Garamond,serif;font-size:13px;font-style:italic;color:#999;">No photos yet — be the first to upload.</div>'; return; }
+    grid.innerHTML = rows.map(p => `<img src="https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/${p.storage_path}" style="width:120px;height:90px;object-fit:cover;border-radius:2px;cursor:pointer;border:${p.featured?'2px solid #C9A84C':'1px solid rgba(0,0,0,0.1)'}" onclick="this.requestFullscreen&&this.requestFullscreen()" alt="${p.uploader_name||''}">`).join('');
+  })
+  .catch(() => { grid.innerHTML = ''; });
 }
 
 function closeUploadModal(e) {
@@ -3748,5 +3745,30 @@ if ('serviceWorker' in navigator) {
   });
 })();
 </script>
+
+<!-- UPLOAD MODAL -->
+<div class="modal-overlay" id="upload-modal" onclick="if(event.target===this)this.classList.remove('open')" style="z-index:10000;">
+  <div class="modal" style="max-width:400px;">
+    <button class="modal-close" onclick="document.getElementById('upload-modal').classList.remove('open')">✕</button>
+    <div style="padding:8px 0 16px;">
+      <div style="font-family:'Playfair Display',serif;font-size:20px;font-weight:700;color:var(--green-deep);margin-bottom:4px;">📷 Upload Photos</div>
+      <div id="upload-year-label" style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#999;font-style:italic;"></div>
+    </div>
+    <div id="upload-step-1">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:13px;font-weight:600;color:#cc3333;margin-bottom:12px;" id="upload-warning"></div>
+      <input type="password" id="upload-pw" placeholder="Upload password (DI2026)" style="width:100%;padding:8px;margin-bottom:8px;border:1px solid #ddd;border-radius:2px;font-family:'Cormorant Garamond',serif;font-size:14px;">
+      <div id="upload-error" style="color:#cc3333;font-family:'Cormorant Garamond',serif;font-size:13px;margin-bottom:8px;"></div>
+      <button onclick="checkUploadPassword()" style="width:100%;padding:10px;background:var(--green-deep);color:#fff;border:none;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;">Unlock Upload</button>
+    </div>
+    <div id="upload-step-2" style="display:none;">
+      <input type="text" id="upload-name" placeholder="Your name" style="width:100%;padding:8px;margin-bottom:8px;border:1px solid #ddd;border-radius:2px;font-family:'Cormorant Garamond',serif;font-size:14px;">
+      <input type="file" id="upload-file" accept="image/*" multiple style="width:100%;padding:8px;margin-bottom:8px;font-family:'Cormorant Garamond',serif;font-size:13px;">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:11px;color:#999;font-style:italic;margin-bottom:10px;">Max 15 photos per person per year</div>
+      <div id="upload-error2" style="color:#cc3333;font-family:'Cormorant Garamond',serif;font-size:13px;margin-bottom:8px;"></div>
+      <button onclick="submitPhoto()" style="width:100%;padding:10px;background:var(--green-mid);color:#fff;border:none;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;">Upload Photos</button>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
