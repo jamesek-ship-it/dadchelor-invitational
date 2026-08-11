@@ -677,7 +677,7 @@
       <p style="font-size:16px;color:var(--text-mid);margin-bottom:20px;">What started as a trip to Treetops in 2019 to celebrate Daniel Harras (The Original Dadchelor, D-Raw, Dan-o, Liar Dan) on the eve of fatherhood gave birth to something in its own right — an institution, an annual summer fixture among friends, <strong>The Dadchelor Invitational</strong>: complete with a Bronze Chalice (beginning in 2026, the New Era), team bragging rights, official tournament records (also beginning in 2026), player announcements, and the kind of competitive fire that only comes from years of shared friendship, trash talk, and the occasional three-putt.</p>
       <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;margin-top:32px;">
         <button onclick="showPage('players')" style="background:var(--green-deep);color:var(--gold-pale);border:none;padding:14px 32px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">Meet the Players</button>
-        <button onclick="showPage('years')" style="background:transparent;color:var(--green-deep);border:2px solid var(--green-mid);padding:14px 32px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">View History</button>
+        <button onclick="showPage('locations')" style="background:transparent;color:var(--green-deep);border:2px solid var(--green-mid);padding:14px 32px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;">View History</button>
       </div>
     </div>
   </section>
@@ -773,9 +773,10 @@
       <div>
         <div class="about-traditions">
           <h3>Sacred Traditions</h3>
+          <div class="tradition-item"><div class="tradition-icon">🤝</div><div class="tradition-content"><h4>The Ronald Beach II Opening Handshake Ceremony</h4><p>The captains of Look Good and Feel Good meet at the first tee — a handshake, a photograph, and whatever trash talk is deemed appropriate. Then, one by one, each competitor is formally announced to the field.</p></div></div>
           <div class="tradition-item"><div class="tradition-icon">🎙️</div><div class="tradition-content"><h4>The First Tee Announcements</h4><p>Before play begins, each competitor is formally announced — their biography read aloud on the first tee.</p></div></div>
           <div class="tradition-item"><div class="tradition-icon">🏌️</div><div class="tradition-content"><h4>The Opening Tee Shot</h4><p>The defending champion hits the first tee shot. Trash talking permitted.</p></div></div>
-          <div class="tradition-item"><div class="tradition-icon">🤝</div><div class="tradition-content"><h4>The Ronald Beach II Opening Handshake Ceremony</h4><p>The captains of Look Good and Feel Good meet at the first tee — a handshake, a photograph, and whatever trash talk is deemed appropriate. Then, one by one, each competitor is formally announced to the field.</p></div></div>
+          
           <div class="tradition-item"><div class="tradition-icon">⚔️</div><div class="tradition-content"><h4>Singles Matchups</h4><p>Should the agenda allow, matchups are determined by team captains following the penultimate round (preferably surrounded by trash talking from both teams). Any player is permitted to call out a member from the other team as a matter of rivalry, subject to the approval of team captains.</p></div></div>
           <div class="tradition-item"><div class="tradition-icon">🏆</div><div class="tradition-content"><h4>The Bronze Chalice Ceremony</h4><p>The outgoing champion formally presents the Bronze Chalice to the new champion. A handshake, a photo, and a speech is required.</p></div></div>
         </div>
@@ -1859,7 +1860,7 @@
 </div>
 
 <!-- HISTORY -->
-<div id="page-years" class="page">
+<div id="page-locations" class="page">
   <section class="hero" style="padding:60px 2rem 50px;">
     <h1 style="font-size:clamp(28px,4vw,46px);">Tournament <em>History</em></h1>
     <p class="hero-tagline">Every Edition. Every Champion. Every Legend.</p>
@@ -3749,7 +3750,7 @@ function buildLocations() {
 }
 
 function goToYear(year) {
-  showPage('years');
+  showPage('locations');
   setTimeout(() => {
     const acc = document.querySelector('[data-year="' + year + '"]');
     if (acc) { acc.classList.add('open'); acc.scrollIntoView({behavior:'smooth',block:'start'}); }
