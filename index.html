@@ -2177,13 +2177,18 @@
           badge.textContent = p.uploader_name || '';
           var btn = document.createElement('button');
           btn.className = 'admin-contest-save' + (p.featured?' saved':'');
-          btn.style.cssText = 'width:100%;margin-top:3px;font-size:9px;padding:3px;';
           var isFeatured = !!p.featured;
-          btn.textContent = isFeatured ? '★ Featured' : '☆ Feature';
-          btn.style.cssText = 'width:100%;margin-top:3px;font-size:9px;padding:3px;font-family:Cormorant Garamond,serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;border:'+(isFeatured?'1px solid var(--gold);background:var(--gold);color:#fff':'1px solid #ccc;background:none;color:#666')+';';
-          btn.onclick = function() { adminToggleFeature(p.id, !isFeatured, year); };
-          // Gold border on image if featured
-          if (isFeatured) img.style.border = '2px solid var(--gold)';
+          function updateBtn(featured) {
+            btn.textContent = featured ? '★ Featured' : '☆ Feature';
+            btn.style.cssText = 'width:100%;margin-top:3px;font-size:9px;padding:3px;font-family:Cormorant Garamond,serif;letter-spacing:1px;text-transform:uppercase;cursor:pointer;border-radius:2px;transition:all 0.2s;border:'+(featured?'1px solid #C9A84C;background:#C9A84C;color:#fff;':'1px solid #ccc;background:none;color:#666;');
+            img.style.border = featured ? '2px solid #C9A84C' : '1px solid rgba(0,0,0,0.1)';
+          }
+          updateBtn(isFeatured);
+          btn.onclick = function() {
+            isFeatured = !isFeatured;
+            updateBtn(isFeatured);
+            adminToggleFeature(p.id, isFeatured, year);
+          };
           var del = document.createElement('button');
           del.style.cssText = 'width:100%;margin-top:2px;font-size:9px;padding:3px;font-family:Cormorant Garamond,serif;letter-spacing:1px;text-transform:uppercase;border:1px solid #cc3333;color:#cc3333;background:none;cursor:pointer;border-radius:2px;';
           del.textContent = 'Delete';
