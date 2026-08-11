@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="manifest" href="/dadchelor-invitational/manifest.json">
+<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#1a3a2a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Dadchelor">
-<link rel="apple-touch-icon" href="/dadchelor-invitational/icon-192.png">
+<link rel="apple-touch-icon" href="/icon-192.png">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Dadchelor Invitational</title>
@@ -536,32 +536,50 @@
   .photo-lightbox img { max-width:90vw; max-height:88vh; object-fit:contain; border-radius:2px; }
   .photo-lightbox-close { position:fixed; top:16px; right:20px; color:#fff; font-size:28px; cursor:pointer; z-index:10000; font-family:serif; line-height:1; }
 
-  /* == COLLAPSIBLE YEAR BLOCKS == */
-  .course-year-block { border-bottom: 1px solid var(--border); }
-  .course-year-header {
-    cursor: pointer;
-    padding: 20px 0 16px;
+  /* == HISTORY COLLAPSIBLE == */
+  .hist-block { border-bottom: 1px solid var(--border); }
+  .hist-header {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    gap: 12px;
+    padding: 18px 0;
+    cursor: pointer;
     user-select: none;
+    gap: 12px;
   }
-  .course-year-header-text { flex: 1; }
-  .course-year-chevron {
-    font-size: 18px;
+  .hist-header-left { flex: 1; }
+  .hist-pill {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 10px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
     color: var(--gold);
-    transition: transform 0.25s ease;
-    margin-top: 4px;
+    margin-bottom: 4px;
+  }
+  .hist-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--green-deep);
+    line-height: 1.2;
+    margin-bottom: 2px;
+  }
+  .hist-sub {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: var(--text-light);
+    font-style: italic;
+  }
+  .hist-chevron {
+    font-size: 20px;
+    color: var(--gold);
+    transition: transform 0.2s ease;
     flex-shrink: 0;
     line-height: 1;
   }
-  .course-year-block.open .course-year-chevron { transform: rotate(180deg); }
-  .course-year-body {
-    display: none;
-    padding-bottom: 8px;
-  }
-  .course-year-block.open .course-year-body { display: block; }
+  .hist-block.open .hist-chevron { transform: rotate(180deg); }
+  .hist-body { display: none; padding-bottom: 16px; }
+  .hist-block.open .hist-body { display: block; }
 </style>
 </head>
 <body>
@@ -816,29 +834,1068 @@
         <div style="background:var(--green-deep);border:1px solid rgba(184,150,46,0.2);border-left:4px solid var(--gold);padding:22px 24px;">
           <div style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--green-pale);margin-bottom:6px;">The Modern Era · 2026</div>
           <h3 style="font-family:'Playfair Display',serif;font-size:18px;font-weight:600;color:var(--gold-light);margin-bottom:10px;">Champion Golfer of the Year</h3>
-          <p style="font-size:15px;color:var(--green-pale);line-height:1.7;">The newest and highest individual honor in the tournament. Introduced in 2026 with the adoption of the Ryder Cup team format, the Champion Golfer of the Year is the player who accumulates the most personal points across all four rounds. He is not merely a winner. He is the man who, by right of conquest and personal excellence, has earned the eternal privilege of asking — loudly, proudly, and with full confidence — <em style="color:var(--gold-light);">"Who's your Daddy?"</em></p>
+          <p style="font-size:15px;color:var(--green-pal
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2019 · The Original</div>
+      <div class="hist-title">Huron Breeze Golf &amp; Country Club</div>
+      <div class="hist-sub">Au Gres, Michigan · August 8–10</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2019 — THE ORIGINAL · AU GRES -->
+    <div class="course-year-block" id="courses-2019">
+      <div class="course-year-header">
+        <div class="course-year-pill">2019 · The Original</div>
+        <h2 class="course-year-title">Huron Breeze Golf &amp; Country Club</h2>
+        <p class="course-year-sub">Au Gres, Michigan · August 8–10</p>
+      </div>
+      <div class="course-cards-grid">
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#0d2b1a 0%,#2d6640 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="24" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">HURON</text><text x="30" y="35" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">BREEZE</text><text x="30" y="46" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">EST. 2019</text></svg>
+              </div>
+              <div class="course-card-label">Where It All Began</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Huron Breeze Golf &amp; Country Club</div>
+            <div class="course-card-designer">Au Gres, Michigan</div>
+            <p class="course-card-desc">The birthplace of the Dadchelor. A well-regarded Au Gres layout along Michigan's Sunrise Coast, Huron Breeze hosted the very first gathering — the trip that, without anyone quite realizing it, founded an institution. The scorecards are long gone, but the legend was born here.</p>
+          </div>
+        </div>
+      </div>
+    </div><div class="story-wall" data-year="2019">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2019</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">The Original Dadchelor. Before the Bronze Chalices, before the Ryder Cup format, before a single result was ever written down — a group of friends made the pilgrimage to Au Gres and teed it up at Huron Breeze. No records survive. The champion, the scores, the controversies — all lost to the dark ages, pre-2026, pre-Claude. But the stories only get better with age.</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2019')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2019')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2019')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2019')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+
+    
+  </div>
+</div>
+
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2019 · Inaugural Edition</div>
+      <div class="hist-title">Treetops Resort</div>
+      <div class="hist-sub">Gaylord, Michigan · September 13–15</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2019 — TREETOPS -->
+    <div class="course-year-block" id="courses-2019">
+      <div class="course-year-header">
+        <div class="course-year-pill">2019 · Inaugural Edition</div>
+        <h2 class="course-year-title">Treetops Resort</h2>
+        <p class="course-year-sub">Gaylord, Michigan · September 13–15</p>
+      </div>
+      <div class="course-cards-grid">
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3a2a 0%,#2d6640 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">TREETOPS</text><text x="30" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#c8dfc8">🌲</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">RESORT</text></svg>
+              </div>
+              <div class="course-card-label">Threetops Par-3</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Threetops</div>
+            <div class="course-card-designer">Designed by Rick Smith · Par 27</div>
+            <p class="course-card-desc">America's #1 Par-3 course. Nine legendary short holes perched dramatically above Gaylord with views spanning 40 miles. Featured on ESPN's Par-3 Shootout from 1999–2006. In 2001, Lee Trevino made a hole-in-one here worth $1,000,000.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#0d2b1a 0%,#1e4d2e 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="25" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">BLACK LAKE</text><text x="30" y="38" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" fill="#c8dfc8">GOLF CLUB</text></svg>
+              </div>
+              <div class="course-card-label">Championship Course</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Black Lake Golf Club</div>
+            <div class="course-card-designer">Designed by Rees Jones · Onaway, MI</div>
+            <p class="course-card-desc">Consistently ranked among Michigan's finest, Black Lake is a championship layout cut through dense Northern Michigan forest along the shores of Black Lake. Rees Jones designed a course that rewards precision off the tee and demands a complete game.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2f1a 0%,#2d5a3d 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">TREETOPS</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">TRADITION</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">COURSE</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 6,544 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Tradition Course</div>
+            <div class="course-card-designer">Designed by Rick Smith · Treetops Resort</div>
+            <p class="course-card-desc">A classic Northern Michigan layout with generous fairways and a welcoming pace of play. The Tradition lives up to its name — reliable, scenic, and a perennial 4.5-star Golf Digest rated experience that rounds out any Treetops stay.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3520 0%,#3d7a52 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">PREMIER</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">BY TOM FAZIO</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">TREETOPS</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 6,832 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Premier Course</div>
+            <div class="course-card-designer">Designed by Tom Fazio · Only Fazio in Michigan</div>
+            <p class="course-card-desc">The only Tom Fazio-designed course in Michigan. Known for dramatic elevation changes, bowl-shaped fairways that reward errant tee shots, and challenging greens. Golf Digest 4.5 stars since 1992. Premier by name, premier by nature.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#162a1a 0%,#254d30 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="26" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">LOON</text><text x="30" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🦆</text></svg>
+              </div>
+              <div class="course-card-label">Championship Course</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Loon Golf Course</div>
+            <div class="course-card-designer">Gaylord, Michigan</div>
+            <p class="course-card-desc">A Northern Michigan staple with sweeping views and classic Gaylord-area terrain. The Loon is a fan favorite among golfers looking for an engaging round in one of Michigan's finest golf destinations.</p>
+          </div>
         </div>
       </div>
     </div>
+
+    <!-- PHOTO SECTION 2019 -->
+    <div class="photo-wall" data-year="2019">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2019</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2019">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2019')">📷 PHOTO UPLOAD — 2019</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2019" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2019 — The Original Dadchelor — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2019">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2019">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2019')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2019" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2019" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2019">
+          <input type="file" class="photo-file-input" id="photo-file-2019" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2019')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2019"></div>
+        </div>
+      </div>
+    </div><div class="story-wall" data-year="2019">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2019</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">The inaugural edition. The tournament that started it all — but because we were living in the dark ages, pre-2026, pre-Claude, the results were never written down. Players speak in hushed tones of that first weekend in Gaylord. What happened at Threetops stays at Threetops. Or does it?</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2019')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2019')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2019')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2019')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2020 · 2nd Edition</div>
+      <div class="hist-title">Boyne Highlands Resort</div>
+      <div class="hist-sub">Harbor Springs, Michigan · September 11–13</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2020 — BOYNE HIGHLANDS -->
+    <div class="course-year-block" id="courses-2020">
+      <div class="course-year-header">
+        <div class="course-year-pill">2020 · 2nd Edition</div>
+        <h2 class="course-year-title">Boyne Highlands Resort</h2>
+        <p class="course-year-sub">Harbor Springs, Michigan · September 11–13</p>
+      </div>
+      <div class="course-cards-grid">
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a3a 0%,#2d4a6a 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">BOYNE</text><text x="30" y="32" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#c8dfc8">HIGHLANDS</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">HARBOR SPRINGS</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 6,906 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Crooked Tree Golf Club</div>
+            <div class="course-card-designer">Harbor Springs, Michigan</div>
+            <p class="course-card-desc">Named for the distinctive Petoskey-area landmark, Crooked Tree is a beloved Harbor Springs layout featuring tree-lined fairways, pristine conditioning, and stunning views of the Little Traverse Bay region.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#2a1a1a 0%,#5a2d2d 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">DONALD ROSS</text><text x="30" y="30" text-anchor="middle" font-family="Georgia,serif" font-size="6" fill="#c8dfc8">MEMORIAL</text><text x="30" y="40" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">BOYNE HIGHLANDS</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 7,179 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Donald Ross Memorial Course</div>
+            <div class="course-card-designer">Tribute to the Master · Boyne Highlands</div>
+            <p class="course-card-desc">A loving tribute to the legendary designer featuring replica holes from Ross's most celebrated courses — Pinehurst No. 2, Seminole, and Oakland Hills among them. Walking this course is a masterclass in classic American golf architecture.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a1e 0%,#2d5040 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">ARTHUR</text><text x="30" y="32" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#c8dfc8">HILLS</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">BOYNE HIGHLANDS</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 7,034 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Arthur Hills Course</div>
+            <div class="course-card-designer">Designed by Arthur Hills · Boyne Highlands</div>
+            <p class="course-card-desc">A signature Arthur Hills design winding through the natural terrain of Northern Michigan's rolling hills. Known for its dramatic elevation changes, generous landing areas, and well-protected greens demanding precise approach play.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1e2a1a 0%,#3d5a2a 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">HEATHER</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#c8dfc8">COURSE</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">BOYNE HIGHLANDS</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 6,920 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Heather Course</div>
+            <div class="course-card-designer">Boyne Highlands · Harbor Springs</div>
+            <p class="course-card-desc">The crown jewel of Boyne Highlands — a Robert Trent Jones Sr. design consistently ranked among Michigan's top five courses. The Heather has hosted PGA Section events and remains one of the most scenic rounds anywhere in the Midwest.</p>
+          </div>
+        </div>
+      </div>
+    </div><div class="story-wall" data-year="2020">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2020</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">Harbor Springs. Boyne Highlands. Four courses over three days. Whatever happened there is gone — lost to history like so many great stories told around the 19th hole. Some say there was a collapse on the back nine of the Donald Ross. Others dispute it. Nobody wrote anything down.</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2020')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2020')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2020')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2020')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2021 · 3rd Edition</div>
+      <div class="hist-title">Treetops Resort & Otsego Club</div>
+      <div class="hist-sub">Gaylord, Michigan · July 30 – August 1</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2021 — TREETOPS RETURN -->
+    <div class="course-year-block" id="courses-2021">
+      <div class="course-year-header">
+        <div class="course-year-pill">2021 · 3rd Edition</div>
+        <h2 class="course-year-title">Treetops Resort & Otsego Club</h2>
+        <p class="course-year-sub">Gaylord, Michigan · July 30 – August 1</p>
+      </div>
+      <div class="course-cards-grid">
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3a2a 0%,#2d6640 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">TREETOPS</text><text x="30" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#c8dfc8">🌲</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">RESORT</text></svg>
+              </div>
+              <div class="course-card-label">Par 27 · America's #1</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Threetops</div>
+            <div class="course-card-designer">Designed by Rick Smith · Par-3 Icon</div>
+            <p class="course-card-desc">A return engagement for the Dadchelor faithful. Threetops never gets old — nine holes of pure drama perched above the Gaylord valley. The scene of Lee Trevino's million-dollar ace in 2001.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#2a1e10 0%,#5a4020 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="21" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">THE TRIBUTE</text><text x="30" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="6" fill="#c8dfc8">AT OTSEGO</text><text x="30" y="41" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">CLUB · GAYLORD</text></svg>
+              </div>
+              <div class="course-card-label">Historic Course</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Tribute at Otsego Club</div>
+            <div class="course-card-designer">Otsego Club · Gaylord, Michigan</div>
+            <p class="course-card-desc">One of Michigan's hidden gems. The Tribute at Otsego Club is a classic layout steeped in Northern Michigan history, offering a beautifully traditional golf experience that stands in contrast to the modern resort tracks across Gaylord.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3520 0%,#3d7a52 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">PREMIER</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">BY TOM FAZIO</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">TREETOPS</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 6,832 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Premier Course</div>
+            <div class="course-card-designer">Designed by Tom Fazio · Treetops Resort</div>
+            <p class="course-card-desc">The only Tom Fazio design in Michigan returns for a second Dadchelor appearance. Dramatic elevation changes, precision required off the tee, and greens that demand your full attention on every approach.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#162a1a 0%,#2a5035 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">SIGNATURE</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">RICK SMITH</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">TREETOPS</text></svg>
+              </div>
+              <div class="course-card-label">Par 71 · 6,653 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Signature Course</div>
+            <div class="course-card-designer">Designed by Rick Smith · Treetops Resort</div>
+            <p class="course-card-desc">Ranked #2 Best of the Midwest by Golf Magazine. The Signature draws on Scottish and Irish links influences with visually threatening lines off the tee that open up with smart course management. Arguably the best-conditioned course at Treetops.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2020 -->
+    <div class="photo-wall" data-year="2020">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2020</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2020">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2020')">📷 PHOTO UPLOAD — 2020</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2020" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2020 — Battle of Boyne — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2020">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2020">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2020')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2020" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2020" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2020">
+          <input type="file" class="photo-file-input" id="photo-file-2020" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2020')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2020"></div>
+        </div>
+      </div>
+    </div><div class="story-wall" data-year="2021">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2021</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">A return to Gaylord. Treetops and Otsego. The third Dadchelor, and still — not a single result recorded. The scores, the drama, the winner's speech — all of it dissolved into northern Michigan air by Sunday evening.</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2021')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2021')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2021')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2021')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2022 · 4th Edition · Most Ambitious Yet</div>
+      <div class="hist-title">Forest Dunes Golf Club</div>
+      <div class="hist-sub">Roscommon, Michigan · August 26–28</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2022 — FOREST DUNES -->
+    <div class="course-year-block" id="courses-2022">
+      <div class="course-year-header">
+        <div class="course-year-pill">2022 · 4th Edition · Most Ambitious Yet</div>
+        <h2 class="course-year-title">Forest Dunes Golf Club</h2>
+        <p class="course-year-sub">Roscommon, Michigan · August 26–28</p>
+      </div>
+      <div class="course-highlight-banner">
+        🌀 Home of <strong>The Loop</strong> — the only reversible 18-hole golf course in the world, designed by Tom Doak
+      </div>
+      <div class="course-cards-grid">
+        <div class="course-card course-card-featured">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#0d2010 0%,#1a3d20 60%,#2d5a30 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">THE LOOP</text><text x="30" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#d4af55">∞</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">FOREST DUNES</text></svg>
+              </div>
+              <div class="course-card-label">World's Only Reversible Course</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Loop — Red & Black Routings</div>
+            <div class="course-card-designer">Designed by Tom Doak · Top 50 Worldwide</div>
+            <p class="course-card-desc">Tom Doak's obsession with reversible British links became reality at Forest Dunes. The same 18 holes play as two completely different courses depending on direction — Red (counter-clockwise) and Black (clockwise). No. 2 today becomes No. 16 tomorrow. Consistently ranked Top 50 public courses in America.</p>
+            <div class="course-card-tags"><span class="course-tag">Top 50 Public USA</span><span class="course-tag">Tom Doak</span><span class="course-tag">Reversible</span></div>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a10 0%,#3a5020 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">BOOTLEGGER</text><text x="30" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🥃</text><text x="30" y="45" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">SHORT COURSE</text></svg>
+              </div>
+              <div class="course-card-label">10-hole Short Course</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Bootlegger Short Course</div>
+            <div class="course-card-designer">Designed by Keith Rhebb & Riley Johns</div>
+            <p class="course-card-desc">Named for the Purple Gang — a Detroit mafia family that ran a ranch on this property in the 1920s and 30s. Ten holes, 1,100 yards of pure fun. Two or three clubs, cold beverages, shoes optional. Golf as it should be at the end of a long day.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a1020 0%,#3a2050 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">DREAM</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">☁</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6.5" fill="#b8962e">GARLAND LODGE</text></svg>
+              </div>
+              <div class="course-card-label">Championship Course</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Dream Course</div>
+            <div class="course-card-designer">West Branch, Michigan</div>
+            <p class="course-card-desc">The Dream lives up to its name — a sweeping parkland layout carved through the northern Michigan forest with wide landing zones and undulating greens. Sister course to The Nightmare, carved out of 312 acres of hardwoods just west of downtown West Branch. No liquor license — BYOB is the only way.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#200a0a 0%,#502020 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">NIGHTMARE</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">👻</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6.5" fill="#b8962e">GARLAND LODGE</text></svg>
+              </div>
+              <div class="course-card-label">Championship Course</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Nightmare Course</div>
+            <div class="course-card-designer">West Branch, Michigan</div>
+            <p class="course-card-desc">The name says it all. The Dream's sister course, opened in 2003. Wide fairways belie a course with serious teeth — large undulating greens, strategic bunkering, and elevation changes that make every approach a decision. No liquor license. Bring your own.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1e1010 0%,#4a2020 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">THE</text><text x="30" y="32" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" fill="#d4af55">FORTRESS</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">FRANKENMUTH</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 6,982 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Fortress</div>
+            <div class="course-card-designer">Frankenmuth, Michigan</div>
+            <p class="course-card-desc">A fortress in name and in nature. Designed with dramatic bunkering and strategic water features, The Fortress in Frankenmuth demands respect from the first tee to the 18th green. A perennial Michigan top-25 rated course with a castle-inspired aesthetic.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2021 -->
+    <div class="photo-wall" data-year="2021">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2021</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2021">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2021')">📷 PHOTO UPLOAD — 2021</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2021" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2021 — Second Tussle at Treetops — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2021">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2021">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2021')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2021" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2021" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2021">
+          <input type="file" class="photo-file-input" id="photo-file-2021" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2021')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2021"></div>
+        </div>
+      </div>
+    </div><div class="story-wall" data-year="2022">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2022</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">Forest Dunes. The Loop. Possibly the greatest setting in Dadchelor history. Whatever unfolded on the fairways of the Bootlegger, the Dream, the Nightmare, and the Fortress is known only to those who were there — and even they disagree on the details.</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2022')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2022')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2022')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2022')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2023 · 5th Edition · Southern Swing</div>
+      <div class="hist-title">Ann Arbor & Northville</div>
+      <div class="hist-sub">Southeast Michigan · August 5–6</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2023 — ANN ARBOR -->
+    <div class="course-year-block" id="courses-2023">
+      <div class="course-year-header">
+        <div class="course-year-pill">2023 · 5th Edition · Southern Swing</div>
+        <h2 class="course-year-title">Ann Arbor & Northville</h2>
+        <p class="course-year-sub">Southeast Michigan · August 5–6</p>
+      </div>
+      <div class="course-cards-grid">
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a3a 0%,#2d4a6a 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">EAGLE</text><text x="30" y="30" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" fill="#d4af55">CREST</text><text x="30" y="42" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🦅</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · Ypsilanti, MI</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Eagle Crest Golf Club</div>
+            <div class="course-card-designer">Ypsilanti, Michigan · Arnold Palmer Design</div>
+            <p class="course-card-desc">An Arnold Palmer-designed championship course just outside Ann Arbor. Eagle Crest winds through mature oaks and wetlands with challenging bunkering and multi-tiered greens. A true test of the complete game close to home.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2010 0%,#365028 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="19" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" font-weight="700" fill="#b8962e">UNIVERSITY OF</text><text x="30" y="28" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" fill="#d4af55">MICHIGAN</text><text x="30" y="37" text-anchor="middle" font-family="Georgia,serif" font-size="5.5" fill="#c8dfc8">RADRICK FARMS</text><text x="30" y="47" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="5" fill="#b8962e">ANN ARBOR</text></svg>
+              </div>
+              <div class="course-card-label">University of Michigan</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Radrick Farms (Michigan Course)</div>
+            <div class="course-card-designer">Designed by Robert Trent Jones Sr. · U of M</div>
+            <p class="course-card-desc">The University of Michigan's historic championship course designed by Robert Trent Jones Sr. in 1964. Radrick Farms has hosted multiple Big Ten Championships and remains one of the most prestigious layouts in the state. Go Blue.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a1a 0%,#305040 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" font-weight="700" fill="#b8962e">NORTHVILLE</text><text x="30" y="30" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" fill="#d4af55">HILLS</text><text x="30" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="5.5" fill="#c8dfc8">GOLF CLUB</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · Northville, MI</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Northville Hills Golf Club</div>
+            <div class="course-card-designer">Northville, Michigan</div>
+            <p class="course-card-desc">A parkland gem in suburban Detroit's finest golf corridor. Northville Hills features tree-lined fairways, strategically placed bunkers, and bentgrass greens that reward patience and accuracy. A fitting closer to the 2023 southern swing.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2022 -->
+    <div class="photo-wall" data-year="2022">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2022</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2022">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2022')">📷 PHOTO UPLOAD — 2022</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2022" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2022 — Battle on the Au Sable — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2022">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2022">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2022')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2022" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2022" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2022">
+          <input type="file" class="photo-file-input" id="photo-file-2022" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2022')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2022"></div>
+        </div>
+      </div>
+    </div><div class="story-wall" data-year="2023">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2023</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">Ann Arbor and Northville. Eagle Crest, Radrick Farms, Northville Hills. A fifth edition with no official record. The results exist only in memory — and memory, as any golfer knows, is a generous scorer.</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2023')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2023')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2023')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2023')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2024 · 6th Edition</div>
+      <div class="hist-title">The Orchards Golf Club</div>
+      <div class="hist-sub">Lake Orion, Michigan · August 23–24</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2024 — ORCHARDS -->
+    <div class="course-year-block" id="courses-2024">
+      <div class="course-year-header">
+        <div class="course-year-pill">2024 · 6th Edition</div>
+        <h2 class="course-year-title">The Orchards Golf Club</h2>
+        <p class="course-year-sub">Lake Orion, Michigan · August 23–24</p>
+      </div>
+      <div class="course-cards-grid" style="max-width:600px;">
+        <div class="course-card course-card-featured">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a10 0%,#3d6020 60%,#5a8030 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">THE</text><text x="30" y="30" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" fill="#d4af55">ORCHARDS</text><text x="30" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🍎</text></svg>
+              </div>
+              <div class="course-card-label">Back-to-Back · Two Days</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Orchards Golf Club</div>
+            <div class="course-card-designer">Designed by Robert Trent Jones Jr. · Lake Orion</div>
+            <p class="course-card-desc">A Robert Trent Jones Jr. masterpiece consistently ranked among Michigan's top ten courses. The Orchards features dramatic elevation changes, pristine conditioning, and a layout that rewards course management over brute force. The 2024 Dadchelor doubled down — same course, two days, with completely different results on the board each time.</p>
+            <div class="course-card-tags"><span class="course-tag">Michigan Top 10</span><span class="course-tag">R.T. Jones Jr.</span><span class="course-tag">Played Twice</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2023 -->
+    <div class="photo-wall" data-year="2023">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2023</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2023">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2023')">📷 PHOTO UPLOAD — 2023</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2023" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2023 — The Southern Swing — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2023">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2023">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2023')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2023" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2023" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2023">
+          <input type="file" class="photo-file-input" id="photo-file-2023" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2023')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2023"></div>
+        </div>
+      </div>
+    </div><div class="story-wall" data-year="2024">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2024</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">The Orchards. Lake Orion. Two rounds on one of Michigan's finest layouts. The sixth Dadchelor, and still the scorecards were not preserved. Who won? How did it end? The truth has been surrendered to time.</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2024')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2024')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2024')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2024')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+    
+  </div>
+</div>
+
+<div class="hist-block">
+  <div class="hist-header" onclick="this.parentElement.classList.toggle('open')">
+    <div class="hist-header-left">
+      <div class="hist-pill">2025 · 7th Edition</div>
+      <div class="hist-title">Tawas City & Au Gres</div>
+      <div class="hist-sub">Lake Huron Shoreline, Michigan · August 22–24</div>
+    </div>
+    <span class="hist-chevron">⌄</span>
+  </div>
+  <div class="hist-body">
+    <!-- 2025 — TAWAS -->
+    <div class="course-year-block" id="courses-2025">
+      <div class="course-year-header">
+        <div class="course-year-pill">2025 · 7th Edition</div>
+        <h2 class="course-year-title">Tawas City & Au Gres</h2>
+        <p class="course-year-sub">Lake Huron Shoreline, Michigan · August 22–24</p>
+      </div>
+      <div class="course-cards-grid">
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#101a10 0%,#204020 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="21" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">RED HAWK</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🦅</text><text x="30" y="45" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">EAST TAWAS</text></svg>
+              </div>
+              <div class="course-card-label">East Tawas, Michigan</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Red Hawk Golf Club</div>
+            <div class="course-card-designer">East Tawas, Michigan</div>
+            <p class="course-card-desc">A scenic challenge along Michigan's Lake Huron shoreline. Red Hawk Golf Club is a highly rated local gem featuring tight tree-lined fairways, well-maintained greens, and that unmistakable northern Michigan feel at a fraction of the resort price.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#0d1a25 0%,#1a3545 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="19" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" font-weight="700" fill="#b8962e">HURON</text><text x="30" y="28" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" fill="#d4af55">BREEZE</text><text x="30" y="37" text-anchor="middle" font-family="Georgia,serif" font-size="5.5" fill="#c8dfc8">GOLF CLUB</text><text x="30" y="47" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="5" fill="#b8962e">AU GRES, MI</text></svg>
+              </div>
+              <div class="course-card-label">Au Gres, Michigan</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">Huron Breeze Golf & Country Club</div>
+            <div class="course-card-designer">Au Gres, Michigan · Lake Huron Region</div>
+            <p class="course-card-desc">Situated along the Lake Huron shoreline in Au Gres, Huron Breeze is a fan-favorite among Michigan golfers who value character over course rating. Expect a breezy round (literally and figuratively) with wide fairways and the kind of no-nonsense Michigan hospitality that keeps golfers coming back.</p>
+          </div>
+        </div>
+        <div class="course-card">
+          <div class="course-card-img" style="background:linear-gradient(135deg,#1e1010 0%,#4a2020 100%);">
+            <div class="course-img-overlay">
+              <div class="course-logo-circle">
+                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">THE</text><text x="30" y="32" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" fill="#d4af55">FORTRESS</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">FRANKENMUTH</text></svg>
+              </div>
+              <div class="course-card-label">Par 72 · 6,982 yards</div>
+            </div>
+          </div>
+          <div class="course-card-body">
+            <div class="course-card-name">The Fortress</div>
+            <div class="course-card-designer">Frankenmuth, Michigan · Returns for 2025</div>
+            <p class="course-card-desc">The Fortress makes its second Dadchelor appearance after the 2022 Forest Dunes trip. If anything, the castle-like bunkering and demanding layout will feel even more familiar — and no less brutal — the second time around.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="story-wall" data-year="2025">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📖 Stories from 2025</div>
+        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
+      </div>
+      <div class="story-lore">Tawas. Au Gres. Red Hawk, Huron Breeze, The Fortress. The seventh and final edition before the Modern Era — and the last tournament lost to history. No records. No official champion. Only stories. Until now.</div>
+      <div class="admin-bar">
+        <div class="admin-bar-row">
+          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
+          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2025')">Admin</button>
+        </div>
+        <div class="admin-pw-row">
+          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2025')">
+          <button class="admin-pw-submit" onclick="storyCheckAdmin('2025')">Enter</button>
+        </div>
+      </div>
+      <div class="story-list"></div>
+      <div class="story-form">
+        <div class="story-form-title">Tell your story</div>
+        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
+        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
+        <button class="story-submit-btn" onclick="storySubmit('2025')">Submit Story</button>
+        <div class="story-submit-msg"></div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2024 -->
+    <div class="photo-wall" data-year="2024">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2024</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2024">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2024')">📷 PHOTO UPLOAD — 2024</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2024" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2024 — The Homeward Drive — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2024">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2024">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2024')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2024" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2024" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2024">
+          <input type="file" class="photo-file-input" id="photo-file-2024" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2024')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2024"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- PHOTO SECTION 2025 -->
+    <div class="photo-wall" data-year="2025">
+      <div class="story-wall-header">
+        <div class="story-wall-title">📸 Photos from 2025</div>
+        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
+      </div>
+      <div class="photo-carousel-wrap" id="photo-carousel-2025">
+        <div class="photo-loading">Loading photos...</div>
+      </div>
+      <div class="photo-upload-toggle">
+        <button class="photo-upload-btn" onclick="photoToggleUpload('2025')">📷 PHOTO UPLOAD — 2025</button>
+      </div>
+      <div class="photo-upload-form" id="photo-form-2025" style="display:none;">
+        <div class="photo-warning">⚠️ YOU are uploading photos for 2025 — The Reverse Sear — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2025">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2025">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2025')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2025" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2025" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2025">
+          <input type="file" class="photo-file-input" id="photo-file-2025" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2025')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2025"></div>
+        </div>
+      </div>
+    </div>
+
   </section>
 </div>
 
-<!-- COURSES -->
-<div id="page-locations" class="page">
-  <section class="hero" style="padding:60px 2rem 50px;">
-    <h1 style="font-size:clamp(28px,4vw,46px);">Tournament <em>History</em></h1>
-    <p class="hero-tagline">The Hallowed Grounds of The Dadchelor</p>
-  </section>
-  <div class="stripe-divider"></div>
-
-  <section class="section">
-    <div class="section-header">
-      <span class="section-label">Seven Years · Seven Venues</span>
-      <h2 class="section-title">The <em>Hallowed Grounds</em></h2>
-      <div class="section-rule"></div>
+<!-- PLAYERS -->
+  </div>
+</div>
+️ YOU are uploading photos for 2025 — The Reverse Sear — please do not include photos from other years in this upload.</div>
+        <div class="photo-auth-gate" id="photo-auth-2025">
+          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2025">
+          <button class="photo-submit-btn" onclick="photoCheckPw('2025')">Unlock Upload</button>
+          <div class="photo-err" id="photo-err-2025" style="display:none;">Incorrect password.</div>
+        </div>
+        <div class="photo-upload-panel" id="photo-panel-2025" style="display:none;">
+          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2025">
+          <input type="file" class="photo-file-input" id="photo-file-2025" accept="image/*" multiple>
+          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
+          <button class="photo-submit-btn" onclick="photoUpload('2025')">Upload Photos</button>
+          <div class="photo-upload-status" id="photo-status-2025"></div>
+        </div>
+      </div>
     </div>
 
-    <!-- 2026 TOURNAMENT PAGE -->
+  </section>
+</div>
+
+<!-- PLAYERS -->
+<div id="page-players" class="page">
+  <section class="hero" style="padding:60px 2rem 50px;">
+    <h1 style="font-size:clamp(28px,4vw,46px);">The <em>Field</em></h1>
+    <p class="hero-tagline">Thirteen Gentlemen. One Champion.</p>
+  </section>
+  <div class="stripe-divider"></div>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Competitors</span>
+      <h2 class="section-title">Meet the <em>Players</em></h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="players-grid" id="players-grid"></div>
+  </section>
+</div>
+
+<!-- HISTORY -->
+<div id="page-years" class="page">
+  <section class="hero" style="padding:60px 2rem 50px;">
+    <h1 style="font-size:clamp(28px,4vw,46px);">Tournament <em>History</em></h1>
+    <p class="hero-tagline">Every Edition. Every Champion. Every Legend.</p>
+  </section>
+  <div class="stripe-divider"></div>
+  <section class="section">
+    <div class="section-header">
+      <span class="section-label">Year by Year</span>
+      <h2 class="section-title">The <em>Complete Record</em></h2>
+      <div class="section-rule"></div>
+    </div>
+    <div class="years-list" id="years-list"></div>
+  </section>
+</div>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="player-modal" onclick="closeModal(event)">
+  <div class="modal">
+    <button class="modal-close" onclick="document.getElementById('player-modal').classList.remove('open')">✕</button>
+    <div class="modal-header">
+      <div class="modal-avatar-wrap" id="modal-avatar-wrap"></div>
+      <div class="modal-header-text">
+        <h2 id="modal-name"></h2>
+        <div class="nickname" id="modal-nickname"></div>
+      </div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-stats-row" id="modal-stats"></div>
+      <p class="modal-bio" id="modal-bio"></p>
+      <h3 class="modal-section-title">Tournament Results</h3>
+      <ul class="modal-results-list" id="modal-results"></ul>
+    </div>
+  </div>
+</div>
+
+<!-- 2026 TOURNAMENT PAGE -->
 <div id="page-tournament2026" class="page">
   <section class="hero" style="padding:70px 1.5rem 60px;">
     <div style="display:inline-block;background:var(--gold);color:var(--green-deep);font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:3px;text-transform:uppercase;padding:5px 18px;border-radius:2px;margin-bottom:18px;font-weight:700;">8th Annual Edition · 2026</div>
@@ -3512,7 +4569,7 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/dadchelor-invitational/sw.js')
+    navigator.serviceWorker.register('/sw.js')
       .then(function(reg) { console.log('SW registered:', reg.scope); })
       .catch(function(err) { console.log('SW failed:', err); });
   });
@@ -3661,1063 +4718,5 @@ if ('serviceWorker' in navigator) {
   });
 })();
 </script>
-
-<script>
-function toggleYear(id) {
-  var block = document.getElementById(id);
-  if (!block) return;
-  block.classList.toggle('open');
-}
-// All years start collapsed
-</script>
 </body>
-</html<!-- 2025 — TAWAS -->
-    <div class="course-year-block" id="courses-2025">
-      <div class="course-year-header" onclick="toggleYear('courses-2025')">
-        <div class="course-year-header-text">
-        <div class="course-year-pill">2025 · 7th Edition</div>
-        <h2 class="course-year-title">Tawas City & Au Gres</h2>
-        <p class="course-year-sub">Lake Huron Shoreline, Michigan · August 22–24</p>
-      </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body">
-      <div class="course-cards-grid">
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#101a10 0%,#204020 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="21" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">RED HAWK</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🦅</text><text x="30" y="45" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">EAST TAWAS</text></svg>
-              </div>
-              <div class="course-card-label">East Tawas, Michigan</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Red Hawk Golf Club</div>
-            <div class="course-card-designer">East Tawas, Michigan</div>
-            <p class="course-card-desc">A scenic challenge along Michigan's Lake Huron shoreline. Red Hawk Golf Club is a highly rated local gem featuring tight tree-lined fairways, well-maintained greens, and that unmistakable northern Michigan feel at a fraction of the resort price.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#0d1a25 0%,#1a3545 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="19" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" font-weight="700" fill="#b8962e">HURON</text><text x="30" y="28" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" fill="#d4af55">BREEZE</text><text x="30" y="37" text-anchor="middle" font-family="Georgia,serif" font-size="5.5" fill="#c8dfc8">GOLF CLUB</text><text x="30" y="47" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="5" fill="#b8962e">AU GRES, MI</text></svg>
-              </div>
-              <div class="course-card-label">Au Gres, Michigan</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Huron Breeze Golf & Country Club</div>
-            <div class="course-card-designer">Au Gres, Michigan · Lake Huron Region</div>
-            <p class="course-card-desc">Situated along the Lake Huron shoreline in Au Gres, Huron Breeze is a fan-favorite among Michigan golfers who value character over course rating. Expect a breezy round (literally and figuratively) with wide fairways and the kind of no-nonsense Michigan hospitality that keeps golfers coming back.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1e1010 0%,#4a2020 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">THE</text><text x="30" y="32" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" fill="#d4af55">FORTRESS</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">FRANKENMUTH</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 6,982 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Fortress</div>
-            <div class="course-card-designer">Frankenmuth, Michigan · Returns for 2025</div>
-            <p class="course-card-desc">The Fortress makes its second Dadchelor appearance after the 2022 Forest Dunes trip. If anything, the castle-like bunkering and demanding layout will feel even more familiar — and no less brutal — the second time around.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="story-wall" data-year="2025">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2025</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">Tawas. Au Gres. Red Hawk, Huron Breeze, The Fortress. The seventh and final edition before the Modern Era — and the last tournament lost to history. No records. No official champion. Only stories. Until now.</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2025')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2025')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2025')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2025')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    
-      <!-- PHOTO SECTION 2025 -->
-      <div class="photo-wall" data-year="2025">
-        <div class="story-wall-header">
-          <div class="story-wall-title">📸 Photos from 2025</div>
-          <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-        </div>
-        <div class="photo-carousel-wrap" id="photo-carousel-2025">
-          <div class="photo-loading">Loading photos...</div>
-        </div>
-        <div class="photo-upload-toggle">
-          <button class="photo-upload-btn" onclick="photoToggleUpload('2025')">📷 PHOTO UPLOAD — 2025</button>
-        </div>
-        <div class="photo-upload-form" id="photo-form-2025" style="display:none;">
-          <div class="photo-warning">⚠️ YOU are uploading photos for 2025 — The Reverse Sear — please do not include photos from other years in this upload.</div>
-          <div class="photo-auth-gate" id="photo-auth-2025">
-            <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2025">
-            <button class="photo-submit-btn" onclick="photoCheckPw('2025')">Unlock Upload</button>
-            <div class="photo-err" id="photo-err-2025" style="display:none;">Incorrect password.</div>
-          </div>
-          <div class="photo-upload-panel" id="photo-panel-2025" style="display:none;">
-            <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2025">
-            <input type="file" class="photo-file-input" id="photo-file-2025" accept="image/*" multiple>
-            <div class="photo-limit-note">Max 15 photos per person per year</div>
-            <button class="photo-submit-btn" onclick="photoUpload('2025')">Upload Photos</button>
-            <div class="photo-upload-status" id="photo-status-2025"></div>
-          </div>
-        </div>
-      </div>
-      </div></div>
-
-    <!-- PHOTO SECTION 2024 -->
-    <div class="photo-wall" data-year="2024">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📸 Photos from 2024</div>
-        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-      </div>
-      <div class="photo-carousel-wrap" id="photo-carousel-2024">
-        <div class="photo-loading">Loading photos...</div>
-      </div>
-      <div class="photo-upload-toggle">
-        <button class="photo-upload-btn" onclick="photoToggleUpload('2024')">📷 PHOTO UPLOAD — 2024</button>
-      </div>
-      <div class="photo-upload-form" id="photo-form-2024" style="display:none;">
-        <div class="photo-warning">⚠️ YOU are uploading photos for 2024 — The Homeward Drive — please do not include photos from other years in this upload.</div>
-        <div class="photo-auth-gate" id="photo-auth-2024">
-          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2024">
-          <button class="photo-submit-btn" onclick="photoCheckPw('2024')">Unlock Upload</button>
-          <div class="photo-err" id="photo-err-2024" style="display:none;">Incorrect password.</div>
-        </div>
-        <div class="photo-upload-panel" id="photo-panel-2024" style="display:none;">
-          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2024">
-          <input type="file" class="photo-file-input" id="photo-file-2024" accept="image/*" multiple>
-          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
-          <button class="photo-submit-btn" onclick="photoUpload('2024')">Upload Photos</button>
-          <div class="photo-upload-status" id="photo-status-2024"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PHOTO SECTION 2025 -->
-    <div class="photo-wall" data-year="2025">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📸 Photos from 2025</div>
-        <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-      </div>
-      <div class="photo-carousel-wrap" id="photo-carousel-2025">
-        <div class="photo-loading">Loading photos...</div>
-      </div>
-      <div class="photo-upload-toggle">
-        <button class="photo-upload-btn" onclick="photoToggleUpload('2025')">📷 PHOTO UPLOAD — 2025</button>
-      </div>
-      <div class="photo-upload-form" id="photo-form-2025" style="display:none;">
-        <div class="photo-warning">⚠️ YOU are uploading photos for 2025 — The Reverse Sear — please do not include photos from other years in this upload.</div>
-        <div class="photo-auth-gate" id="photo-auth-2025">
-          <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2025">
-          <button class="photo-submit-btn" onclick="photoCheckPw('2025')">Unlock Upload</button>
-          <div class="photo-err" id="photo-err-2025" style="display:none;">Incorrect password.</div>
-        </div>
-        <div class="photo-upload-panel" id="photo-panel-2025" style="display:none;">
-          <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2025">
-          <input type="file" class="photo-file-input" id="photo-file-2025" accept="image/*" multiple>
-          <div class="photo-limit-note">Max 15 photos per person per year · JPG/PNG/HEIC</div>
-          <button class="photo-submit-btn" onclick="photoUpload('2025')">Upload Photos</button>
-          <div class="photo-upload-status" id="photo-status-2025"></div>
-        </div>
-      </div>
-    </div>
-
-  </section>
-</div>
-
-<!-- PLAYERS -->
-<div id="page-players" class="page">
-  <section class="hero" style="padding:60px 2rem 50px;">
-    <h1 style="font-size:clamp(28px,4vw,46px);">The <em>Field</em></h1>
-    <p class="hero-tagline">Thirteen Gentlemen. One Champion.</p>
-  </section>
-  <div class="stripe-divider"></div>
-  <section class="section">
-    <div class="section-header">
-      <span class="section-label">Competitors</span>
-      <h2 class="section-title">Meet the <em>Players</em></h2>
-      <div class="section-rule"></div>
-    </div>
-    <div class="players-grid" id="players-grid"></div>
-  </section>
-</div>
-
-<!-- HISTORY -->
-<div id="page-years" class="page">
-  <section class="hero" style="padding:60px 2rem 50px;">
-    <h1 style="font-size:clamp(28px,4vw,46px);">Tournament <em>History</em></h1>
-    <p class="hero-tagline">Every Edition. Every Champion. Every Legend.</p>
-  </section>
-  <div class="stripe-divider"></div>
-  <section class="section">
-    <div class="section-header">
-      <span class="section-label">Year by Year</span>
-      <h2 class="section-title">The <em>Complete Record</em></h2>
-      <div class="section-rule"></div>
-    </div>
-    <div class="years-list" id="years-list"></div>
-  </section>
-</div>
-
-<!-- MODAL -->
-<div class="modal-overlay" id="player-modal" onclick="closeModal(event)">
-  <div class="modal">
-    <button class="modal-close" onclick="document.getElementById('player-modal').classList.remove('open')">✕</button>
-    <div class="modal-header">
-      <div class="modal-avatar-wrap" id="modal-avatar-wrap"></div>
-      <div class="modal-header-text">
-        <h2 id="modal-name"></h2>
-        <div class="nickname" id="modal-nickname"></div>
-      </div>
-    </div>
-    <div class="modal-body">
-      <div class="modal-stats-row" id="modal-stats"></div>
-      <p class="modal-bio" id="modal-bio"></p>
-      <h3 class="modal-section-title">Tournament Results</h3>
-      <ul class="modal-results-list" id="modal-results"></ul>
-    </div>
-  </div>
-</div>
-
-<!-- 2024 — ORCHARDS -->
-    <div class="course-year-block" id="courses-2024">
-      <div class="course-year-header" onclick="toggleYear('courses-2024')">
-        <div class="course-year-header-text">
-        <div class="course-year-pill">2024 · 6th Edition</div>
-        <h2 class="course-year-title">The Orchards Golf Club</h2>
-        <p class="course-year-sub">Lake Orion, Michigan · August 23–24</p>
-      </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body">
-      <div class="course-cards-grid" style="max-width:600px;">
-        <div class="course-card course-card-featured">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a10 0%,#3d6020 60%,#5a8030 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">THE</text><text x="30" y="30" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" fill="#d4af55">ORCHARDS</text><text x="30" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🍎</text></svg>
-              </div>
-              <div class="course-card-label">Back-to-Back · Two Days</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Orchards Golf Club</div>
-            <div class="course-card-designer">Designed by Robert Trent Jones Jr. · Lake Orion</div>
-            <p class="course-card-desc">A Robert Trent Jones Jr. masterpiece consistently ranked among Michigan's top ten courses. The Orchards features dramatic elevation changes, pristine conditioning, and a layout that rewards course management over brute force. The 2024 Dadchelor doubled down — same course, two days, with completely different results on the board each time.</p>
-            <div class="course-card-tags"><span class="course-tag">Michigan Top 10</span><span class="course-tag">R.T. Jones Jr.</span><span class="course-tag">Played Twice</span></div>
-          </div>
-        </div>
-      </div>
-    
-
-    <div class="story-wall" data-year="2024">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2024</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">The Orchards. Lake Orion. Two rounds on one of Michigan's finest layouts. The sixth Dadchelor, and still the scorecards were not preserved. Who won? How did it end? The truth has been surrendered to time.</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2024')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2024')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2024')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2024')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    </div>
-      
-      <!-- PHOTO SECTION 2024 -->
-      <div class="photo-wall" data-year="2024">
-        <div class="story-wall-header">
-          <div class="story-wall-title">📸 Photos from 2024</div>
-          <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-        </div>
-        <div class="photo-carousel-wrap" id="photo-carousel-2024">
-          <div class="photo-loading">Loading photos...</div>
-        </div>
-        <div class="photo-upload-toggle">
-          <button class="photo-upload-btn" onclick="photoToggleUpload('2024')">📷 PHOTO UPLOAD — 2024</button>
-        </div>
-        <div class="photo-upload-form" id="photo-form-2024" style="display:none;">
-          <div class="photo-warning">⚠️ YOU are uploading photos for 2024 — The Homeward Drive — please do not include photos from other years in this upload.</div>
-          <div class="photo-auth-gate" id="photo-auth-2024">
-            <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2024">
-            <button class="photo-submit-btn" onclick="photoCheckPw('2024')">Unlock Upload</button>
-            <div class="photo-err" id="photo-err-2024" style="display:none;">Incorrect password.</div>
-          </div>
-          <div class="photo-upload-panel" id="photo-panel-2024" style="display:none;">
-            <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2024">
-            <input type="file" class="photo-file-input" id="photo-file-2024" accept="image/*" multiple>
-            <div class="photo-limit-note">Max 15 photos per person per year</div>
-            <button class="photo-submit-btn" onclick="photoUpload('2024')">Upload Photos</button>
-            <div class="photo-upload-status" id="photo-status-2024"></div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <!-- 2023 — ANN ARBOR -->
-    <div class="course-year-block" id="courses-2023">
-      <div class="course-year-header" onclick="toggleYear('courses-2023')">
-        <div class="course-year-header-text">
-        <div class="course-year-pill">2023 · 5th Edition · Southern Swing</div>
-        <h2 class="course-year-title">Ann Arbor & Northville</h2>
-        <p class="course-year-sub">Southeast Michigan · August 5–6</p>
-      </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body">
-      <div class="course-cards-grid">
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a3a 0%,#2d4a6a 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">EAGLE</text><text x="30" y="30" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" fill="#d4af55">CREST</text><text x="30" y="42" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🦅</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · Ypsilanti, MI</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Eagle Crest Golf Club</div>
-            <div class="course-card-designer">Ypsilanti, Michigan · Arnold Palmer Design</div>
-            <p class="course-card-desc">An Arnold Palmer-designed championship course just outside Ann Arbor. Eagle Crest winds through mature oaks and wetlands with challenging bunkering and multi-tiered greens. A true test of the complete game close to home.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2010 0%,#365028 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="19" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" font-weight="700" fill="#b8962e">UNIVERSITY OF</text><text x="30" y="28" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" fill="#d4af55">MICHIGAN</text><text x="30" y="37" text-anchor="middle" font-family="Georgia,serif" font-size="5.5" fill="#c8dfc8">RADRICK FARMS</text><text x="30" y="47" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="5" fill="#b8962e">ANN ARBOR</text></svg>
-              </div>
-              <div class="course-card-label">University of Michigan</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Radrick Farms (Michigan Course)</div>
-            <div class="course-card-designer">Designed by Robert Trent Jones Sr. · U of M</div>
-            <p class="course-card-desc">The University of Michigan's historic championship course designed by Robert Trent Jones Sr. in 1964. Radrick Farms has hosted multiple Big Ten Championships and remains one of the most prestigious layouts in the state. Go Blue.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a1a 0%,#305040 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" font-weight="700" fill="#b8962e">NORTHVILLE</text><text x="30" y="30" text-anchor="middle" font-family="Playfair Display,serif" font-size="5.5" fill="#d4af55">HILLS</text><text x="30" y="40" text-anchor="middle" font-family="Georgia,serif" font-size="5.5" fill="#c8dfc8">GOLF CLUB</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · Northville, MI</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Northville Hills Golf Club</div>
-            <div class="course-card-designer">Northville, Michigan</div>
-            <p class="course-card-desc">A parkland gem in suburban Detroit's finest golf corridor. Northville Hills features tree-lined fairways, strategically placed bunkers, and bentgrass greens that reward patience and accuracy. A fitting closer to the 2023 southern swing.</p>
-          </div>
-        </div>
-      </div>
-    
-
-    <div class="story-wall" data-year="2023">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2023</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">Ann Arbor and Northville. Eagle Crest, Radrick Farms, Northville Hills. A fifth edition with no official record. The results exist only in memory — and memory, as any golfer knows, is a generous scorer.</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2023')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2023')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2023')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2023')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    </div>
-      
-      <!-- PHOTO SECTION 2023 -->
-      <div class="photo-wall" data-year="2023">
-        <div class="story-wall-header">
-          <div class="story-wall-title">📸 Photos from 2023</div>
-          <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-        </div>
-        <div class="photo-carousel-wrap" id="photo-carousel-2023">
-          <div class="photo-loading">Loading photos...</div>
-        </div>
-        <div class="photo-upload-toggle">
-          <button class="photo-upload-btn" onclick="photoToggleUpload('2023')">📷 PHOTO UPLOAD — 2023</button>
-        </div>
-        <div class="photo-upload-form" id="photo-form-2023" style="display:none;">
-          <div class="photo-warning">⚠️ YOU are uploading photos for 2023 — The Southern Swing — please do not include photos from other years in this upload.</div>
-          <div class="photo-auth-gate" id="photo-auth-2023">
-            <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2023">
-            <button class="photo-submit-btn" onclick="photoCheckPw('2023')">Unlock Upload</button>
-            <div class="photo-err" id="photo-err-2023" style="display:none;">Incorrect password.</div>
-          </div>
-          <div class="photo-upload-panel" id="photo-panel-2023" style="display:none;">
-            <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2023">
-            <input type="file" class="photo-file-input" id="photo-file-2023" accept="image/*" multiple>
-            <div class="photo-limit-note">Max 15 photos per person per year</div>
-            <button class="photo-submit-btn" onclick="photoUpload('2023')">Upload Photos</button>
-            <div class="photo-upload-status" id="photo-status-2023"></div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <!-- 2022 — FOREST DUNES -->
-    <div class="course-year-block" id="courses-2022">
-      <div class="course-year-header" onclick="toggleYear('courses-2022')">
-        <div class="course-year-header-text">
-        <div class="course-year-pill">2022 · 4th Edition · Most Ambitious Yet</div>
-        <h2 class="course-year-title">Forest Dunes Golf Club</h2>
-        <p class="course-year-sub">Roscommon, Michigan · August 26–28</p>
-      </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body">
-      <div class="course-highlight-banner">
-        🌀 Home of <strong>The Loop</strong> — the only reversible 18-hole golf course in the world, designed by Tom Doak
-      </div>
-      <div class="course-cards-grid">
-        <div class="course-card course-card-featured">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#0d2010 0%,#1a3d20 60%,#2d5a30 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">THE LOOP</text><text x="30" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#d4af55">∞</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">FOREST DUNES</text></svg>
-              </div>
-              <div class="course-card-label">World's Only Reversible Course</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Loop — Red & Black Routings</div>
-            <div class="course-card-designer">Designed by Tom Doak · Top 50 Worldwide</div>
-            <p class="course-card-desc">Tom Doak's obsession with reversible British links became reality at Forest Dunes. The same 18 holes play as two completely different courses depending on direction — Red (counter-clockwise) and Black (clockwise). No. 2 today becomes No. 16 tomorrow. Consistently ranked Top 50 public courses in America.</p>
-            <div class="course-card-tags"><span class="course-tag">Top 50 Public USA</span><span class="course-tag">Tom Doak</span><span class="course-tag">Reversible</span></div>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a10 0%,#3a5020 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">BOOTLEGGER</text><text x="30" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🥃</text><text x="30" y="45" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">SHORT COURSE</text></svg>
-              </div>
-              <div class="course-card-label">10-hole Short Course</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Bootlegger Short Course</div>
-            <div class="course-card-designer">Designed by Keith Rhebb & Riley Johns</div>
-            <p class="course-card-desc">Named for the Purple Gang — a Detroit mafia family that ran a ranch on this property in the 1920s and 30s. Ten holes, 1,100 yards of pure fun. Two or three clubs, cold beverages, shoes optional. Golf as it should be at the end of a long day.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a1020 0%,#3a2050 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">DREAM</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">☁</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6.5" fill="#b8962e">GARLAND LODGE</text></svg>
-              </div>
-              <div class="course-card-label">Championship Course</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Dream Course</div>
-            <div class="course-card-designer">West Branch, Michigan</div>
-            <p class="course-card-desc">The Dream lives up to its name — a sweeping parkland layout carved through the northern Michigan forest with wide landing zones and undulating greens. Sister course to The Nightmare, carved out of 312 acres of hardwoods just west of downtown West Branch. No liquor license — BYOB is the only way.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#200a0a 0%,#502020 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">NIGHTMARE</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">👻</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6.5" fill="#b8962e">GARLAND LODGE</text></svg>
-              </div>
-              <div class="course-card-label">Championship Course</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Nightmare Course</div>
-            <div class="course-card-designer">West Branch, Michigan</div>
-            <p class="course-card-desc">The name says it all. The Dream's sister course, opened in 2003. Wide fairways belie a course with serious teeth — large undulating greens, strategic bunkering, and elevation changes that make every approach a decision. No liquor license. Bring your own.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1e1010 0%,#4a2020 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">THE</text><text x="30" y="32" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" fill="#d4af55">FORTRESS</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">FRANKENMUTH</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 6,982 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Fortress</div>
-            <div class="course-card-designer">Frankenmuth, Michigan</div>
-            <p class="course-card-desc">A fortress in name and in nature. Designed with dramatic bunkering and strategic water features, The Fortress in Frankenmuth demands respect from the first tee to the 18th green. A perennial Michigan top-25 rated course with a castle-inspired aesthetic.</p>
-          </div>
-        </div>
-      </div>
-    
-
-    <div class="story-wall" data-year="2022">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2022</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">Forest Dunes. The Loop. Possibly the greatest setting in Dadchelor history. Whatever unfolded on the fairways of the Bootlegger, the Dream, the Nightmare, and the Fortress is known only to those who were there — and even they disagree on the details.</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2022')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2022')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2022')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2022')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    </div>
-      
-      <!-- PHOTO SECTION 2022 -->
-      <div class="photo-wall" data-year="2022">
-        <div class="story-wall-header">
-          <div class="story-wall-title">📸 Photos from 2022</div>
-          <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-        </div>
-        <div class="photo-carousel-wrap" id="photo-carousel-2022">
-          <div class="photo-loading">Loading photos...</div>
-        </div>
-        <div class="photo-upload-toggle">
-          <button class="photo-upload-btn" onclick="photoToggleUpload('2022')">📷 PHOTO UPLOAD — 2022</button>
-        </div>
-        <div class="photo-upload-form" id="photo-form-2022" style="display:none;">
-          <div class="photo-warning">⚠️ YOU are uploading photos for 2022 — Battle on the Au Sable — please do not include photos from other years in this upload.</div>
-          <div class="photo-auth-gate" id="photo-auth-2022">
-            <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2022">
-            <button class="photo-submit-btn" onclick="photoCheckPw('2022')">Unlock Upload</button>
-            <div class="photo-err" id="photo-err-2022" style="display:none;">Incorrect password.</div>
-          </div>
-          <div class="photo-upload-panel" id="photo-panel-2022" style="display:none;">
-            <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2022">
-            <input type="file" class="photo-file-input" id="photo-file-2022" accept="image/*" multiple>
-            <div class="photo-limit-note">Max 15 photos per person per year</div>
-            <button class="photo-submit-btn" onclick="photoUpload('2022')">Upload Photos</button>
-            <div class="photo-upload-status" id="photo-status-2022"></div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <!-- 2021 — TREETOPS RETURN -->
-    <div class="course-year-block" id="courses-2021">
-      <div class="course-year-header" onclick="toggleYear('courses-2021')">
-        <div class="course-year-header-text">
-        <div class="course-year-pill">2021 · 3rd Edition</div>
-        <h2 class="course-year-title">Treetops Resort & Otsego Club</h2>
-        <p class="course-year-sub">Gaylord, Michigan · July 30 – August 1</p>
-      </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body">
-      <div class="course-cards-grid">
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3a2a 0%,#2d6640 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">TREETOPS</text><text x="30" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#c8dfc8">🌲</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">RESORT</text></svg>
-              </div>
-              <div class="course-card-label">Par 27 · America's #1</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Threetops</div>
-            <div class="course-card-designer">Designed by Rick Smith · Par-3 Icon</div>
-            <p class="course-card-desc">A return engagement for the Dadchelor faithful. Threetops never gets old — nine holes of pure drama perched above the Gaylord valley. The scene of Lee Trevino's million-dollar ace in 2001.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#2a1e10 0%,#5a4020 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="21" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">THE TRIBUTE</text><text x="30" y="31" text-anchor="middle" font-family="Georgia,serif" font-size="6" fill="#c8dfc8">AT OTSEGO</text><text x="30" y="41" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">CLUB · GAYLORD</text></svg>
-              </div>
-              <div class="course-card-label">Historic Course</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Tribute at Otsego Club</div>
-            <div class="course-card-designer">Otsego Club · Gaylord, Michigan</div>
-            <p class="course-card-desc">One of Michigan's hidden gems. The Tribute at Otsego Club is a classic layout steeped in Northern Michigan history, offering a beautifully traditional golf experience that stands in contrast to the modern resort tracks across Gaylord.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3520 0%,#3d7a52 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">PREMIER</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">BY TOM FAZIO</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">TREETOPS</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 6,832 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Premier Course</div>
-            <div class="course-card-designer">Designed by Tom Fazio · Treetops Resort</div>
-            <p class="course-card-desc">The only Tom Fazio design in Michigan returns for a second Dadchelor appearance. Dramatic elevation changes, precision required off the tee, and greens that demand your full attention on every approach.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#162a1a 0%,#2a5035 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">SIGNATURE</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">RICK SMITH</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">TREETOPS</text></svg>
-              </div>
-              <div class="course-card-label">Par 71 · 6,653 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Signature Course</div>
-            <div class="course-card-designer">Designed by Rick Smith · Treetops Resort</div>
-            <p class="course-card-desc">Ranked #2 Best of the Midwest by Golf Magazine. The Signature draws on Scottish and Irish links influences with visually threatening lines off the tee that open up with smart course management. Arguably the best-conditioned course at Treetops.</p>
-          </div>
-        </div>
-      </div>
-    
-
-    <div class="story-wall" data-year="2021">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2021</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">A return to Gaylord. Treetops and Otsego. The third Dadchelor, and still — not a single result recorded. The scores, the drama, the winner's speech — all of it dissolved into northern Michigan air by Sunday evening.</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2021')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2021')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2021')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2021')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    </div>
-      
-      <!-- PHOTO SECTION 2021 -->
-      <div class="photo-wall" data-year="2021">
-        <div class="story-wall-header">
-          <div class="story-wall-title">📸 Photos from 2021</div>
-          <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-        </div>
-        <div class="photo-carousel-wrap" id="photo-carousel-2021">
-          <div class="photo-loading">Loading photos...</div>
-        </div>
-        <div class="photo-upload-toggle">
-          <button class="photo-upload-btn" onclick="photoToggleUpload('2021')">📷 PHOTO UPLOAD — 2021</button>
-        </div>
-        <div class="photo-upload-form" id="photo-form-2021" style="display:none;">
-          <div class="photo-warning">⚠️ YOU are uploading photos for 2021 — Second Tussle at Treetops — please do not include photos from other years in this upload.</div>
-          <div class="photo-auth-gate" id="photo-auth-2021">
-            <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2021">
-            <button class="photo-submit-btn" onclick="photoCheckPw('2021')">Unlock Upload</button>
-            <div class="photo-err" id="photo-err-2021" style="display:none;">Incorrect password.</div>
-          </div>
-          <div class="photo-upload-panel" id="photo-panel-2021" style="display:none;">
-            <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2021">
-            <input type="file" class="photo-file-input" id="photo-file-2021" accept="image/*" multiple>
-            <div class="photo-limit-note">Max 15 photos per person per year</div>
-            <button class="photo-submit-btn" onclick="photoUpload('2021')">Upload Photos</button>
-            <div class="photo-upload-status" id="photo-status-2021"></div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <!-- 2020 — BOYNE HIGHLANDS -->
-    <div class="course-year-block" id="courses-2020">
-      <div class="course-year-header" onclick="toggleYear('courses-2020')">
-        <div class="course-year-header-text">
-        <div class="course-year-pill">2020 · 2nd Edition</div>
-        <h2 class="course-year-title">Boyne Highlands Resort</h2>
-        <p class="course-year-sub">Harbor Springs, Michigan · September 11–13</p>
-      </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body">
-      <div class="course-cards-grid">
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a3a 0%,#2d4a6a 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">BOYNE</text><text x="30" y="32" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#c8dfc8">HIGHLANDS</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">HARBOR SPRINGS</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 6,906 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Crooked Tree Golf Club</div>
-            <div class="course-card-designer">Harbor Springs, Michigan</div>
-            <p class="course-card-desc">Named for the distinctive Petoskey-area landmark, Crooked Tree is a beloved Harbor Springs layout featuring tree-lined fairways, pristine conditioning, and stunning views of the Little Traverse Bay region.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#2a1a1a 0%,#5a2d2d 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="20" text-anchor="middle" font-family="Playfair Display,serif" font-size="6" font-weight="700" fill="#b8962e">DONALD ROSS</text><text x="30" y="30" text-anchor="middle" font-family="Georgia,serif" font-size="6" fill="#c8dfc8">MEMORIAL</text><text x="30" y="40" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">BOYNE HIGHLANDS</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 7,179 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Donald Ross Memorial Course</div>
-            <div class="course-card-designer">Tribute to the Master · Boyne Highlands</div>
-            <p class="course-card-desc">A loving tribute to the legendary designer featuring replica holes from Ross's most celebrated courses — Pinehurst No. 2, Seminole, and Oakland Hills among them. Walking this course is a masterclass in classic American golf architecture.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2a1e 0%,#2d5040 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">ARTHUR</text><text x="30" y="32" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#c8dfc8">HILLS</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">BOYNE HIGHLANDS</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 7,034 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Arthur Hills Course</div>
-            <div class="course-card-designer">Designed by Arthur Hills · Boyne Highlands</div>
-            <p class="course-card-desc">A signature Arthur Hills design winding through the natural terrain of Northern Michigan's rolling hills. Known for its dramatic elevation changes, generous landing areas, and well-protected greens demanding precise approach play.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1e2a1a 0%,#3d5a2a 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="6.5" font-weight="700" fill="#b8962e">HEATHER</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" fill="#c8dfc8">COURSE</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#b8962e">BOYNE HIGHLANDS</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 6,920 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Heather Course</div>
-            <div class="course-card-designer">Boyne Highlands · Harbor Springs</div>
-            <p class="course-card-desc">The crown jewel of Boyne Highlands — a Robert Trent Jones Sr. design consistently ranked among Michigan's top five courses. The Heather has hosted PGA Section events and remains one of the most scenic rounds anywhere in the Midwest.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    
-    <div class="story-wall" data-year="2020">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2020</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">Harbor Springs. Boyne Highlands. Four courses over three days. Whatever happened there is gone — lost to history like so many great stories told around the 19th hole. Some say there was a collapse on the back nine of the Donald Ross. Others dispute it. Nobody wrote anything down.</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2020')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2020')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2020')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2020')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    
-      <!-- PHOTO SECTION 2020 -->
-      <div class="photo-wall" data-year="2020">
-        <div class="story-wall-header">
-          <div class="story-wall-title">📸 Photos from 2020</div>
-          <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-        </div>
-        <div class="photo-carousel-wrap" id="photo-carousel-2020">
-          <div class="photo-loading">Loading photos...</div>
-        </div>
-        <div class="photo-upload-toggle">
-          <button class="photo-upload-btn" onclick="photoToggleUpload('2020')">📷 PHOTO UPLOAD — 2020</button>
-        </div>
-        <div class="photo-upload-form" id="photo-form-2020" style="display:none;">
-          <div class="photo-warning">⚠️ YOU are uploading photos for 2020 — Battle of Boyne — please do not include photos from other years in this upload.</div>
-          <div class="photo-auth-gate" id="photo-auth-2020">
-            <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2020">
-            <button class="photo-submit-btn" onclick="photoCheckPw('2020')">Unlock Upload</button>
-            <div class="photo-err" id="photo-err-2020" style="display:none;">Incorrect password.</div>
-          </div>
-          <div class="photo-upload-panel" id="photo-panel-2020" style="display:none;">
-            <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2020">
-            <input type="file" class="photo-file-input" id="photo-file-2020" accept="image/*" multiple>
-            <div class="photo-limit-note">Max 15 photos per person per year</div>
-            <button class="photo-submit-btn" onclick="photoUpload('2020')">Upload Photos</button>
-            <div class="photo-upload-status" id="photo-status-2020"></div>
-          </div>
-        </div>
-      </div>
-      </div></div>
-    <!-- 2019 — TREETOPS -->
-    <div class="course-year-block" id="courses-2019">
-      <div class="course-year-header">
-        <div class="course-year-pill">2019 · Inaugural Edition</div>
-        <h2 class="course-year-title">Treetops Resort</h2>
-        <p class="course-year-sub">Gaylord, Michigan · September 13–15</p>
-      </div>
-      <div class="course-cards-grid">
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3a2a 0%,#2d6640 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">TREETOPS</text><text x="30" y="34" text-anchor="middle" font-family="Georgia,serif" font-size="18" fill="#c8dfc8">🌲</text><text x="30" y="44" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">RESORT</text></svg>
-              </div>
-              <div class="course-card-label">Threetops Par-3</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Threetops</div>
-            <div class="course-card-designer">Designed by Rick Smith · Par 27</div>
-            <p class="course-card-desc">America's #1 Par-3 course. Nine legendary short holes perched dramatically above Gaylord with views spanning 40 miles. Featured on ESPN's Par-3 Shootout from 1999–2006. In 2001, Lee Trevino made a hole-in-one here worth $1,000,000.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#0d2b1a 0%,#1e4d2e 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="25" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">BLACK LAKE</text><text x="30" y="38" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" fill="#c8dfc8">GOLF CLUB</text></svg>
-              </div>
-              <div class="course-card-label">Championship Course</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Black Lake Golf Club</div>
-            <div class="course-card-designer">Designed by Rees Jones · Onaway, MI</div>
-            <p class="course-card-desc">Consistently ranked among Michigan's finest, Black Lake is a championship layout cut through dense Northern Michigan forest along the shores of Black Lake. Rees Jones designed a course that rewards precision off the tee and demands a complete game.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a2f1a 0%,#2d5a3d 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">TREETOPS</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">TRADITION</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">COURSE</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 6,544 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Tradition Course</div>
-            <div class="course-card-designer">Designed by Rick Smith · Treetops Resort</div>
-            <p class="course-card-desc">A classic Northern Michigan layout with generous fairways and a welcoming pace of play. The Tradition lives up to its name — reliable, scenic, and a perennial 4.5-star Golf Digest rated experience that rounds out any Treetops stay.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#1a3520 0%,#3d7a52 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="22" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">PREMIER</text><text x="30" y="33" text-anchor="middle" font-family="Georgia,serif" font-size="7" fill="#c8dfc8">BY TOM FAZIO</text><text x="30" y="43" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="7" fill="#b8962e">TREETOPS</text></svg>
-              </div>
-              <div class="course-card-label">Par 72 · 6,832 yards</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">The Premier Course</div>
-            <div class="course-card-designer">Designed by Tom Fazio · Only Fazio in Michigan</div>
-            <p class="course-card-desc">The only Tom Fazio-designed course in Michigan. Known for dramatic elevation changes, bowl-shaped fairways that reward errant tee shots, and challenging greens. Golf Digest 4.5 stars since 1992. Premier by name, premier by nature.</p>
-          </div>
-        </div>
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#162a1a 0%,#254d30 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="26" text-anchor="middle" font-family="Playfair Display,serif" font-size="7" font-weight="700" fill="#b8962e">LOON</text><text x="30" y="38" text-anchor="middle" font-family="Georgia,serif" font-size="14" fill="#c8dfc8">🦆</text></svg>
-              </div>
-              <div class="course-card-label">Championship Course</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Loon Golf Course</div>
-            <div class="course-card-designer">Gaylord, Michigan</div>
-            <p class="course-card-desc">A Northern Michigan staple with sweeping views and classic Gaylord-area terrain. The Loon is a fan favorite among golfers looking for an engaging round in one of Michigan's finest golf destinations.</p>
-          </div>
-        </div>
-      
-
-    <div class="story-wall" data-year="2019">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2019</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">The inaugural edition. The tournament that started it all — but because we were living in the dark ages, pre-2026, pre-Claude, the results were never written down. Players speak in hushed tones of that first weekend in Gaylord. What happened at Threetops stays at Threetops. Or does it?</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2019')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2019')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2019')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2019')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    </div>
-      
-      <!-- PHOTO SECTION 2019 -->
-      <div class="photo-wall" data-year="2019">
-        <div class="story-wall-header">
-          <div class="story-wall-title">📸 Photos from 2019</div>
-          <div class="story-wall-sub">Community submissions · Curated by the Commissioner</div>
-        </div>
-        <div class="photo-carousel-wrap" id="photo-carousel-2019">
-          <div class="photo-loading">Loading photos...</div>
-        </div>
-        <div class="photo-upload-toggle">
-          <button class="photo-upload-btn" onclick="photoToggleUpload('2019')">📷 PHOTO UPLOAD — 2019</button>
-        </div>
-        <div class="photo-upload-form" id="photo-form-2019" style="display:none;">
-          <div class="photo-warning">⚠️ YOU are uploading photos for 2019 — The Original Dadchelor — please do not include photos from other years in this upload.</div>
-          <div class="photo-auth-gate" id="photo-auth-2019">
-            <input type="password" class="photo-pw-input" placeholder="Upload password" id="photo-pw-2019">
-            <button class="photo-submit-btn" onclick="photoCheckPw('2019')">Unlock Upload</button>
-            <div class="photo-err" id="photo-err-2019" style="display:none;">Incorrect password.</div>
-          </div>
-          <div class="photo-upload-panel" id="photo-panel-2019" style="display:none;">
-            <input type="text" class="photo-name-input" placeholder="Your name" id="photo-name-2019">
-            <input type="file" class="photo-file-input" id="photo-file-2019" accept="image/*" multiple>
-            <div class="photo-limit-note">Max 15 photos per person per year</div>
-            <button class="photo-submit-btn" onclick="photoUpload('2019')">Upload Photos</button>
-            <div class="photo-upload-status" id="photo-status-2019"></div>
-          </div>
-        </div>
-      </div>
-      </div>
-    </div>
-    <!-- 2019 — THE ORIGINAL · AU GRES -->
-    <div class="course-year-block" id="courses-2019">
-      <div class="course-year-header" onclick="toggleYear('courses-2019')">
-        <div class="course-year-header-text">id="courses-2019">
-      <div class="course-year-header" onclick="toggleYear('courses-2019')">
-        <div class="course-year-header-text">
-        <div class="course-year-pill">2019 · The Original</div>
-        <h2 class="course-year-title">Huron Breeze Golf &amp; Country Club</h2>
-        <p class="course-year-sub">Au Gres, Michigan · August 8–10</p>
-      </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body">
-      <div class="course-cards-grid">
-        <div class="course-card">
-          <div class="course-card-img" style="background:linear-gradient(135deg,#0d2b1a 0%,#2d6640 100%);">
-            <div class="course-img-overlay">
-              <div class="course-logo-circle">
-                <svg viewBox="0 0 60 60" width="44" height="44"><circle cx="30" cy="30" r="28" fill="none" stroke="#b8962e" stroke-width="2"/><text x="30" y="24" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">HURON</text><text x="30" y="35" text-anchor="middle" font-family="Playfair Display,serif" font-size="8" font-weight="700" fill="#b8962e">BREEZE</text><text x="30" y="46" text-anchor="middle" font-family="Cormorant Garamond,serif" font-size="6" fill="#c8dfc8">EST. 2019</text></svg>
-              </div>
-              <div class="course-card-label">Where It All Began</div>
-            </div>
-          </div>
-          <div class="course-card-body">
-            <div class="course-card-name">Huron Breeze Golf &amp; Country Club</div>
-            <div class="course-card-designer">Au Gres, Michigan</div>
-            <p class="course-card-desc">The birthplace of the Dadchelor. A well-regarded Au Gres layout along Michigan's Sunrise Coast, Huron Breeze hosted the very first gathering — the trip that, without anyone quite realizing it, founded an institution. The scorecards are long gone, but the legend was born here.</p>
-          </div>
-        </div>
-      </div>
-    </div>
-    </div>
-        <span class="course-year-chevron">⌄</span>
-      </div>
-      <div class="course-year-body"></div>
-    </div>
-
-    <div class="course-year-divider"></div>
-
-    <div class="story-wall" data-year="2019">
-      <div class="story-wall-header">
-        <div class="story-wall-title">📖 Stories from 2019</div>
-        <div class="story-wall-sub">Share a memory — before it's lost to history</div>
-      </div>
-      <div class="story-lore">The Original Dadchelor. Before the Bronze Chalices, before the Ryder Cup format, before a single result was ever written down — a group of friends made the pilgrimage to Au Gres and teed it up at Huron Breeze. No records survive. The champion, the scores, the controversies — all lost to the dark ages, pre-2026, pre-Claude. But the stories only get better with age.</div>
-      <div class="admin-bar">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted stories.</span>
-          <button class="admin-toggle-btn" onclick="storyToggleAdmin('2019')">Admin</button>
-        </div>
-        <div class="admin-pw-row">
-          <input class="admin-pw-input" type="password" placeholder="Password" onkeydown="if(event.key==='Enter')storyCheckAdmin('2019')">
-          <button class="admin-pw-submit" onclick="storyCheckAdmin('2019')">Enter</button>
-        </div>
-      </div>
-      <div class="story-list"></div>
-      <div class="story-form">
-        <div class="story-form-title">Tell your story</div>
-        <input class="story-input story-author" type="text" placeholder="Your name (e.g. Knox, Hus, McGuire…)" maxlength="60">
-        <textarea class="story-input story-textarea story-text" placeholder="What happened that year? A comeback, a controversy, a moment no one's forgotten — write it down before it disappears forever…" maxlength="2000"></textarea>
-        <button class="story-submit-btn" onclick="storySubmit('2019')">Submit Story</button>
-        <div class="story-submit-msg"></div>
-      </div>
-    </div>
-
-    >
+</html>
