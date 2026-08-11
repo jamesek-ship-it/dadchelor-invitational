@@ -2900,6 +2900,33 @@ function buildYears() {
           <div class="photo-grid" id="photo-grid-${t.year}"></div>
           <p class="no-photos-msg" id="no-photos-${t.year}" style="font-family:'Cormorant Garamond',serif;font-size:15px;font-style:italic;color:var(--text-light);">No photos yet — be the first to add one.</p>
         </div>
+
+        <div class="story-wall" data-year="${t.year}">
+          <div class="story-wall-header">
+            <div class="story-wall-title">📖 Stories from ${t.year}</div>
+            <div class="story-wall-sub">Share a memory — before it is lost to history</div>
+          </div>
+
+          <div class="story-list"></div>
+
+          <div class="admin-bar">
+            <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-light);">Commissioner: review and approve submitted stories.</span>
+            <button class="story-btn-sm" onclick="storyToggleAdmin('${t.year}')">Admin</button>
+          </div>
+
+          <div class="admin-pw-row">
+            <input type="password" class="admin-pw-input story-input" placeholder="Commissioner password">
+            <button class="story-btn-sm" onclick="storyCheckAdmin('${t.year}')">Unlock</button>
+          </div>
+
+          <div class="story-form-wrap">
+            <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Tell your story</div>
+            <input class="story-input story-author" placeholder="Your name (e.g. Knox, Hus, McGuire...)">
+            <textarea class="story-input story-text" rows="4" placeholder="What happened that year? A comeback, a controversy, a moment no one has forgotten — write it down before it disappears forever..."></textarea>
+            <div class="story-submit-msg" style="display:none;"></div>
+            <button class="story-submit-btn" onclick="storySubmit('${t.year}')">Submit Story</button>
+          </div>
+        </div>
       </div>
     </div>`;
   }).join('');
