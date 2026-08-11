@@ -2,12 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href="/dadchelor-invitational/manifest.json">
 <meta name="theme-color" content="#1a3a2a">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Dadchelor">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/dadchelor-invitational/icon-192.png">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Dadchelor Invitational</title>
@@ -4443,7 +4443,7 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
 <script>
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', function() {
-    navigator.serviceWorker.register('/sw.js')
+    navigator.serviceWorker.register('/dadchelor-invitational/sw.js')
       .then(function(reg) { console.log('SW registered:', reg.scope); })
       .catch(function(err) { console.log('SW failed:', err); });
   });
