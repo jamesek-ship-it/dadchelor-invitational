@@ -7,7 +7,7 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="Dadchelor">
-<link rel="apple-touch-icon" href="/icon-192.png">
+<link rel="apple-touch-icon" href="/dadchelor-invitational/icon-192.png">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>The Dadchelor Invitational</title>
@@ -3821,7 +3821,7 @@ function buildYears() {
         <div class="year-acc-left">
           <div class="year-acc-year">${t.year}</div>
           <div class="year-acc-info">
-            <h3>${t.courses ? t.courses[0] : t.location}</h3>
+            <h3>${t.eventName || t.location}</h3>
             <p>${t.location} · ${t.dates}</p>
           </div>
         </div>
