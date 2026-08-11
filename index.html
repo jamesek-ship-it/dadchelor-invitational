@@ -2158,7 +2158,7 @@
     var grid = document.getElementById('admin-photo-grid');
     if (!grid || !year) return;
     grid.innerHTML = '<div class="admin-empty">Loading...</div>';
-    sbFetch('photos?year=eq.'+year+'&order=featured.desc,created_at.asc&select=*')
+    sbFetch('photos?year=eq.'+year+'&order=created_at.asc&select=*')
       .then(function(r){return r.json();})
       .then(function(rows) {
         if (!Array.isArray(rows)||!rows.length) {
@@ -2170,7 +2170,7 @@
           var cell = document.createElement('div');
           cell.style.cssText = 'position:relative;';
           var img = document.createElement('img');
-          img.src = 'https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/'+p.storage_path;
+          img.src = p.url || ('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/'+p.path);
           img.style.cssText = 'width:100%;height:80px;object-fit:cover;border-radius:2px;border:'+(p.featured?'2px solid var(--gold)':'1px solid var(--border)')+';cursor:pointer;';
           var badge = document.createElement('div');
           badge.style.cssText = 'position:absolute;bottom:3px;left:3px;right:3px;font-family:Cormorant Garamond,serif;font-size:9px;color:#fff;text-shadow:0 1px 3px rgba(0,0,0,0.9);';
@@ -2178,8 +2178,8 @@
           var btn = document.createElement('button');
           btn.className = 'admin-contest-save' + (p.featured?' saved':'');
           btn.style.cssText = 'width:100%;margin-top:3px;font-size:9px;padding:3px;';
-          btn.textContent = p.featured ? '★ Featured' : 'Feature';
-          btn.onclick = function() { adminToggleFeature(p.id, !p.featured, year); };
+          btn.textContent = '★ Feature';
+          btn.onclick = function() { adminToggleFeature(p.id, true, year); };
           var del = document.createElement('button');
           del.style.cssText = 'width:100%;margin-top:2px;font-size:9px;padding:3px;font-family:Cormorant Garamond,serif;letter-spacing:1px;text-transform:uppercase;border:1px solid #cc3333;color:#cc3333;background:none;cursor:pointer;border-radius:2px;';
           del.textContent = 'Delete';
@@ -2194,17 +2194,14 @@
   };
 
   window.adminToggleFeature = function(id, featured, year) {
-    sbFetch('photos?id=eq.'+id, {method:'PATCH', body:JSON.stringify({featured:featured})})
-      .then(function(){
-        adminLoadPhotos(year);
-        photoLoad(year);
-      });
+    // featured column not in schema - skip for now
+    adminLoadPhotos(year);
   };
 
   window.adminDeletePhoto = function(id, path, year) {
     if (!confirm('Delete this photo?')) return;
     // Delete from storage
-    fetch('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/photos/'+path, {
+    fetch('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/photos/'+p_path, {
       method:'DELETE',
       headers:{'apikey':'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA','Authorization':'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA'}
     }).then(function() {
@@ -2943,7 +2940,7 @@ function submitPhoto() {
   .then(() => fetch('https://fjyusvkmjnununycqufk.supabase.co/rest/v1/photos', {
     method: 'POST',
     headers: {'apikey': 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Authorization': 'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Content-Type': 'application/json', 'Prefer': 'return=representation'},
-    body: JSON.stringify({ year: parseInt(year), uploader_name: name, storage_path: path, featured: false })
+    body: JSON.stringify({ year: parseInt(year), url: 'https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/' + path, path: path, caption: name })
   }))
   .then(() => {
     status.textContent = 'Uploaded!';
@@ -2960,13 +2957,13 @@ function renderPhotos(year) {
   const grid = wrap ? wrap.querySelector('.photo-grid') : null;
   if (!grid) return;
   grid.innerHTML = '<div style="font-family:Cormorant Garamond,serif;font-size:13px;font-style:italic;color:#999;">Loading...</div>';
-  fetch('https://fjyusvkmjnununycqufk.supabase.co/rest/v1/photos?year=eq.' + year + '&order=featured.desc,created_at.asc&select=*', {
+  fetch('https://fjyusvkmjnununycqufk.supabase.co/rest/v1/photos?year=eq.' + year + '&order=created_at.asc&select=*', {
     headers: {'apikey': 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA', 'Authorization': 'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA'}
   })
   .then(r => r.json())
   .then(rows => {
     if (!rows.length) { grid.innerHTML = '<div style="font-family:Cormorant Garamond,serif;font-size:13px;font-style:italic;color:#999;">No photos yet — be the first to upload.</div>'; return; }
-    grid.innerHTML = rows.map(p => `<img src="https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/${p.storage_path}" style="width:120px;height:90px;object-fit:cover;border-radius:2px;cursor:pointer;border:${p.featured?'2px solid #C9A84C':'1px solid rgba(0,0,0,0.1)'}" onclick="this.requestFullscreen&&this.requestFullscreen()" alt="${p.uploader_name||''}">`).join('');
+    grid.innerHTML = rows.map(p => `<img src="${p.url || 'https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/public/photos/' + p.path}" style="width:120px;height:90px;object-fit:cover;border-radius:2px;cursor:pointer;border:'1px solid rgba(0,0,0,0.1)'" onclick="this.requestFullscreen&&this.requestFullscreen()" alt="${p.uploader_name||''}">`).join('');
   })
   .catch(() => { grid.innerHTML = ''; });
 }
@@ -3630,7 +3627,7 @@ if ('serviceWorker' in navigator) {
   window.photoLoad = function(year) {
     var wrap = document.getElementById('photo-carousel-' + year);
     if (!wrap) return;
-    sbFetch('photos?year=eq.' + year + '&order=featured.desc,created_at.asc&select=*')
+    sbFetch('photos?year=eq.' + year + '&order=created_at.asc&select=*')
       .then(function(r) { return r.json(); })
       .then(function(rows) {
         if (!Array.isArray(rows) || !rows.length) {
