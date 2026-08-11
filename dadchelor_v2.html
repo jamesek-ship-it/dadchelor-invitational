@@ -2158,7 +2158,7 @@
     var grid = document.getElementById('admin-photo-grid');
     if (!grid || !year) return;
     grid.innerHTML = '<div class="admin-empty">Loading...</div>';
-    sbFetch('photos?year=eq.'+year+'&order=created_at.asc&select=*', {headers:{'apikey':'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA','Authorization':'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA'}})
+    sbFetch('photos?year=eq.'+year+'&order=created_at.asc&select=*')
       .then(function(r){return r.json();})
       .then(function(rows) {
         if (!Array.isArray(rows)||!rows.length) {
