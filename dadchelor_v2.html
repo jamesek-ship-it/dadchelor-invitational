@@ -2909,16 +2909,6 @@ function buildYears() {
 
           <div class="story-list"></div>
 
-          <div class="admin-bar">
-            <span style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-light);">Commissioner: review and approve submitted stories.</span>
-            <button class="story-btn-sm" onclick="storyToggleAdmin('${t.year}')">Admin</button>
-          </div>
-
-          <div class="admin-pw-row">
-            <input type="password" class="admin-pw-input story-input" placeholder="Commissioner password">
-            <button class="story-btn-sm" onclick="storyCheckAdmin('${t.year}')">Unlock</button>
-          </div>
-
           <div class="story-form-wrap">
             <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Tell your story</div>
             <input class="story-input story-author" placeholder="Your name (e.g. Knox, Hus, McGuire...)">
@@ -3264,7 +3254,9 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
 
   window.storyToggleAdmin = function(year) {
     var wall = document.querySelector('.story-wall[data-year="' + year + '"]');
-    wall.querySelector('.admin-pw-row').classList.toggle('visible');
+    if (!wall) return;
+    var row = wall.querySelector('.admin-pw-row');
+    if (row) row.classList.toggle('visible');
   };
 
   window.storyCheckAdmin = function(year) {
