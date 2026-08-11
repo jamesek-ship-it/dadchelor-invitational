@@ -3030,7 +3030,7 @@ function renderPhotos(year) {
       var img = document.createElement('img');
       img.src = src;
       img.style.cssText = 'width:100%;aspect-ratio:1;object-fit:cover;border-radius:3px;cursor:pointer;display:block;';
-      img.onclick = function() { openLightbox(srcs, i); };
+      img.onclick = (function(s){ return function(){ window.open(s, '_blank'); }; })(src);
       grid.appendChild(img);
     });
   })
