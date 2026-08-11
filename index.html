@@ -2902,15 +2902,14 @@ function buildYears() {
         </div>
 
         <div class="story-wall" data-year="${t.year}">
-          <div class="story-wall-header">
-            <div class="story-wall-title">📖 Stories from ${t.year}</div>
-            <div class="story-wall-sub">Share a memory — before it is lost to history</div>
+          <div style="display:flex;align-items:center;justify-content:space-between;margin-top:28px;padding-top:20px;border-top:1px solid var(--border);margin-bottom:14px;">
+            <h4 style="font-family:'Playfair Display',serif;font-size:17px;font-weight:600;color:var(--green-deep);">📖 Stories from ${t.year}</h4>
+            <button onclick="toggleStoryForm('${t.year}')" style="background:var(--green-deep);color:var(--gold-pale);border:none;padding:8px 18px;font-family:'Cormorant Garamond',serif;font-size:13px;letter-spacing:1.5px;text-transform:uppercase;cursor:pointer;border-radius:2px;">+ Add Story</button>
           </div>
 
           <div class="story-list"></div>
 
-          <div class="story-form-wrap">
-            <div style="font-family:'Playfair Display',serif;font-size:15px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Tell your story</div>
+          <div class="story-form-wrap" id="story-form-${t.year}" style="display:none;">
             <input class="story-input story-author" placeholder="Your name (e.g. Knox, Hus, McGuire...)">
             <textarea class="story-input story-text" rows="4" placeholder="What happened that year? A comeback, a controversy, a moment no one has forgotten — write it down before it disappears forever..."></textarea>
             <div class="story-submit-msg" style="display:none;"></div>
@@ -3250,6 +3249,16 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
       method: 'DELETE'
     }).then(function() { render(year); })
       .catch(function(e) { console.error('Delete error:', e); });
+  };
+
+  window.toggleStoryForm = function(year) {
+    var form = document.getElementById('story-form-' + year);
+    if (!form) return;
+    form.style.display = (form.style.display === 'none' || !form.style.display) ? 'block' : 'none';
+    if (form.style.display === 'block') {
+      var a = form.querySelector('.story-author');
+      if (a) a.focus();
+    }
   };
 
   window.storyToggleAdmin = function(year) {
