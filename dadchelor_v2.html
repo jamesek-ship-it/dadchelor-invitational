@@ -1263,6 +1263,18 @@
       }
       if (sub) sub.textContent = (lp+fp===0) ? 'Tournament begins August 28 · Huron Breeze · 9:00 AM' : 'Live · Updated just now';
 
+      // Captain / Alternate Captain lookup
+      var ROLE_MAP = {};
+      try {
+        if (typeof ROSTER_2026 !== 'undefined') {
+          ['look','feel'].forEach(function(side) {
+            (ROSTER_2026[side] || []).forEach(function(e) {
+              if (e && e.role) ROLE_MAP[e.name] = (e.role === 'C' ? 'C' : 'A');
+            });
+          });
+        }
+      } catch (e) {}
+
       // Update CGOY table
       var tbody = document.getElementById('lb-cgoy-rows');
       if (!tbody) return;
@@ -1284,7 +1296,9 @@
         var rec = (pw[name]||0)+'-'+(pl[name]||0)+(ph[name]?'-'+ph[name]:'');
         html += '<div class="cgoy-row">'
           + '<div class="cgoy-pos">'+(pts>0?displayPos:'—')+'</div>'
-          + '<div class="cgoy-name '+(t||'')+'">' + name + (badges?' <span style="font-size:12px;">'+badges+'</span>':'') + '</div>'
+          + '<div class="cgoy-name '+(t||'')+'">' + name
+              + (ROLE_MAP[name] ? ' <span style="font-size:11px;font-weight:700;color:var(--gold);letter-spacing:0.5px;">('+ROLE_MAP[name]+')</span>' : '')
+              + (badges?' <span style="font-size:12px;">'+badges+'</span>':'') + '</div>'
           + '<div class="cgoy-pts" style="font-size:11px;color:rgba(200,223,200,0.5);">' + rec + '</div>'
           + '<div class="cgoy-pts">' + fmt(pts) + '</div>'
           + '</div>';
@@ -1341,7 +1355,8 @@
                +     face
                +     '<span class="lb-strip-badge">' + fmt(pts) + '</span>'
                +   '</div>'
-               +   '<div class="lb-strip-name">' + (tied ? 'T' : '') + sShown + '. ' + lastName(name) + '</div>'
+               +   '<div class="lb-strip-name">' + (tied ? 'T' : '') + sShown + '. ' + lastName(name)
+               +     (ROLE_MAP[name] ? ' <span style="color:var(--gold);font-weight:700;">('+ROLE_MAP[name]+')</span>' : '') + '</div>'
                + '</div>';
           sPos++;
         });
