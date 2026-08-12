@@ -1110,7 +1110,7 @@
   <div class="lb-strip-wrap" id="lb-strip-wrap">
     <div class="lb-strip-pill">
       <div class="lb-strip-pill-circle" id="lb-strip-pill-num">—</div>
-      <div class="lb-strip-pill-label">Leaders</div>
+      <div class="lb-strip-pill-label">Players</div>
     </div>
     <div class="lb-strip-scroll" id="lb-strip-scroll">
       <div class="lb-strip-empty">Standings appear after Round 1</div>
@@ -1330,9 +1330,8 @@
           if (pillNum) pillNum.textContent = '—';
           return;
         }
-        // pill counts players actually on the board
-        var withPts = scored.filter(function(n) { return pp[n] > 0; }).length;
-        if (pillNum) pillNum.textContent = withPts || scored.length;
+
+        if (pillNum) pillNum.textContent = scored.length;
 
         // name -> portrait key, built from PLAYERS when available
         var keyMap = {};
