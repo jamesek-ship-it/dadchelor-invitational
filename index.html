@@ -1324,13 +1324,15 @@
         var pillNum = document.getElementById('lb-strip-pill-num');
         if (!scroll) return;
 
-        var scored = players.filter(function(n) { return pp[n] > 0; });
+        var scored = players.slice();
         if (!scored.length) {
           scroll.innerHTML = '<div class="lb-strip-empty">Standings appear after Round 1</div>';
           if (pillNum) pillNum.textContent = '—';
           return;
         }
-        if (pillNum) pillNum.textContent = scored.length;
+        // pill counts players actually on the board
+        var withPts = scored.filter(function(n) { return pp[n] > 0; }).length;
+        if (pillNum) pillNum.textContent = withPts || scored.length;
 
         // name -> portrait key, built from PLAYERS when available
         var keyMap = {};
