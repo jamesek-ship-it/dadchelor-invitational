@@ -1443,17 +1443,7 @@
         </div>
       </div>
 
-      <!-- Admin bar -->
-      <div class="admin-bar" id="rules-admin-bar" style="margin-top:24px;">
-        <div class="admin-bar-row">
-          <span class="admin-bar-text">Commissioner: review and approve submitted rules.</span>
-          <button class="admin-toggle-btn" onclick="rulesToggleAdmin()">Admin</button>
-        </div>
-        <div class="admin-pw-row" id="rules-pw-row">
-          <input class="admin-pw-input" id="rules-pw-input" type="password" placeholder="Password" onkeydown="if(event.key===&apos;Enter&apos;)rulesCheckAdmin()">
-          <button class="admin-pw-submit" onclick="rulesCheckAdmin()">Enter</button>
-        </div>
-      </div>
+      
 
       <!-- Submit a Rule -->
       <div style="margin-top:28px;background:var(--cream-dark);border:1px solid var(--border);border-radius:2px;padding:20px;">
@@ -1548,6 +1538,7 @@
     if (inp.value === ADMIN_PW) {
       rulesAdmin = true;
       var bar = document.getElementById('rules-admin-bar');
+      if (!bar) return;
       bar.style.background = 'rgba(184,150,46,0.1)';
       bar.style.borderColor = 'rgba(184,150,46,0.3)';
       bar.querySelector('.admin-bar-text').textContent = '🔑 Admin mode active';
