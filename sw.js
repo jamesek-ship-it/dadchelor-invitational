@@ -1,11 +1,11 @@
-const CACHE_NAME = 'dadchelor-v15';
+const CACHE_NAME = 'dadchelor-cf-v1';
 const ASSETS = [
-  '/dadchelor-invitational/',
-  '/dadchelor-invitational/index.html',
-  '/dadchelor-invitational/dadchelor_v2.html',
-  '/dadchelor-invitational/manifest.json',
-  '/dadchelor-invitational/icon-192.png',
-  '/dadchelor-invitational/icon-512.png'
+  '/',
+  '/index.html',
+  '/dadchelor_v2.html',
+  '/manifest.json',
+  '/icon-192.png',
+  '/icon-512.png'
 ];
 
 // Install: cache core assets
