@@ -880,7 +880,7 @@
       <h2 class="section-title">Meet the <em>Players</em></h2>
       <div class="section-rule"></div>
     </div>
-    <div class="players-grid" id="players-grid"></div>
+    <div id="players-grid-wrap"></div>
   </section>
 </div>
 
@@ -1050,6 +1050,27 @@
   .lb-strip-badge { position:absolute; top:-3px; right:-4px; min-width:21px; height:21px; padding:0 5px; border-radius:11px; background:var(--gold); color:#12240f; font-family:'Playfair Display',serif; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; border:2px solid #0b160e; }
   .lb-strip-name { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:0.5px; text-transform:uppercase; color:rgba(200,223,200,0.7); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
   .lb-strip-empty { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:rgba(200,223,200,0.4); padding:20px 16px; }
+
+  /* ── ROSTER GROUPING ── */
+  .roster-section-label { font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:3px; text-transform:uppercase; color:var(--gold); margin:0 0 14px; }
+  .roster-team { margin-bottom:30px; }
+  .roster-team-header { display:flex; align-items:baseline; justify-content:space-between; padding:10px 14px; border-radius:2px; margin-bottom:14px; }
+  .roster-team-header.look { background:rgba(42,110,58,0.12); border-left:3px solid #2a6e3a; }
+  .roster-team-header.feel { background:rgba(30,79,110,0.12); border-left:3px solid #1e4f6e; }
+  .roster-team-name { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; }
+  .roster-team-header.look .roster-team-name { color:#2a6e3a; }
+  .roster-team-header.feel .roster-team-name { color:#1e4f6e; }
+  .roster-team-count { font-family:'Cormorant Garamond',serif; font-size:12px; font-style:italic; color:var(--text-light); }
+  .player-role { font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:700; margin-left:5px; letter-spacing:0.5px; }
+  .player-role.is-c { color:var(--gold); }
+  .player-role.is-a { color:var(--text-light); }
+  .roster-alumni { border-top:1px solid var(--border); padding-top:20px; margin-top:8px; }
+  .roster-alumni-header { display:flex; align-items:center; justify-content:space-between; cursor:pointer; user-select:none; padding-bottom:4px; }
+  .roster-alumni-sub { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:var(--text-light); }
+  .roster-alumni-chevron { font-size:20px; color:var(--gold); transition:transform 0.2s; }
+  .roster-alumni.open .roster-alumni-chevron { transform:rotate(180deg); }
+  .roster-alumni-body { display:none; padding-top:16px; }
+  .roster-alumni.open .roster-alumni-body { display:block; }
   .lb-team-banner { display: grid; grid-template-columns: 1fr auto 1fr; background: rgba(26,58,42,0.6); border: 1px solid rgba(184,150,46,0.2); border-radius: 3px; margin-bottom: 16px; overflow: hidden; }
   .lb-team-side { padding: 20px 16px; text-align: center; }
   .lb-team-side.look { background: rgba(77,190,106,0.08); }
@@ -2885,28 +2906,95 @@ function goToYear(year) {
   }, 100);
 }
 
-function buildPlayers() {
-  document.getElementById('players-grid').innerHTML = PLAYERS.map(p => {
-    const imgSrc = p.key && IMAGES[p.key] ? IMAGES[p.key] : null;
-    const avatarHtml = imgSrc
-      ? `<img src="${imgSrc}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:center top;">`
-      : `<span class="player-avatar-initials">${p.name.split(' ').map(n=>n[0]).join('')}</span>`;
-    return `<div class="player-card" onclick="openPlayer(${p.id})">
-      <div class="player-avatar" style="${imgSrc ? '' : 'background:#1a3a2a;'}">
-        ${avatarHtml}
-        ${p.wins > 0 ? `<div class="player-wins-badge">${p.wins}× 🏆</div>` : ''}
+// ── 2026 ROSTER ──  role: 'C' = captain, 'a' = assistant captain
+const ROSTER_2026 = {
+  look: [
+    { name:'James Knox',      role:'C' },
+    { name:'Matt Hus' },
+    { name:'Tim McGuire' },
+    { name:'Dan Kraft' },
+    { name:'Kenny Dalen' },
+    { name:'Ricky Moceri' }
+  ],
+  feel: [
+    { name:'Dan Harras',      role:'C' },
+    { name:'Andrew Heppner' },
+    { name:'Adam Hartley' },
+    { name:'Keegan Chicilli' },
+    { name:'Brandon Bartneck' },
+    { name:'Jon Boguth' }
+  ]
+};
+
+function playerCardHtml(p, role) {
+  const imgSrc = p.key && IMAGES[p.key] ? IMAGES[p.key] : null;
+  const avatarHtml = imgSrc
+    ? `<img src="${imgSrc}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;object-position:center top;">`
+    : `<span class="player-avatar-initials">${p.name.split(' ').map(n=>n[0]).join('')}</span>`;
+  const roleBadge = role
+    ? `<span class="player-role ${role === 'C' ? 'is-c' : 'is-a'}">(${role})</span>`
+    : '';
+  return `<div class="player-card" onclick="openPlayer(${p.id})">
+    <div class="player-avatar" style="${imgSrc ? '' : 'background:#1a3a2a;'}">
+      ${avatarHtml}
+      ${p.wins > 0 ? `<div class="player-wins-badge">${p.wins}× 🏆</div>` : ''}
+    </div>
+    <div class="player-card-body">
+      <div class="player-name">${p.name}${roleBadge}</div>
+      <div class="player-nickname">"${p.nickname}"</div>
+      <div class="player-stats">
+        <div class="player-stat"><span class="player-stat-val">${p.wins}</span><span class="player-stat-label">Wins</span></div>
+        <div class="player-stat"><span class="player-stat-val">${p.appearances}</span><span class="player-stat-label">Events</span></div>
+        <div class="player-stat"><span class="player-stat-val" style="font-size:15px;">${p.bestFinish}</span><span class="player-stat-label">Best</span></div>
       </div>
-      <div class="player-card-body">
-        <div class="player-name">${p.name}</div>
-        <div class="player-nickname">"${p.nickname}"</div>
-        <div class="player-stats">
-          <div class="player-stat"><span class="player-stat-val">${p.wins}</span><span class="player-stat-label">Wins</span></div>
-          <div class="player-stat"><span class="player-stat-val">${p.appearances}</span><span class="player-stat-label">Events</span></div>
-          <div class="player-stat"><span class="player-stat-val" style="font-size:15px;">${p.bestFinish}</span><span class="player-stat-label">Best</span></div>
+    </div>
+  </div>`;
+}
+
+function buildPlayers() {
+  const byName = {};
+  PLAYERS.forEach(p => { byName[p.name] = p; });
+
+  function teamBlock(entries, teamKey, teamLabel) {
+    const cards = entries.map(e => {
+      const p = byName[e.name];
+      return p ? playerCardHtml(p, e.role) : '';
+    }).join('');
+    return `<div class="roster-team ${teamKey}">
+      <div class="roster-team-header ${teamKey}">
+        <span class="roster-team-name">${teamLabel}</span>
+        <span class="roster-team-count">${entries.length} players</span>
+      </div>
+      <div class="players-grid">${cards}</div>
+    </div>`;
+  }
+
+  const active = []
+    .concat(ROSTER_2026.look.map(e => e.name))
+    .concat(ROSTER_2026.feel.map(e => e.name));
+  const alumni = PLAYERS.filter(p => active.indexOf(p.name) === -1);
+
+  let html = '';
+  html += `<div class="roster-section-label">2026 Field</div>`;
+  html += teamBlock(ROSTER_2026.look, 'look', 'Team Look Good');
+  html += teamBlock(ROSTER_2026.feel, 'feel', 'Team Feel Good');
+
+  if (alumni.length) {
+    html += `<div class="roster-alumni">
+      <div class="roster-alumni-header" onclick="this.parentElement.classList.toggle('open')">
+        <div>
+          <div class="roster-section-label" style="margin:0;">Past Participants</div>
+          <div class="roster-alumni-sub">${alumni.length} former competitors</div>
         </div>
+        <span class="roster-alumni-chevron">⌄</span>
+      </div>
+      <div class="roster-alumni-body">
+        <div class="players-grid">${alumni.map(p => playerCardHtml(p, null)).join('')}</div>
       </div>
     </div>`;
-  }).join('');
+  }
+
+  document.getElementById('players-grid-wrap').innerHTML = html;
 }
 
 function openPlayer(id) {
