@@ -965,7 +965,7 @@
             <div class="schedule-round-body">
               <div class="schedule-round-name">The Ronald Beach II Opening Handshake Ceremony</div>
               <div class="schedule-round-location">Huron Breeze · First Tee · <strong style="color:var(--gold);">8:30 AM</strong></div>
-              <p class="schedule-round-desc">The tournament does not begin with a golf shot. Captains Knox and Harras meet at the first tee for the handshake and the photograph, and whatever trash talk the moment demands. Each competitor is then formally announced to the field. The defending champion strikes the opening tee shot. Only then does play begin.</p>
+              <p class="schedule-round-desc">The tournament does not begin with a golf shot. Captains <span id="ceremony-captains">Knox and Harras</span> meet at the first tee for the handshake and the photograph, and whatever trash talk the moment demands. Each competitor is then formally announced to the field. The defending champion strikes the opening tee shot. Only then does play begin.</p>
             </div>
           </div>
           <div class="schedule-round">
@@ -3970,6 +3970,26 @@ if ('serviceWorker' in navigator) {
     });
   }
 
+  function go() { try { run(); } catch (e) {} }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
+  else go();
+})();
+</script>
+
+<script>
+/* Ceremony copy: captain surnames from ROSTER_2026. Isolated. */
+(function() {
+  function run() {
+    var el = document.getElementById('ceremony-captains');
+    if (!el || typeof ROSTER_2026 === 'undefined') return;
+    var caps = [];
+    Array.prototype.slice.call(['look','feel']).forEach(function(side) {
+      Array.prototype.slice.call(ROSTER_2026[side] || []).forEach(function(e) {
+        if (e && e.role === 'C') caps.push(e.name.split(' ').pop());
+      });
+    });
+    if (caps.length === 2) el.textContent = caps[0] + ' and ' + caps[1];
+  }
   function go() { try { run(); } catch (e) {} }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
