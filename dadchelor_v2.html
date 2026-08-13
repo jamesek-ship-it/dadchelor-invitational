@@ -1971,6 +1971,13 @@
       </div>
     </div>
 
+    <div class="admin-section">
+      <div class="admin-section-title">📚 Published Stories</div>
+      <div id="admin-published-stories">
+        <div class="admin-empty">Loading...</div>
+      </div>
+    </div>
+
     <button class="admin-logout-btn" style="border-color:#cc3333;color:#cc3333;margin-bottom:8px;" onclick="adminClearAll()">⚠ Clear All Results</button>
     <button class="admin-logout-btn" onclick="adminLogout()">Log Out</button>
   </div>
@@ -2084,6 +2091,25 @@
             +'<div class="admin-pending-actions">'
             +'<button class="awb awb-look" onclick="adminApproveRule('+r.id+')">✓ Approve</button>'
             +'<button class="awb awb-feel" onclick="adminDeleteRule('+r.id+')">✕ Delete</button>'
+            +'</div></div>';
+        }).join('');
+      });
+
+    // Published stories (approved) — delete only
+    sbFetch('stories?approved=eq.true&order=year.desc,created_at.asc')
+      .then(function(r){return r.json();})
+      .then(function(rows) {
+        var el = document.getElementById('admin-published-stories');
+        if (!el) return;
+        if (!Array.isArray(rows)||!rows.length) { el.innerHTML='<div class="admin-empty">No published stories.</div>'; return; }
+        el.innerHTML = rows.map(function(r) {
+          var t = String(r.text||'');
+          if (t.length > 130) t = t.slice(0,130) + '...';
+          return '<div class="admin-pending-item">'
+            +'<div class="admin-pending-meta">'+r.year+' · '+r.author+'</div>'
+            +'<div class="admin-pending-text">'+t+'</div>'
+            +'<div class="admin-pending-actions">'
+            +'<button class="awb awb-feel" onclick="adminDeletePublishedStory('+r.id+')">✕ Delete</button>'
             +'</div></div>';
         }).join('');
       });
@@ -2342,6 +2368,13 @@
   window.adminDeleteStory = function(id) {
     if (!confirm('Delete this story?')) return;
     sbFetch('stories?id=eq.'+id, {method:'DELETE'}).then(function(){adminLoadPending();});
+  };
+  window.adminDeletePublishedStory = function(id) {
+    if (!confirm('Delete this published story? It will disappear from the History page.')) return;
+    sbFetch('stories?id=eq.'+id, {method:'DELETE'}).then(function(){
+      adminLoadPending();
+      if (window.storyRenderAll) window.storyRenderAll();
+    });
   };
 })();
 </script>
