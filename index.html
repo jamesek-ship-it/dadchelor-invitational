@@ -485,6 +485,20 @@
   .admin-match-name.feel { color:#1e4f6e; text-align:right; }
   .admin-win-btns { display:flex; gap:4px; justify-content:center; }
   .awb { font-family:'Cormorant Garamond',serif; font-size:12px; font-weight:700; letter-spacing:0.5px; padding:5px 10px; border:1px solid; background:none; cursor:pointer; border-radius:2px; transition:all 0.15s; }
+  .alv-round { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--gold); margin:18px 0 8px; padding-bottom:5px; border-bottom:1px solid rgba(184,150,46,0.2); }
+  .alv-round:first-child { margin-top:4px; }
+  .alv-row { padding:11px 12px; margin-bottom:7px; border:1px solid var(--border); border-radius:3px; background:rgba(255,255,255,0.5); }
+  .alv-teams { font-family:'Playfair Display',serif; font-size:13px; font-weight:600; margin-bottom:6px; line-height:1.45; }
+  .alv-look { color:#2a6e3a; } .alv-feel { color:#1e4f6e; }
+  .alv-v { color:var(--text-light); font-family:'Cormorant Garamond',serif; font-style:italic; font-weight:400; margin:0 7px; }
+  .alv-status { margin-bottom:9px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
+  .alv-badge { font-family:'Cormorant Garamond',serif; font-size:10px; font-weight:700; letter-spacing:1px; padding:3px 9px; border-radius:11px; }
+  .alv-badge.lg { background:rgba(42,110,58,0.12); color:#2a6e3a; }
+  .alv-badge.fg { background:rgba(30,79,110,0.12); color:#1e4f6e; }
+  .alv-badge.as { background:rgba(184,150,46,0.12); color:var(--gold); }
+  .alv-thru { font-family:'Cormorant Garamond',serif; font-size:11px; font-style:italic; color:var(--text-light); }
+  .alv-btns { display:flex; gap:5px; flex-wrap:wrap; }
+  .alv-btns .awb { padding:5px 11px; }
   .awb.saving { box-shadow:0 0 0 2px rgba(184,150,46,0.55); }
   .awb.selected { font-weight:700; }
   .awb-look { border-color:rgba(77,190,106,0.4); color:#2a6e3a; }
@@ -2205,22 +2219,38 @@
       var el = document.getElementById('admin-live-rows');
       if (!el || typeof MATCHES === 'undefined') return;
       var live = (window.lmAll ? window.lmAll() : {});
-      var sur = function(a){ return a.map(function(n){ return n.split(' ').pop(); }).join('/'); };
-      el.innerHTML = MATCHES.filter(function(m){ return m.look.length; }).map(function(m) {
+      var sur = function(a){ return a.map(function(n){ return n.split(' ').pop(); }).join(' / '); };
+      var RN = {
+        r1: 'Round 1 · Huron Breeze · Fourball',
+        r2: 'Round 2 · Red Hawk · Dans + 2v2 Scrambles',
+        r3: 'Round 3 · The Dream · Fourball',
+        r4: 'Round 4 · The Nightmare · Individual'
+      };
+      var out = '', cur = '';
+      MATCHES.filter(function(m){ return m.look.length; }).forEach(function(m) {
+        var rk = m.id.slice(0,2);
+        if (rk !== cur) { cur = rk; out += '<div class="alv-round">' + (RN[rk]||rk) + '</div>'; }
         var s = live[m.id] || { status:0, holes:0 };
-        var lbl = s.status>0 ? 'LG '+s.status+' up' : (s.status<0 ? 'FG '+Math.abs(s.status)+' up' : 'AS');
-        return '<div class="admin-match-row" style="flex-wrap:wrap;gap:6px;">'
-          + '<span class="admin-match-name look" style="flex:1 1 100%;font-size:11px;">'
-          +   sur(m.look)+' v '+sur(m.feel)+' — <strong>'+lbl+'</strong> thru '+s.holes+'</span>'
-          + '<div class="admin-win-btns">'
-          +   '<button class="awb awb-look" onclick="lmAdj(\''+m.id+'\',1,0)">LG+</button>'
-          +   '<button class="awb awb-half" onclick="lmSquare(\''+m.id+'\')">AS</button>'
-          +   '<button class="awb awb-feel" onclick="lmAdj(\''+m.id+'\',-1,0)">FG+</button>'
-          +   '<button class="awb" onclick="lmAdj(\''+m.id+'\',0,1)">+h</button>'
-          +   '<button class="awb" onclick="lmAdj(\''+m.id+'\',0,-1)">-h</button>'
-          +   '<button class="awb awb-feel" onclick="lmClear(\''+m.id+'\')">clear</button>'
+        var lbl, cls;
+        if (s.status > 0) { lbl = 'LG ' + s.status + ' UP'; cls = 'lg'; }
+        else if (s.status < 0) { lbl = 'FG ' + Math.abs(s.status) + ' UP'; cls = 'fg'; }
+        else { lbl = 'ALL SQUARE'; cls = 'as'; }
+        out += '<div class="alv-row">'
+          + '<div class="alv-teams"><span class="alv-look">' + sur(m.look) + '</span>'
+          +   '<span class="alv-v">v</span>'
+          +   '<span class="alv-feel">' + sur(m.feel) + '</span></div>'
+          + '<div class="alv-status"><span class="alv-badge ' + cls + '">' + lbl + '</span>'
+          +   '<span class="alv-thru">' + (s.holes ? 'thru ' + s.holes : 'not started') + '</span></div>'
+          + '<div class="alv-btns">'
+          +   '<button class="awb awb-look" onclick="lmTap(this);lmAdj(\'' + m.id + '\',1,0)">LG+</button>'
+          +   '<button class="awb awb-half" onclick="lmTap(this);lmSquare(\'' + m.id + '\')">AS</button>'
+          +   '<button class="awb awb-feel" onclick="lmTap(this);lmAdj(\'' + m.id + '\',-1,0)">FG+</button>'
+          +   '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,1)">+h</button>'
+          +   '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,-1)">−h</button>'
+          +   '<button class="awb awb-feel" onclick="lmTap(this);lmClear(\'' + m.id + '\')">clear</button>'
           + '</div></div>';
-      }).join('');
+      });
+      el.innerHTML = out;
     };
     adminRenderLive();
 
@@ -4204,6 +4234,11 @@ if ('serviceWorker' in navigator) {
     api('live_matches?match_id=eq.'+id, { method:'DELETE' }).then(function(){ delete live[id]; render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); });
   };
   window.lmAll = function(){ return live; };
+  window.lmTap = function(btn) {
+    if (!btn) return;
+    btn.classList.add('saving');
+    setTimeout(function(){ btn.classList.remove('saving'); }, 500);
+  };
   window.lmRefreshAdmin = function() {
     try { if (window.adminRenderLive) window.adminRenderLive(); } catch(e) {}
   };
