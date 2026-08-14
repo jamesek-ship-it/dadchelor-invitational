@@ -1038,6 +1038,28 @@
 
   /* ── MASTERS-STYLE PORTRAIT STRIP ── */
 
+
+  /* LIVE MATCHES */
+  .lm-wrap { margin-bottom:16px; border:1px solid rgba(184,150,46,0.25); border-radius:3px; overflow:hidden; }
+  .lm-head { background:rgba(0,0,0,0.3); padding:11px 16px; display:flex; align-items:center; justify-content:space-between; }
+  .lm-title { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; color:var(--gold-light); }
+  .lm-btn { background:none; border:1px solid rgba(184,150,46,0.4); color:var(--gold-light); font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:1.5px; text-transform:uppercase; padding:5px 12px; border-radius:2px; cursor:pointer; }
+  .lm-row { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; padding:11px 16px; border-top:1px solid rgba(255,255,255,0.05); }
+  .lm-team { font-family:'Cormorant Garamond',serif; font-size:12.5px; line-height:1.3; }
+  .lm-team.look { color:#6fdc8c; }
+  .lm-team.feel { color:#7EB8E0; text-align:right; }
+  .lm-stat { text-align:center; white-space:nowrap; }
+  .lm-up { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; }
+  .lm-up.look { color:#6fdc8c; } .lm-up.feel { color:#7EB8E0; } .lm-up.sq { color:var(--gold-light); }
+  .lm-thru { font-family:'Cormorant Garamond',serif; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:rgba(200,223,200,0.35); margin-top:2px; }
+  .lm-ctl { display:none; grid-column:1/-1; gap:6px; padding-top:9px; justify-content:center; flex-wrap:wrap; }
+  .lm-wrap.editing .lm-ctl { display:flex; }
+  .lm-ctl button { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.12); color:#e8f0e8; font-family:'Cormorant Garamond',serif; font-size:11px; padding:5px 11px; border-radius:2px; cursor:pointer; }
+  .lm-ctl button:active { background:rgba(184,150,46,0.25); }
+  .lm-ctl .lm-sq { border-color:rgba(184,150,46,0.4); color:var(--gold-light); }
+  .lm-gate { display:none; padding:12px 16px; border-top:1px solid rgba(255,255,255,0.05); gap:8px; }
+  .lm-wrap.gate .lm-gate { display:flex; }
+  .lm-gate input { flex:1; background:rgba(0,0,0,0.3); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:7px 10px; border-radius:2px; font-family:'Cormorant Garamond',serif; font-size:13px; }
   /* MATCH RESULTS */
   .mr-wrap { margin-top:22px; border:1px solid rgba(184,150,46,0.2); border-radius:3px; overflow:hidden; }
   .mr-head { background:rgba(0,0,0,0.25); padding:12px 16px; font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--gold-light); }
@@ -1122,6 +1144,18 @@
     <div class="lb-live-eyebrow">The Dadchelor Invitational · 2026</div>
     <div class="lb-live-title"><em>Live</em> Leaderboard</div>
     <div class="lb-live-sub" id="lb-status-sub">Loading results...</div>
+  </div>
+
+  <div class="lm-wrap" id="lm-wrap" style="display:none;">
+    <div class="lm-head">
+      <span class="lm-title">🔴 Live Matches</span>
+      <button class="lm-btn" id="lm-toggle" onclick="lmToggle()">Update</button>
+    </div>
+    <div id="lm-body"></div>
+    <div class="lm-gate" id="lm-gate">
+      <input type="password" id="lm-pw" placeholder="Update password">
+      <button class="lm-btn" onclick="lmUnlock()">Unlock</button>
+    </div>
   </div>
 
   <div class="lb-strip-wrap" id="lb-strip-wrap">
@@ -2025,6 +2059,14 @@
     </div>
 
     <div class="admin-section">
+      <div class="admin-section-title">🔴 Live Match Override</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--text-light);margin-bottom:10px;">
+        Correct or clear any live status. Does not affect scoring.
+      </div>
+      <div id="admin-live-rows"><div class="admin-empty">Loading...</div></div>
+    </div>
+
+    <div class="admin-section">
       <div class="admin-section-title">📚 Published Stories</div>
       <div id="admin-published-stories">
         <div class="admin-empty">Loading...</div>
@@ -2147,6 +2189,29 @@
             +'</div></div>';
         }).join('');
       });
+
+    // Live match override
+    (function() {
+      var el = document.getElementById('admin-live-rows');
+      if (!el || typeof MATCHES === 'undefined') return;
+      var live = (window.lmAll ? window.lmAll() : {});
+      var sur = function(a){ return a.map(function(n){ return n.split(' ').pop(); }).join('/'); };
+      el.innerHTML = MATCHES.filter(function(m){ return m.look.length; }).map(function(m) {
+        var s = live[m.id] || { status:0, holes:0 };
+        var lbl = s.status>0 ? 'LG '+s.status+' up' : (s.status<0 ? 'FG '+Math.abs(s.status)+' up' : 'AS');
+        return '<div class="admin-match-row" style="flex-wrap:wrap;gap:6px;">'
+          + '<span class="admin-match-name look" style="flex:1 1 100%;font-size:11px;">'
+          +   sur(m.look)+' v '+sur(m.feel)+' — <strong>'+lbl+'</strong> thru '+s.holes+'</span>'
+          + '<div class="admin-win-btns">'
+          +   '<button class="awb awb-look" onclick="lmAdj(\''+m.id+'\',1,0)">LG+</button>'
+          +   '<button class="awb awb-half" onclick="lmSquare(\''+m.id+'\')">AS</button>'
+          +   '<button class="awb awb-feel" onclick="lmAdj(\''+m.id+'\',-1,0)">FG+</button>'
+          +   '<button class="awb" onclick="lmAdj(\''+m.id+'\',0,1)">+h</button>'
+          +   '<button class="awb" onclick="lmAdj(\''+m.id+'\',0,-1)">-h</button>'
+          +   '<button class="awb awb-feel" onclick="lmClear(\''+m.id+'\');setTimeout(adminLoadPending,400)">clear</button>'
+          + '</div></div>';
+      }).join('');
+    })();
 
     // Published stories (approved) — delete only
     sbFetch('stories?approved=eq.true&order=year.desc,created_at.asc')
@@ -4056,6 +4121,101 @@ if ('serviceWorker' in navigator) {
   function go() { try { run(); } catch (e) {} }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
+})();
+</script>
+
+<script>
+/* Live match status — separate table, cannot affect scoring. Isolated. */
+(function() {
+  var URL = "https://fjyusvkmjnununycqufk.supabase.co", KEY = "sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA", PW = "DI2026";
+  var live = {}, editing = false, unlocked = false;
+  function arr(x){ return Array.prototype.slice.call(x||[]); }
+  function api(path, opts) {
+    opts = opts || {};
+    opts.headers = { 'apikey':KEY, 'Authorization':'Bearer '+KEY, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates' };
+    return fetch(URL+'/rest/v1/'+path, opts);
+  }
+  function sur(a){ return a.map(function(n){ return n.split(' ').pop(); }).join(' / '); }
+
+  function render() {
+    var wrap = document.getElementById('lm-wrap'), body = document.getElementById('lm-body');
+    if (!wrap || !body || typeof MATCHES === 'undefined') return;
+    var open = MATCHES.filter(function(m){ return live[m.id] && (live[m.id].holes > 0 || live[m.id].status !== 0); });
+    if (!open.length && !editing) { wrap.style.display='none'; return; }
+    wrap.style.display='block';
+    var list = editing ? MATCHES.filter(function(m){ return m.look.length; }) : open;
+    body.innerHTML = list.map(function(m) {
+      var s = live[m.id] || { status:0, holes:0 };
+      var lbl, cls;
+      if (s.status > 0) { lbl = s.status+' UP'; cls='look'; }
+      else if (s.status < 0) { lbl = Math.abs(s.status)+' UP'; cls='feel'; }
+      else { lbl = 'ALL SQUARE'; cls='sq'; }
+      var ctl = '<div class="lm-ctl">'
+        + '<button onclick="lmAdj(\''+m.id+'\',1,0)">◀ LG</button>'
+        + '<button onclick="lmAdj(\''+m.id+'\',-1,0)">FG ▶</button>'
+        + '<button class="lm-sq" onclick="lmSquare(\''+m.id+'\')">All Square</button>'
+        + '<button onclick="lmAdj(\''+m.id+'\',0,-1)">− hole</button>'
+        + '<button onclick="lmAdj(\''+m.id+'\',0,1)">+ hole</button>'
+        + '</div>';
+      return '<div class="lm-row">'
+        + '<div class="lm-team look">'+sur(m.look)+'</div>'
+        + '<div class="lm-stat"><div class="lm-up '+cls+'">'+lbl+'</div>'
+        +   '<div class="lm-thru">'+(s.holes ? 'thru '+s.holes : 'not started')+'</div></div>'
+        + '<div class="lm-team feel">'+sur(m.feel)+'</div>'
+        + (editing ? ctl : '')
+        + '</div>';
+    }).join('');
+  }
+
+  function load(cb) {
+    api('live_matches?select=*').then(function(r){ return r.json(); })
+      .then(function(rows){ live={}; if (Array.isArray(rows)) rows.forEach(function(r){ live[r.match_id]=r; }); render(); if(cb)cb(); })
+      .catch(function(){ if(cb)cb(); });
+  }
+  function save(id) {
+    var s = live[id];
+    api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes }) })
+      .catch(function(){});
+  }
+
+  window.lmAdj = function(id, ds, dh) {
+    var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
+    if (ds) s.status = Math.max(-10, Math.min(10, s.status + ds));
+    if (dh) s.holes  = Math.max(0, Math.min(18, s.holes + dh));
+    render(); save(id);
+  };
+  window.lmSquare = function(id) {
+    var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
+    s.status = 0; render(); save(id);
+  };
+  window.lmToggle = function() {
+    var wrap = document.getElementById('lm-wrap');
+    if (!unlocked) { wrap.classList.toggle('gate'); return; }
+    editing = !editing;
+    wrap.classList.toggle('editing', editing);
+    document.getElementById('lm-toggle').textContent = editing ? 'Done' : 'Update';
+    render();
+  };
+  window.lmUnlock = function() {
+    var i = document.getElementById('lm-pw'), wrap = document.getElementById('lm-wrap');
+    if (i.value === PW) {
+      unlocked = true; i.value=''; wrap.classList.remove('gate');
+      editing = true; wrap.classList.add('editing');
+      document.getElementById('lm-toggle').textContent='Done'; render();
+    } else { i.value=''; i.placeholder='Wrong password'; }
+  };
+  window.lmLoad = load;
+  window.lmSet = function(id, status, holes) {           // admin override
+    live[id] = { match_id:id, status:status, holes:holes };
+    render(); save(id);
+  };
+  window.lmClear = function(id) {
+    api('live_matches?match_id=eq.'+id, { method:'DELETE' }).then(function(){ delete live[id]; render(); });
+  };
+  window.lmAll = function(){ return live; };
+
+  function go(){ try { load(); setInterval(function(){ if(!editing) load(); }, 30000); } catch(e){} }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go); else go();
 })();
 </script>
 </body>
