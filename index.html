@@ -2257,8 +2257,9 @@
         rs.innerHTML = [1,2,3,4].map(function(r) {
           var on = false;
           try { on = !!(window.lmRoundActive && window.lmRoundActive(r)); } catch(e) {}
-          return '<button class="awb ' + (on ? 'awb-confirm' : '') + '" onclick="lmTap(this);lmStartRound(' + r + ')">'
-               + (on ? '● R' + r + ' live' : '▶ Start R' + r) + '</button>';
+          return '<button class="awb ' + (on ? 'awb-confirm' : '') + '" onclick="lmTap(this);lmStartRound(' + r + ')" '
+               + 'title="' + (on ? 'Tap to end' : 'Tap to start') + '">'
+               + (on ? '● R' + r + ' live · tap to end' : '▶ Start R' + r) + '</button>';
         }).join('');
       }
       var out = '', cur = '';
@@ -2351,22 +2352,52 @@
   };
 
   window.adminClearAll = function() {
-    if (!confirm('Clear ALL results? This cannot be undone.')) return;
-    sbFetch('results?match_id=neq.NONE', {method:'DELETE'})
+    var confirmed = [];
+    try {
+      var live = window.lmAll ? window.lmAll() : {};
+      [1,2,3,4].forEach(function(r) {
+        var any = Object.keys(live).some(function(k){ return k.indexOf('r'+r)===0 && live[k].final; });
+        if (any) confirmed.push(r);
+      });
+    } catch(e) {}
+
+    var msg = '';
+    if (confirmed.length) {
+      msg = 'WARNING: There are CONFIRMED scores for Round' + (confirmed.length>1?'s ':' ')
+          + (confirmed.length>1 ? confirmed.slice(0,-1).join(', ')+' and '+confirmed[confirmed.length-1] : confirmed[0])
+          + '.\n\n';
+    }
+    msg += 'This is a HARD RESET. It permanently erases:\n'
+        +  '  · all match results and points\n'
+        +  '  · all live statuses, holes and confirmations\n'
+        +  '  · all CTP / LD contest winners\n'
+        +  '  · the 2026 match archive (all-time history)\n\n'
+        +  'This cannot be undone.';
+    if (!confirm(msg)) return;
+
+    var typed = prompt('Type  RESET  to confirm the hard reset.');
+    if (!typed || typed.trim().toUpperCase() !== 'RESET') { alert('Cancelled — nothing was deleted.'); return; }
+
+    var hdr = { 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY };
+    var wipes = [
+      fetch(SB_URL+'/rest/v1/results?match_id=neq.NONE',      {method:'DELETE', headers:hdr}),
+      fetch(SB_URL+'/rest/v1/live_matches?match_id=neq.NONE', {method:'DELETE', headers:hdr}),
+      fetch(SB_URL+'/rest/v1/match_archive?year=eq.2026',     {method:'DELETE', headers:hdr})
+    ];
+    Promise.all(wipes.map(function(p){ return p.catch(function(){}); }))
       .then(function() {
-        adminLoadResults();
-        // Reset all button states
         document.querySelectorAll('.awb').forEach(function(b){ b.classList.remove('selected'); });
+        document.querySelectorAll('.admin-match-row').forEach(function(r){ r.classList.remove('confirmed'); });
+        document.querySelectorAll('.ms-final').forEach(function(t){ t.remove(); });
         document.querySelectorAll('.admin-contest-save').forEach(function(b){ b.classList.remove('saved'); });
         document.querySelectorAll('.admin-contest-current').forEach(function(el){ el.textContent = '—'; });
-        document.querySelectorAll('#admin-dashboard .admin-contest-input').forEach(function(el){ el.value = ''; });
-        document.querySelectorAll('.admin-r4-input').forEach(function(el){ el.value = ''; });
-        document.querySelectorAll('.admin-r4-sel').forEach(function(el){ el.value = ''; });
-        document.querySelectorAll('[id^="ar4-"]').forEach(function(el){ el.textContent = ''; });
-        document.querySelectorAll('[id^="r4-save-btn-"]').forEach(function(el){ el.classList.remove('saved'); });
-        updateR4Dropdowns();
-      })
-      .catch(function(e){ alert('Error clearing results: '+e); });
+        document.querySelectorAll('.admin-contest-input').forEach(function(el){ el.value = ''; });
+        adminLoadResults();
+        if (window.lmLoad) window.lmLoad();
+        if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+        if (window.lbLoad) window.lbLoad();
+        alert('Hard reset complete. Everything is wiped.');
+      });
   };
 
   window.adminLogout = function() {
@@ -4217,7 +4248,9 @@ if ('serviceWorker' in navigator) {
     wrap.style.display = 'block';
 
     var mine = me ? shown.filter(function(m){
-      return m.look.indexOf(me) !== -1 || m.feel.indexOf(me) !== -1; }) : [];
+      var s = live[m.id];
+      return s && s.active === true &&
+             (m.look.indexOf(me) !== -1 || m.feel.indexOf(me) !== -1); }) : [];
 
     function card(m, editable) {
       var s = live[m.id] || { status:0, holes:0 };
@@ -4369,7 +4402,7 @@ if ('serviceWorker' in navigator) {
     try { window.localStorage.setItem('dc_player', name); } catch(e) {}
     var mine = DCM().filter(function(m) {
       var s = live[m.id];
-      return s && (s.active || s.holes > 0 || s.status !== 0) && !s.final &&
+      return s && s.active === true && !s.final &&
              (m.look.indexOf(name) !== -1 || m.feel.indexOf(name) !== -1);
     });
     mine.forEach(function(m) {
@@ -4391,20 +4424,40 @@ if ('serviceWorker' in navigator) {
 
   window.lmStartRound = function(rnd) {
     var ms = DCM().filter(function(m){ return m.id.indexOf('r'+rnd)===0 && m.look.length; });
-    if (!confirm('Start Round ' + rnd + '? Players will be able to update these ' + ms.length + ' matches.')) return;
-    var n = 0;
+    if (!ms.length) return;
+    var isOn = window.lmRoundActive && window.lmRoundActive(rnd);
+
+    if (isOn) {
+      var unconfirmed = ms.filter(function(m){ return !(live[m.id] && live[m.id].final); });
+      var msg = 'You are about to make Round ' + rnd + ' no longer editable by players.\n\n'
+              + 'Make sure all scores have been collected and confirmed.';
+      if (unconfirmed.length) {
+        msg += '\n\n' + unconfirmed.length + ' match' + (unconfirmed.length>1?'es are':' is')
+             + ' NOT yet confirmed:\n  · '
+             + unconfirmed.map(function(m){
+                 return m.look.map(function(n){return n.split(' ').pop();}).join('/')
+                      + ' v ' + m.feel.map(function(n){return n.split(' ').pop();}).join('/');
+               }).join('\n  · ');
+      }
+      msg += '\n\nConfirmed scores stay scored — this only stops players editing.';
+      if (!confirm(msg)) return;
+    } else {
+      if (!confirm('Start Round ' + rnd + '? Players will be able to update these ' + ms.length + ' matches.')) return;
+    }
+
+    var want = !isOn, n = 0;
     ms.forEach(function(m) {
       var s = live[m.id] || (live[m.id] = { match_id:m.id, status:0, holes:0 });
-      s.active = true;
+      s.active = want;
       api('live_matches', { method:'POST', body: JSON.stringify({
-        match_id:m.id, status:s.status, holes:s.holes, active:true }) })
+        match_id:m.id, status:s.status, holes:s.holes, active:want }) })
         .then(function(){ if (++n === ms.length) { render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); } });
     });
   };
   window.lmRoundActive = function(rnd) {
     return DCM().some(function(m) {
       var s = live[m.id];
-      return m.id.indexOf('r'+rnd)===0 && s && (s.active || s.holes > 0 || s.status !== 0);
+      return m.id.indexOf('r'+rnd)===0 && s && s.active === true;
     });
   };
 
