@@ -2307,7 +2307,7 @@
             + '<button class="awb awb-feel" onclick="lmTap(this);lmAdj(\'' + m.id + '\',-1,0)">FG+</button>'
             + '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,1)">+h</button>'
             + '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,-1)">−h</button>'
-            + '<button class="awb awb-confirm" onclick="lmTap(this);lmConfirm(\'' + m.id + '\')">✓ Confirm</button>'
+            + '<button class="awb awb-confirm" onclick="lmTap(this);lmConfirm(\'' + m.id + '\',true)">✓ Confirm</button>'
             + '<button class="awb awb-feel" onclick="lmTap(this);lmClear(\'' + m.id + '\')">clear</button>';
         out += '<div class="alv-row' + (fin ? ' final' : '') + '">'
           + '<div class="alv-teams"><span class="alv-look">' + sur(m.look) + '</span>'
@@ -4519,14 +4519,30 @@ if ('serviceWorker' in navigator) {
   }
 
   // Confirm a match: writes the SCORING result + a self-contained archive row, then locks it.
-  window.lmConfirm = function(id) {
+  window.lmConfirm = function(id, force) {
     var m = null;
     try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
     if (!m) return;
     var s = live[id] || { status:0, holes:0 };
     var winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
-    var lbl = window.lmResultText ? window.lmResultText(s.status, s.holes)
-              : (winner === 'look' ? 'Look Good' : (winner === 'feel' ? 'Feel Good' : 'a halve'));
+    var decided = window.lmDecided(s.status, s.holes);
+    var lbl = window.lmResultText(s.status, s.holes);
+    if (!decided) {
+      var left = Math.max(0, 18 - (s.holes||0)), up = Math.abs(s.status||0);
+      var why = up === 0
+        ? 'The match is all square with ' + left + ' to play.'
+        : (up === left
+            ? 'That is dormie — ' + up + ' up with ' + up + ' to play. Losing the rest would halve it.'
+            : up + ' up with ' + left + ' to play can still be caught.');
+      if (!force) {
+        alert('This match is not decided yet.\n\n' + why
+            + '\n\nA match is over when the lead is GREATER than the holes remaining, '
+            + 'or after all 18. Keep updating, or ask the Commissioner if it was conceded.');
+        return;
+      }
+      if (!confirm('COMMISSIONER OVERRIDE\n\nThis match is not mathematically decided.\n' + why
+                 + '\n\nConfirm anyway (e.g. conceded)?')) return;
+    }
     if (!confirm('Confirm result: ' + lbl + '\n\nThis scores the match and locks it.')) return;
 
     // 1. scoring result
@@ -4573,14 +4589,25 @@ if ('serviceWorker' in navigator) {
 
   window.lmIsFinal = function(id) { return !!(live[id] && live[id].final); };
 
-  // Match-play result in proper notation: "4 & 3", "2 up", "Halved"
+  // A match is decided only when the lead EXCEEDS the holes remaining,
+  // or all 18 have been played. Level with holes left, or dormie, is still live.
+  window.lmDecided = function(status, holes) {
+    var h = holes || 0;
+    if (h >= 18) return true;
+    return Math.abs(status || 0) > (18 - h);
+  };
+
+  // Proper notation: "4 & 3" closed out early, "2 up" after 18, "Halved" level after 18.
   window.lmResultText = function(status, holes) {
+    var h = holes || 0, left = Math.max(0, 18 - h), up = Math.abs(status || 0);
+    if (!window.lmDecided(status, h)) {
+      if (!status) return 'All square thru ' + h + ' — not decided';
+      if (up === left) return (status>0?'Look Good':'Feel Good') + ' dormie ' + up + ' thru ' + h + ' — not decided';
+      return (status>0?'Look Good':'Feel Good') + ' ' + up + ' up thru ' + h + ' — not decided';
+    }
     if (!status) return 'Halved';
-    var up = Math.abs(status);
-    var left = Math.max(0, 18 - (holes || 0));
     var side = status > 0 ? 'Look Good' : 'Feel Good';
-    // a match closes out when the lead exceeds the holes remaining -> "4 & 3"
-    return side + ' won ' + (up > left && left > 0 ? up + ' & ' + left : up + ' up');
+    return side + ' won ' + (left > 0 ? up + ' & ' + left : up + ' up');
   };
 
   window.lmClearTyped = function(id) {

@@ -1,4 +1,4 @@
-const CACHE_NAME = 'dadchelor-v0814-1221';
+const CACHE_NAME = 'dadchelor-v0814-1226';
 const ASSETS = [
   '/',
   '/index.html',
