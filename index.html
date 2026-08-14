@@ -2085,8 +2085,9 @@
     <div class="admin-section">
       <div class="admin-section-title">🔴 Live Match Override</div>
       <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--text-light);margin-bottom:10px;">
-        Correct or clear any live status. Does not affect scoring.
+        Start a round to let players update it from the course. You can correct any match at any time.
       </div>
+      <div id="admin-round-starts" style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px;"></div>
       <div id="admin-live-rows"><div class="admin-empty">Loading...</div></div>
     </div>
 
@@ -2251,6 +2252,15 @@
         r3: 'Round 3 · The Dream · Fourball',
         r4: 'Round 4 · The Nightmare · Individual'
       };
+      var rs = document.getElementById('admin-round-starts');
+      if (rs) {
+        rs.innerHTML = [1,2,3,4].map(function(r) {
+          var on = false;
+          try { on = !!(window.lmRoundActive && window.lmRoundActive(r)); } catch(e) {}
+          return '<button class="awb ' + (on ? 'awb-confirm' : '') + '" onclick="lmTap(this);lmStartRound(' + r + ')">'
+               + (on ? '● R' + r + ' live' : '▶ Start R' + r) + '</button>';
+        }).join('');
+      }
       var out = '', cur = '';
       MATCHES.filter(function(m){ return m.look.length; }).forEach(function(m) {
         var rk = m.id.slice(0,2);
@@ -4193,34 +4203,70 @@ if ('serviceWorker' in navigator) {
 
   function render() {
     var wrap = document.getElementById('lm-wrap'), body = document.getElementById('lm-body');
-    if (!wrap || !body || !window.DC_MATCHES) return;
-    var open = DCM().filter(function(m){ return live[m.id] && (live[m.id].holes > 0 || live[m.id].status !== 0); });
-    if (!open.length && !editing) { wrap.style.display='none'; return; }
-    wrap.style.display='block';
-    var list = editing ? DCM().filter(function(m){ return m.look.length && !(live[m.id]&&live[m.id].final); }) : open;
-    body.innerHTML = list.map(function(m) {
+    if (!wrap || !body) return;
+    var all = DCM();
+    if (!all.length) return;
+
+    var started = all.filter(function(m){ return live[m.id] && live[m.id].active; });
+    var shown = started.filter(function(m){ return !(live[m.id] && live[m.id].final); });
+    if (!started.length) { wrap.style.display = 'none'; return; }
+    wrap.style.display = 'block';
+
+    var mine = me ? shown.filter(function(m){
+      return m.look.indexOf(me) !== -1 || m.feel.indexOf(me) !== -1; }) : [];
+
+    function card(m, editable) {
       var s = live[m.id] || { status:0, holes:0 };
       var lbl, cls;
-      if (s.final) { }
-      if (s.status > 0) { lbl = s.status+' UP'; cls='look'; }
-      else if (s.status < 0) { lbl = Math.abs(s.status)+' UP'; cls='feel'; }
-      else { lbl = 'ALL SQUARE'; cls='sq'; }
-      var ctl = '<div class="lm-ctl">'
-        + '<button onclick="lmAdj(\''+m.id+'\',1,0)">◀ LG</button>'
-        + '<button onclick="lmAdj(\''+m.id+'\',-1,0)">FG ▶</button>'
-        + '<button class="lm-sq" onclick="lmSquare(\''+m.id+'\')">All Square</button>'
-        + '<button onclick="lmAdj(\''+m.id+'\',0,-1)">− hole</button>'
-        + '<button onclick="lmAdj(\''+m.id+'\',0,1)">+ hole</button>'
+      if (s.status > 0) { lbl = 'LOOK GOOD UP ' + s.status; cls = 'look'; }
+      else if (s.status < 0) { lbl = 'FEEL GOOD UP ' + Math.abs(s.status); cls = 'feel'; }
+      else { lbl = 'ALL SQUARE'; cls = 'sq'; }
+      var notice = editable && window.lmEditorNotice ? window.lmEditorNotice(m.id) : '';
+      return '<div class="lm-row' + (editable ? ' mine' : '') + '">'
+        + (editable ? '<div class="lm-big ' + cls + '">' + lbl + '</div>'
+                    + '<div class="lm-bigthru">' + (s.holes ? 'THRU ' + s.holes : 'NOT STARTED') + '</div>' : '')
+        + '<div class="lm-team look">' + sur(m.look) + '</div>'
+        + (editable ? '<div class="lm-vs">v</div>'
+                    : '<div class="lm-stat"><div class="lm-up ' + cls + '">'
+                      + (s.status>0? s.status+' UP' : (s.status<0? Math.abs(s.status)+' UP':'ALL SQUARE'))
+                      + '</div><div class="lm-thru">' + (s.holes ? 'thru '+s.holes : 'not started') + '</div></div>')
+        + '<div class="lm-team feel">' + sur(m.feel) + '</div>'
+        + (notice ? '<div class="lm-warn">⚠️ ' + notice + '</div>' : '')
+        + (editable ? '<div class="lm-ctl2">'
+            + '<button onclick="lmAdj(\'' + m.id + '\',1,0)">◀ LG</button>'
+            + '<button onclick="lmSquare(\'' + m.id + '\')">All Square</button>'
+            + '<button onclick="lmAdj(\'' + m.id + '\',-1,0)">FG ▶</button>'
+            + '<button onclick="lmAdj(\'' + m.id + '\',0,-1)">− hole</button>'
+            + '<button onclick="lmAdj(\'' + m.id + '\',0,1)">+ hole</button>'
+            + '</div>' : '')
         + '</div>';
-      return '<div class="lm-row">'
-        + '<div class="lm-team look">'+sur(m.look)+'</div>'
-        + '<div class="lm-stat"><div class="lm-up '+cls+'">'+lbl+'</div>'
-        +   '<div class="lm-thru">'+(s.final ? 'FINAL' : (s.holes ? 'thru '+s.holes : 'not started'))+'</div></div>'
-        + '<div class="lm-team feel">'+sur(m.feel)+'</div>'
-        + (editing ? ctl : '')
-        + '</div>';
-    }).join('');
+    }
+
+    var html = '';
+    if (mine.length) {
+      html += '<div class="lm-sec">Your match</div>' + mine.map(function(m){ return card(m,true); }).join('');
+      var others = shown.filter(function(m){ return mine.indexOf(m) === -1; });
+      if (others.length) html += '<div class="lm-sec">Other matches</div>' + others.map(function(m){ return card(m,false); }).join('');
+    } else {
+      html += shown.map(function(m){ return card(m,false); }).join('');
+      var names = [];
+      ['look','feel'].forEach(function(side){
+        try { (ROSTER_2026[side]||[]).forEach(function(e){ names.push(e.name); }); } catch(err) {}
+      });
+      html += '<div class="lm-claim"><div class="lm-claimq">Playing in a match? Identify yourself to update your score.</div>'
+        + '<select id="lm-who"><option value="">Select your name…</option>'
+        + names.map(function(n){ return '<option value="' + n + '">' + n + '</option>'; }).join('')
+        + '</select><button class="lm-btn" onclick="lmDoClaim()">I\'m playing</button></div>';
+    }
+    body.innerHTML = html;
   }
+
+  window.lmDoClaim = function() {
+    var sel = document.getElementById('lm-who');
+    if (!sel || !sel.value) return;
+    window.lmClaim(sel.value);
+  };
+
 
   function load(cb) {
     api('live_matches?select=*').then(function(r){ return r.json(); })
@@ -4270,6 +4316,90 @@ if ('serviceWorker' in navigator) {
     api('live_matches?match_id=eq.'+id, { method:'DELETE' }).then(function(){ delete live[id]; render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); });
   };
   window.lmAll = function(){ return live; };
+
+  // ── who am I / editor claims ──
+  var me = null;
+  try { me = window.localStorage.getItem('dc_player') || null; } catch(e) {}
+
+  function ago(iso) {
+    if (!iso) return null;
+    var mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000);
+    if (mins < 1) return 'just now';
+    if (mins < 60) return mins + ' min';
+    var hr = Math.floor(mins/60), rem = mins % 60;
+    return hr + 'h' + (rem ? ' ' + rem + 'm' : '');
+  }
+  function editorsOf(id) {
+    var e = live[id] && live[id].editors;
+    if (!e) return [];
+    if (typeof e === 'string') { try { e = JSON.parse(e); } catch(err) { return []; } }
+    return Array.isArray(e) ? e : [];
+  }
+  function nameList(ns) {
+    if (ns.length === 1) return ns[0];
+    if (ns.length === 2) return ns[0] + ' and ' + ns[1];
+    return ns.slice(0,-1).join(', ') + ' and ' + ns[ns.length-1];
+  }
+  window.lmEditorNotice = function(id) {
+    var eds = editorsOf(id).filter(function(x){ return x.name !== me; });
+    if (!eds.length) return '';
+    var names = eds.map(function(x){ return x.name.split(' ').pop(); });
+    if (eds.length === 1) {
+      var t = ago(eds[0].at);
+      var stale = t && t !== 'just now' && /h|4[5-9] min|5\d min/.test(t);
+      return stale
+        ? names[0] + ' is scoring this match but hasn\'t updated in ' + t + '. Coordinate so you\'re not both entering scores.'
+        : names[0] + ' is scoring this match. Agree between you who\'s entering scores so you don\'t both update at once.';
+    }
+    return nameList(names) + ' are already updating this match. Agree between you who\'s entering scores.';
+  };
+
+  window.lmMe = function(){ return me; };
+  window.lmForget = function() {
+    me = null;
+    try { window.localStorage.removeItem('dc_player'); } catch(e) {}
+    render();
+  };
+  window.lmClaim = function(name) {
+    me = name;
+    try { window.localStorage.setItem('dc_player', name); } catch(e) {}
+    var mine = DCM().filter(function(m) {
+      var s = live[m.id];
+      return s && s.active && !s.final &&
+             (m.look.indexOf(name) !== -1 || m.feel.indexOf(name) !== -1);
+    });
+    mine.forEach(function(m) {
+      var eds = editorsOf(m.id).filter(function(x){ return x.name !== name; });
+      eds.push({ name: name, at: new Date().toISOString() });
+      live[m.id].editors = eds;
+      api('live_matches', { method:'POST', body: JSON.stringify({
+        match_id:m.id, status:live[m.id].status, holes:live[m.id].holes, editors:eds }) });
+    });
+    render();
+  };
+  function touchEditor(id) {
+    if (!me) return;
+    var eds = editorsOf(id).filter(function(x){ return x.name !== me; });
+    eds.push({ name: me, at: new Date().toISOString() });
+    live[id].editors = eds;
+  }
+  window.lmTouch = touchEditor;
+
+  window.lmStartRound = function(rnd) {
+    var ms = DCM().filter(function(m){ return m.id.indexOf('r'+rnd)===0 && m.look.length; });
+    if (!confirm('Start Round ' + rnd + '? Players will be able to update these ' + ms.length + ' matches.')) return;
+    var n = 0;
+    ms.forEach(function(m) {
+      var s = live[m.id] || (live[m.id] = { match_id:m.id, status:0, holes:0 });
+      s.active = true;
+      api('live_matches', { method:'POST', body: JSON.stringify({
+        match_id:m.id, status:s.status, holes:s.holes, active:true }) })
+        .then(function(){ if (++n === ms.length) { render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); } });
+    });
+  };
+  window.lmRoundActive = function(rnd) {
+    return DCM().some(function(m){ return m.id.indexOf('r'+rnd)===0 && live[m.id] && live[m.id].active; });
+  };
 
   function fmtOf(m) {
     if (m.look.length === 1) return 'Singles';

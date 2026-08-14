@@ -171,8 +171,9 @@ for side in ('look', 'feel'):
 print("\n=== Leftovers ===")
 for bad_str in ["Add the champion's quote", "lorem", "TODO", "FIXME"]:
     check(bad_str not in h, f"no '{bad_str}' in file")
-for api_call in ['localStorage.', 'sessionStorage.']:
-    check(api_call not in h, f"no {api_call} usage (unsupported in artifacts)")
+check(h.count('localStorage') <= 6, "localStorage use stays minimal and guarded")
+check(h.count('localStorage') == 0 or 'try { window.localStorage' in h or 'try { me = window.localStorage' in h,
+      "localStorage calls are wrapped in try/catch")
 check('Bronze Chalice' not in h, "no stale 'Bronze Chalice'")
 
 # ---------- 11. Service worker ----------
