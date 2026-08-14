@@ -1250,6 +1250,7 @@
     { id:'r4m5', look:[], feel:[], pts:1 },
     { id:'r4m6', look:[], feel:[], pts:1 }
   ];
+  window.DC_MATCHES = MATCHES;   // shared with the live-match tracker
   var CONTESTS = ['r1ctp','r1ld','r2ctp','r2ld','r3ctp','r3ld','r4ctp','r4ld'];
   var LOOK = ['Matt Hus','Tim McGuire','James Knox','Dan Kraft','Kenny Dalen','Ricky Moceri'];
   var FEEL = ['Andrew Heppner','Adam Hartley','Keegan Chicilli','Dan Harras','Brandon Bartneck','Jon Boguth'];
@@ -4183,6 +4184,7 @@ if ('serviceWorker' in navigator) {
   var URL = "https://fjyusvkmjnununycqufk.supabase.co", KEY = "sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA", PW = "DI2026";
   var live = {}, editing = false, unlocked = false;
   function arr(x){ return Array.prototype.slice.call(x||[]); }
+  function DCM(){ return window.DC_MATCHES || []; }
   function api(path, opts) {
     opts = opts || {};
     opts.headers = { 'apikey':KEY, 'Authorization':'Bearer '+KEY, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates' };
@@ -4192,11 +4194,11 @@ if ('serviceWorker' in navigator) {
 
   function render() {
     var wrap = document.getElementById('lm-wrap'), body = document.getElementById('lm-body');
-    if (!wrap || !body || typeof MATCHES === 'undefined') return;
-    var open = MATCHES.filter(function(m){ return live[m.id] && (live[m.id].holes > 0 || live[m.id].status !== 0); });
+    if (!wrap || !body || !window.DC_MATCHES) return;
+    var open = DCM().filter(function(m){ return live[m.id] && (live[m.id].holes > 0 || live[m.id].status !== 0); });
     if (!open.length && !editing) { wrap.style.display='none'; return; }
     wrap.style.display='block';
-    var list = editing ? MATCHES.filter(function(m){ return m.look.length && !(live[m.id]&&live[m.id].final); }) : open;
+    var list = editing ? DCM().filter(function(m){ return m.look.length && !(live[m.id]&&live[m.id].final); }) : open;
     body.innerHTML = list.map(function(m) {
       var s = live[m.id] || { status:0, holes:0 };
       var lbl, cls;
@@ -4279,7 +4281,7 @@ if ('serviceWorker' in navigator) {
   // Confirm a match: writes the SCORING result + a self-contained archive row, then locks it.
   window.lmConfirm = function(id) {
     var m = null;
-    try { m = MATCHES.filter(function(x){ return x.id === id; })[0]; } catch(e) {}
+    try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
     if (!m) return;
     var s = live[id] || { status:0, holes:0 };
     var winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
