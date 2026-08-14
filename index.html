@@ -3408,36 +3408,13 @@ buildPlayers();
 buildYears();
 </script>
 <script>
-function showDrawPage() {
-  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-  document.querySelectorAll('.nav-links li span, .mobile-nav-menu li span').forEach(a => a.classList.remove('active'));
-  const teaser = document.getElementById('home-2026-teaser');
-  if (teaser) teaser.style.display = 'none';
-  document.getElementById('page-draw').classList.add('active');
-  const el = document.getElementById('nav-draw');
-  if (el) el.classList.add('active');
-  window.scrollTo(0, 0);
-}
 
-function checkDrawPw() {
-  const pw = document.getElementById('draw-pw-input').value;
-  if (pw === 'Daddy') {
-    document.getElementById('draw-gate').style.display = 'none';
-    document.getElementById('draw-content').style.display = 'block';
-    document.getElementById('draw-pw-error').textContent = '';
-  } else {
-    document.getElementById('draw-pw-error').textContent = 'Incorrect password.';
-    document.getElementById('draw-pw-input').value = '';
-  }
-}
 
-function openMobileNav() {
-  document.getElementById('mobile-nav-drawer').classList.add('open');
-}
 
-function closeMobileNav() {
-  document.getElementById('mobile-nav-drawer').classList.remove('open');
-}
+
+
+
+
 
 function openLightbox(src) {
   document.getElementById('lightbox-img').src = src;
