@@ -1037,6 +1037,21 @@
   .lb-live-sub { font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(200,223,200,0.45); margin-top: 6px; font-style: italic; }
 
   /* ── MASTERS-STYLE PORTRAIT STRIP ── */
+
+  /* MATCH RESULTS */
+  .mr-wrap { margin-top:22px; border:1px solid rgba(184,150,46,0.2); border-radius:3px; overflow:hidden; }
+  .mr-head { background:rgba(0,0,0,0.25); padding:12px 16px; font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--gold-light); }
+  .mr-round { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:rgba(200,223,200,0.35); padding:12px 16px 6px; }
+  .mr-row { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:8px; padding:9px 16px; border-top:1px solid rgba(255,255,255,0.04); }
+  .mr-side { font-family:'Cormorant Garamond',serif; font-size:13px; line-height:1.35; }
+  .mr-side.look { color:#6fdc8c; text-align:left; }
+  .mr-side.feel { color:#7EB8E0; text-align:right; }
+  .mr-side.lost { opacity:0.4; }
+  .mr-badge { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; padding:3px 9px; border-radius:11px; white-space:nowrap; }
+  .mr-badge.look { background:rgba(111,220,140,0.15); color:#6fdc8c; }
+  .mr-badge.feel { background:rgba(126,184,224,0.15); color:#7EB8E0; }
+  .mr-badge.half { background:rgba(184,150,46,0.15); color:var(--gold-light); }
+  .mr-badge.open { background:rgba(255,255,255,0.05); color:rgba(200,223,200,0.3); }
   .lb-strip-wrap { display:flex; align-items:stretch; gap:0; margin-bottom:16px; border:1px solid rgba(184,150,46,0.2); border-radius:3px; background:rgba(26,58,42,0.5); overflow:hidden; }
   .lb-strip-pill { flex:0 0 auto; display:flex; flex-direction:column; align-items:center; justify-content:center; padding:10px 14px; border-right:1px solid rgba(184,150,46,0.2); background:rgba(0,0,0,0.25); }
   .lb-strip-pill-circle { width:44px; height:44px; border-radius:50%; border:2px solid var(--gold-light); display:flex; align-items:center; justify-content:center; font-family:'Playfair Display',serif; font-size:15px; font-weight:700; color:var(--gold-light); }
@@ -1148,6 +1163,11 @@
     <div id="lb-cgoy-rows">
       <div class="cgoy-empty">No results yet — check back after Round 1</div>
     </div>
+
+  <div class="mr-wrap" id="mr-wrap">
+    <div class="mr-head">⛳ Match Results</div>
+    <div id="mr-body"><div class="cgoy-empty">Loading...</div></div>
+  </div>
   </div>
 
   <button class="lb-refresh-btn" onclick="lbLoad()">↻ Refresh Standings</button>
@@ -1320,6 +1340,39 @@
         pos++;
       });
       tbody.innerHTML = html;
+
+      // ── Match results, round by round ──
+      (function() {
+        var body = document.getElementById('mr-body');
+        if (!body) return;
+        var ROUNDS = {
+          r1:'Round 1 · Huron Breeze · Fourball',
+          r2:'Round 2 · Red Hawk · Dans + 2v2 Scrambles',
+          r3:'Round 3 · The Dream · Fourball',
+          r4:'Round 4 · The Nightmare · Individual Match Play'
+        };
+        var sur = function(a){ return a.map(function(n){ return n.split(' ').pop(); }).join(' / '); };
+        var out = '', cur = '';
+        MATCHES.forEach(function(m) {
+          var rk = m.id.slice(0,2);
+          if (rk !== cur) { cur = rk; out += '<div class="mr-round">' + (ROUNDS[rk]||rk) + '</div>'; }
+          var res = cache[m.id];
+          var w = res && res.winner;
+          var badge, lostL='', lostF='';
+          if (w === 'look') { badge='<span class="mr-badge look">LG '+m.pts+'</span>'; lostF=' lost'; }
+          else if (w === 'feel') { badge='<span class="mr-badge feel">FG '+m.pts+'</span>'; lostL=' lost'; }
+          else if (w === 'draw') { badge='<span class="mr-badge half">Halved</span>'; }
+          else { badge='<span class="mr-badge open">—</span>'; }
+          var lk = m.look.length ? sur(m.look) : 'TBD';
+          var fl = m.feel.length ? sur(m.feel) : 'TBD';
+          out += '<div class="mr-row">'
+               +   '<div class="mr-side look'+lostL+'">'+lk+'</div>'
+               +   badge
+               +   '<div class="mr-side feel'+lostF+'">'+fl+'</div>'
+               + '</div>';
+        });
+        body.innerHTML = out;
+      })();
 
       // ── Masters-style portrait strip ──
       (function() {
