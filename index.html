@@ -4207,7 +4207,11 @@ if ('serviceWorker' in navigator) {
     var all = DCM();
     if (!all.length) return;
 
-    var started = all.filter(function(m){ return live[m.id] && live[m.id].active; });
+    // a match counts as live if the round was started OR it already has activity
+    var started = all.filter(function(m) {
+      var s = live[m.id];
+      return s && (s.active || s.holes > 0 || s.status !== 0 || s.final);
+    });
     var shown = started.filter(function(m){ return !(live[m.id] && live[m.id].final); });
     if (!started.length) { wrap.style.display = 'none'; return; }
     wrap.style.display = 'block';
@@ -4365,7 +4369,7 @@ if ('serviceWorker' in navigator) {
     try { window.localStorage.setItem('dc_player', name); } catch(e) {}
     var mine = DCM().filter(function(m) {
       var s = live[m.id];
-      return s && s.active && !s.final &&
+      return s && (s.active || s.holes > 0 || s.status !== 0) && !s.final &&
              (m.look.indexOf(name) !== -1 || m.feel.indexOf(name) !== -1);
     });
     mine.forEach(function(m) {
@@ -4398,7 +4402,10 @@ if ('serviceWorker' in navigator) {
     });
   };
   window.lmRoundActive = function(rnd) {
-    return DCM().some(function(m){ return m.id.indexOf('r'+rnd)===0 && live[m.id] && live[m.id].active; });
+    return DCM().some(function(m) {
+      var s = live[m.id];
+      return m.id.indexOf('r'+rnd)===0 && s && (s.active || s.holes > 0 || s.status !== 0);
+    });
   };
 
   function fmtOf(m) {
