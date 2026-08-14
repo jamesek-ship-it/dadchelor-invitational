@@ -2139,6 +2139,7 @@
       .catch(function(e) { console.error(e); });
   }
 
+  window.adminLoadResults = adminLoadResults;
   function adminLoadResults() {
     sbFetch('results?select=*')
       .then(function(r){return r.json();})
@@ -4291,6 +4292,7 @@ if ('serviceWorker' in navigator) {
     .then(function() {
       render();
       if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+      if (window.adminLoadResults) window.adminLoadResults();   // sync Match Scoring buttons
       if (window.lbLoad) window.lbLoad();
     })
     .catch(function(){ alert('Confirm failed — check connection and try again.'); });
