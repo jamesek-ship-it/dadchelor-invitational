@@ -2420,11 +2420,14 @@
         document.querySelectorAll('.admin-contest-save').forEach(function(b){ b.classList.remove('saved'); });
         document.querySelectorAll('.admin-contest-current').forEach(function(el){ el.textContent = '—'; });
         document.querySelectorAll('.admin-contest-input').forEach(function(el){ el.value = ''; });
+        if (window.lmReset) window.lmReset();          // clear in-memory immediately
         adminLoadResults();
-        if (window.lmLoad) window.lmLoad();
-        if (window.lmRefreshAdmin) window.lmRefreshAdmin();
         if (window.lbLoad) window.lbLoad();
-        alert('Hard reset complete. Everything is wiped.');
+        if (window.lmLoad) window.lmLoad(function() {   // then re-sync from empty server
+          if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+          if (window.adminLoadResults) window.adminLoadResults();
+          alert('Hard reset complete. Everything is wiped.');
+        });
       });
   };
 
@@ -4358,7 +4361,14 @@ if ('serviceWorker' in navigator) {
 
   function load(cb) {
     api('live_matches?select=*').then(function(r){ return r.json(); })
-      .then(function(rows){ live={}; if (Array.isArray(rows)) rows.forEach(function(r){ live[r.match_id]=r; }); render(); if(cb)cb(); })
+      .then(function(rows){
+        live={};
+        if (Array.isArray(rows)) rows.forEach(function(r){ live[r.match_id]=r; });
+        render();
+        if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+        if (window.adminLoadResults) window.adminLoadResults();
+        if(cb)cb();
+      })
       .catch(function(){ if(cb)cb(); });
   }
   function save(id) {
@@ -4404,6 +4414,11 @@ if ('serviceWorker' in navigator) {
     api('live_matches?match_id=eq.'+id, { method:'DELETE' }).then(function(){ delete live[id]; render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); });
   };
   window.lmAll = function(){ return live; };
+  window.lmReset = function() {           // wipe in-memory state instantly
+    live = {}; me = me;                   // keep identity, drop all match state
+    render();
+    if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+  };
 
   // ── who am I / editor claims ──
   var me = null;
