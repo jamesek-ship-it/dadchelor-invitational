@@ -4579,6 +4579,17 @@ if ('serviceWorker' in navigator) {
     if (!m) return;
     var s = live[id] || { status:0, holes:0 };
     var winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
+    if (!window.lmValid(s.status, s.holes)) {
+      var up = Math.abs(s.status), left = 18 - (s.holes||0);
+      var should = window.lmCloseoutHoles(s.status);
+      var fix = 'A lead of ' + up + ' with ' + left + ' to play is not a possible match state — '
+              + 'the match would have ended on hole ' + should + ' as ' + up + ' & ' + (up-1) + '.';
+      if (confirm(fix + '\n\nSet the hole count to ' + should + ' and confirm as '
+                + up + ' & ' + (up-1) + '?')) {
+        s.holes = should;
+        live[id] = s;
+      } else { return; }
+    }
     var decided = window.lmDecided(s.status, s.holes);
     var lbl = window.lmResultText(s.status, s.holes);
     if (!decided) {
@@ -4645,6 +4656,21 @@ if ('serviceWorker' in navigator) {
 
   // A match is decided only when the lead EXCEEDS the holes remaining,
   // or all 18 have been played. Level with holes left, or dormie, is still live.
+  // Is this state even reachable? A lead can't exceed holes played, and can't be
+  // more than 1 clear of the holes remaining (the match would have ended earlier).
+  window.lmValid = function(status, holes) {
+    var up = Math.abs(status || 0), h = holes || 0;
+    if (up > h) return false;                 // can't lead by more than holes played
+    if (h >= 18) return up <= 2;              // after 18 the most you can win by is 2 up
+    if (up > (18 - h) + 1) return false;      // otherwise the match would have ended earlier
+    return true;
+  };
+  // The hole a match of this margin must have finished on.
+  window.lmCloseoutHoles = function(status) {
+    var up = Math.abs(status || 0);
+    return up <= 1 ? 18 : 19 - up;
+  };
+
   window.lmDecided = function(status, holes) {
     var h = holes || 0;
     if (h >= 18) return true;
@@ -4661,6 +4687,9 @@ if ('serviceWorker' in navigator) {
     }
     if (!status) return 'Halved';
     var side = status > 0 ? 'Look Good' : 'Feel Good';
+    if (!window.lmValid(status, h)) {
+      return side + ' ' + up + ' up thru ' + h + ' — impossible, check hole count';
+    }
     return side + ' won ' + (left > 0 ? up + ' & ' + left : up + ' up');
   };
 
