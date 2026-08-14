@@ -1087,6 +1087,11 @@
   .lm-ctl2 .lm-b-feel { color:#7EB8E0; border-color:rgba(126,184,224,0.3); }
   .lm-ctl2 .lm-b-sq   { color:var(--gold-light); border-color:rgba(184,150,46,0.35); }
   .lm-ctl2 .lm-b-hole { grid-column:span 1; }
+  .lm-ctl2 .lm-b-conf { color:#fff; background:#2a6e3a; border-color:#2a6e3a; font-weight:700; }
+  .lm-ctl2 .lm-b-clear { color:#e08a8a; border-color:rgba(214,40,40,0.3); }
+  .lm-confnote { background:rgba(42,110,58,0.12); border:1px solid rgba(42,110,58,0.4); border-left:3px solid #2a6e3a; border-radius:2px; margin:12px 16px; padding:12px 14px; }
+  .lm-confnote-h { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; color:#6fdc8c; margin-bottom:5px; }
+  .lm-confnote-b { font-family:'Cormorant Garamond',serif; font-size:12.5px; line-height:1.55; color:rgba(200,223,200,0.75); }
   .lm-claim { padding:14px 16px; border-top:1px solid rgba(255,255,255,0.06); }
   .lm-claimq { font-family:'Cormorant Garamond',serif; font-size:12px; font-style:italic; color:rgba(200,223,200,0.45); margin-bottom:9px; line-height:1.4; }
   .lm-claim select { width:100%; background:rgba(0,0,0,0.35); border:1px solid rgba(255,255,255,0.15); color:#fff; padding:9px; border-radius:2px; font-family:'Cormorant Garamond',serif; font-size:13px; margin-bottom:9px; }
@@ -4267,6 +4272,12 @@ if ('serviceWorker' in navigator) {
       return s && (s.active || s.holes > 0 || s.status !== 0 || s.final);
     });
     var shown = started.filter(function(m){ return !(live[m.id] && live[m.id].final); });
+    // matches I was scoring that someone else just confirmed
+    var justConfirmed = me ? started.filter(function(m) {
+      var s = live[m.id];
+      return s && s.final && s.confirmed_by && s.confirmed_by !== me &&
+             (m.look.indexOf(me) !== -1 || m.feel.indexOf(me) !== -1);
+    }) : [];
     if (!started.length) { wrap.style.display = 'none'; return; }
     wrap.style.display = 'block';
 
@@ -4292,11 +4303,11 @@ if ('serviceWorker' in navigator) {
               + (notice ? '<div class="lm-warn">⚠️ ' + notice + '</div>' : '')
               + '<div class="lm-ctl2">'
               + '<button class="lm-b-look" onclick="lmAdj(\'' + m.id + '\',1,0)">◀ LG</button>'
-              + '<button class="lm-b-sq" onclick="lmSquare(\'' + m.id + '\')">All Square</button>'
               + '<button class="lm-b-feel" onclick="lmAdj(\'' + m.id + '\',-1,0)">FG ▶</button>'
+              + '<button class="lm-b-conf" onclick="lmConfirm(\'' + m.id + '\')">✓ Confirm</button>'
               + '<button class="lm-b-hole" onclick="lmAdj(\'' + m.id + '\',0,-1)">− hole</button>'
               + '<button class="lm-b-hole" onclick="lmAdj(\'' + m.id + '\',0,1)">+ hole</button>'
-              + '<button class="lm-b-hole" style="opacity:0;pointer-events:none;"></button>'
+              + '<button class="lm-b-clear" onclick="lmClearTyped(\'' + m.id + '\')">Clear</button>'
               + '</div>'
             : '<div class="lm-team look">' + sur(m.look) + '</div>'
               + '<div class="lm-stat"><div class="lm-up ' + cls + '">'
@@ -4307,6 +4318,18 @@ if ('serviceWorker' in navigator) {
     }
 
     var html = '';
+    if (justConfirmed.length) {
+      html += justConfirmed.map(function(m) {
+        var s = live[m.id];
+        var res = s.status > 0 ? 'Look Good won' : (s.status < 0 ? 'Feel Good won' : 'Halved');
+        return '<div class="lm-confnote">'
+          + '<div class="lm-confnote-h">✓ Match confirmed</div>'
+          + '<div class="lm-confnote-b">'
+          +   sur(m.look) + ' v ' + sur(m.feel) + ' — <strong>' + res + '</strong><br>'
+          +   'Confirmed by ' + s.confirmed_by.split(' ').pop() + '. If you disagree, tell the Commissioner.'
+          + '</div></div>';
+      }).join('');
+    }
     if (mine.length) {
       html += '<div class="lm-sec">Your match</div>' + mine.map(function(m){ return card(m,true); }).join('');
       var others = shown.filter(function(m){ return mine.indexOf(m) === -1; });
@@ -4526,8 +4549,8 @@ if ('serviceWorker' in navigator) {
     })
     // 3. lock
     .then(function() {
-      s.final = true; live[id] = s;
-      return api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes, final:true }) });
+      s.final = true; s.confirmed_by = me || 'Commissioner'; live[id] = s;
+      return api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes, final:true, confirmed_by:s.confirmed_by }) });
     })
     .then(function() {
       render();
@@ -4547,6 +4570,12 @@ if ('serviceWorker' in navigator) {
   };
 
   window.lmIsFinal = function(id) { return !!(live[id] && live[id].final); };
+
+  window.lmClearTyped = function(id) {
+    var t = prompt('This wipes the live status for this match.\n\nType  CLEAR  to confirm.');
+    if (!t || t.trim().toUpperCase() !== 'CLEAR') return;
+    lmClear(id);
+  };
   window.lmTap = function(btn) {
     if (!btn) return;
     btn.classList.add('saving');
