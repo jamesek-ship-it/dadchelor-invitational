@@ -19,12 +19,25 @@ def check(ok, msg):
 h = open('dadchelor_v2.html').read()
 sur = lambda s: '/'.join(x.strip().split()[-1] for x in s.split(',') if x.strip())
 
-# ---------- 1. MATCHES ----------
-mi, mj = h.find('var MATCHES'), h.find('];', h.find('var MATCHES'))
-M = {}
-for m in re.finditer(r"\{ id:'(\w+)', look:\[(.*?)\], feel:\[(.*?)\], pts:(\d)", h[mi:mj]):
-    M[m.group(1)] = (m.group(2).replace("'", ""), m.group(3).replace("'", ""), int(m.group(4)))
-print(f"\nMATCHES: {len(M)} matches")
+# ---------- 1. MATCHES (ALL copies must agree) ----------
+arrays = []
+for am in re.finditer(r'var MATCHES\s*=', h):
+    p0 = am.start(); seg = h[p0:h.find('];', p0) + 2]
+    d = {}
+    for m in re.finditer(r"\{\s*id:'(\w+)',(?:\s*round:\d+,)?\s*look:\[(.*?)\],\s*feel:\[(.*?)\],\s*pts:(\d)", seg):
+        d[m.group(1)] = (m.group(2).replace("'", "").replace(" ", ""),
+                         m.group(3).replace("'", "").replace(" ", ""), int(m.group(4)))
+    arrays.append((p0, d))
+print(f"\nMATCHES arrays found: {len(arrays)}")
+base = arrays[0][1]
+for pos, d in arrays[1:]:
+    play = {k: v for k, v in d.items() if not k.endswith(('ctp', 'ld'))}
+    bplay = {k: v for k, v in base.items() if not k.endswith(('ctp', 'ld'))}
+    check(set(play) == set(bplay), f"MATCHES@{pos} has same match ids as MATCHES@{arrays[0][0]}")
+    for k in sorted(set(play) & set(bplay)):
+        check(play[k] == bplay[k], f"MATCHES@{pos} {k} identical")
+M = {k: v for k, v in base.items() if not k.endswith(('ctp', 'ld'))}
+print(f"canonical: {len(M)} matches")
 
 # ---------- 2. Draw page ----------
 ds = h.find('id="page-draw"'); de = h.find('<script>', ds); draw = h[ds:de]
