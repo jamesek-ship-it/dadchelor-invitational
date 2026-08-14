@@ -18,6 +18,7 @@ def check(ok, msg):
 
 h = open('dadchelor_v2.html').read()
 sur = lambda s: '/'.join(x.strip().split()[-1] for x in s.split(',') if x.strip())
+unspace = lambda s: s.replace(', ', ',')
 
 # ---------- 1. MATCHES (ALL copies must agree) ----------
 arrays = []
@@ -25,8 +26,8 @@ for am in re.finditer(r'var MATCHES\s*=', h):
     p0 = am.start(); seg = h[p0:h.find('];', p0) + 2]
     d = {}
     for m in re.finditer(r"\{\s*id:'(\w+)',(?:\s*round:\d+,)?\s*look:\[(.*?)\],\s*feel:\[(.*?)\],\s*pts:(\d)", seg):
-        d[m.group(1)] = (m.group(2).replace("'", "").replace(" ", ""),
-                         m.group(3).replace("'", "").replace(" ", ""), int(m.group(4)))
+        clean = lambda x: ','.join(y.strip() for y in x.replace("'", "").split(','))
+        d[m.group(1)] = (clean(m.group(2)), clean(m.group(3)), int(m.group(4)))
     arrays.append((p0, d))
 print(f"\nMATCHES arrays found: {len(arrays)}")
 base = arrays[0][1]
@@ -56,7 +57,7 @@ admin = re.findall(r'admin-match-name look">([^<]*)</span>.*?data-match="(\w+)".
                    adm, re.DOTALL)
 
 print("\n=== Draw page vs MATCHES ===")
-norm = lambda s: ','.join(sorted(x.strip() for x in s.split(',') if x.strip()))
+norm = lambda s: ','.join(sorted(x.strip() for x in s.replace('  ',' ').split(',') if x.strip()))
 ids = [k for k in M if not k.startswith('r4')]
 check(len(drawn) == len(ids), f"draw shows {len(drawn)} matches, MATCHES has {len(ids)}")
 for k, mid in enumerate(ids):
