@@ -499,10 +499,13 @@
   .alv-thru { font-family:'Cormorant Garamond',serif; font-size:11px; font-style:italic; color:var(--text-light); }
   .alv-btns { display:flex; gap:5px; flex-wrap:wrap; }
   .alv-btns .awb { padding:5px 11px; }
-  .alv-row.final { background:rgba(184,150,46,0.07); border-color:rgba(184,150,46,0.35); }
-  .alv-final { font-family:'Cormorant Garamond',serif; font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--gold); background:rgba(184,150,46,0.15); padding:2px 7px; border-radius:9px; margin-left:8px; vertical-align:middle; }
+  .alv-row.final { background:rgba(42,110,58,0.07); border-color:rgba(42,110,58,0.45); border-left:4px solid #2a6e3a; }
+  .alv-row.final .alv-thru { color:#2a6e3a; font-weight:700; font-style:normal; letter-spacing:1px; }
+  .alv-final { font-family:'Cormorant Garamond',serif; font-size:9px; font-weight:700; letter-spacing:1.5px; color:#fff; background:#2a6e3a; padding:2px 7px; border-radius:9px; margin-left:8px; vertical-align:middle; }
   .awb-confirm { border-color:rgba(42,110,58,0.6); color:#fff; background:#2a6e3a; font-weight:700; }
 
+  .admin-match-row.confirmed { background:rgba(42,110,58,0.06); border-left:3px solid #2a6e3a; padding-left:9px; }
+  .ms-final { font-family:'Cormorant Garamond',serif; font-size:8.5px; font-weight:700; letter-spacing:1.2px; color:#fff; background:#2a6e3a; padding:2px 6px; border-radius:8px; white-space:nowrap; }
   .awb.saving { box-shadow:0 0 0 2px rgba(184,150,46,0.55); }
   .awb.selected { font-weight:700; }
   .awb-look { border-color:rgba(77,190,106,0.4); color:#2a6e3a; }
@@ -2152,6 +2155,23 @@
           ['look','draw','feel'].forEach(function(v) {
             var btn = document.querySelector('.awb[data-match="'+m.id+'"][data-val="'+v+'"]');
             if (!btn) return;
+            if (v === 'look') {
+              var row = btn.closest('.admin-match-row');
+              if (row) {
+                var old = row.querySelector('.ms-final');
+                if (old) old.remove();
+                var isFin = false;
+                try { isFin = !!(window.lmIsFinal && window.lmIsFinal(m.id)); } catch(e) {}
+                row.classList.toggle('confirmed', isFin);
+                if (isFin) {
+                  var tag = document.createElement('span');
+                  tag.className = 'ms-final';
+                  tag.textContent = '✓ CONFIRMED';
+                  var nm = row.querySelector('.admin-match-name.look');
+                  if (nm && nm.parentNode) nm.parentNode.insertBefore(tag, nm.nextSibling);
+                }
+              }
+            }
             var srv = cache[m.id] ? cache[m.id].winner : null;
             var want = (m.id in pendingSel) ? pendingSel[m.id] : srv;
             btn.classList.toggle('selected', want === v);
@@ -2254,10 +2274,12 @@
           + '<div class="alv-teams"><span class="alv-look">' + sur(m.look) + '</span>'
           +   '<span class="alv-v">v</span>'
           +   '<span class="alv-feel">' + sur(m.feel) + '</span>'
-          +   (fin ? '<span class="alv-final">FINAL</span>' : '') + '</div>'
+          +   (fin ? '<span class="alv-final">✓ FINAL</span>' : '') + '</div>'
           + '<div class="alv-status"><span class="alv-badge ' + cls + '">' + lbl + '</span>'
-          +   '<span class="alv-thru">' + (s.holes ? 'thru ' + s.holes : 'not started')
-          +     (s.holes >= 18 && !fin ? ' · ready to confirm' : '') + '</span></div>'
+          +   '<span class="alv-thru">' + (fin
+                ? 'FINAL · scored'
+                : ((s.holes ? 'thru ' + s.holes : 'not started')
+                   + (s.holes >= 18 ? ' · ready to confirm' : ''))) + '</span></div>'
           + '<div class="alv-btns">' + btns + '</div></div>';
       });
       el.innerHTML = out;
@@ -4292,7 +4314,7 @@ if ('serviceWorker' in navigator) {
     .then(function() {
       render();
       if (window.lmRefreshAdmin) window.lmRefreshAdmin();
-      if (window.adminLoadResults) window.adminLoadResults();   // sync Match Scoring buttons
+      if (window.adminLoadResults) window.adminLoadResults();   // sync Match Scoring buttons + confirmed tags
       if (window.lbLoad) window.lbLoad();
     })
     .catch(function(){ alert('Confirm failed — check connection and try again.'); });
