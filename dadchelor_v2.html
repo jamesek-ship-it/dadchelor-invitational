@@ -4321,7 +4321,8 @@ if ('serviceWorker' in navigator) {
     if (justConfirmed.length) {
       html += justConfirmed.map(function(m) {
         var s = live[m.id];
-        var res = s.status > 0 ? 'Look Good won' : (s.status < 0 ? 'Feel Good won' : 'Halved');
+        var res = window.lmResultText ? window.lmResultText(s.status, s.holes)
+                  : (s.status > 0 ? 'Look Good won' : (s.status < 0 ? 'Feel Good won' : 'Halved'));
         return '<div class="lm-confnote">'
           + '<div class="lm-confnote-h">✓ Match confirmed</div>'
           + '<div class="lm-confnote-b">'
@@ -4524,8 +4525,9 @@ if ('serviceWorker' in navigator) {
     if (!m) return;
     var s = live[id] || { status:0, holes:0 };
     var winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
-    var lbl = winner === 'look' ? 'Look Good' : (winner === 'feel' ? 'Feel Good' : 'a halve');
-    if (!confirm('Confirm ' + lbl + '? This scores the match and locks it.')) return;
+    var lbl = window.lmResultText ? window.lmResultText(s.status, s.holes)
+              : (winner === 'look' ? 'Look Good' : (winner === 'feel' ? 'Feel Good' : 'a halve'));
+    if (!confirm('Confirm result: ' + lbl + '\n\nThis scores the match and locks it.')) return;
 
     // 1. scoring result
     fetch(URL + '/rest/v1/results?match_id=eq.' + id, {
@@ -4570,6 +4572,16 @@ if ('serviceWorker' in navigator) {
   };
 
   window.lmIsFinal = function(id) { return !!(live[id] && live[id].final); };
+
+  // Match-play result in proper notation: "4 & 3", "2 up", "Halved"
+  window.lmResultText = function(status, holes) {
+    if (!status) return 'Halved';
+    var up = Math.abs(status);
+    var left = Math.max(0, 18 - (holes || 0));
+    var side = status > 0 ? 'Look Good' : 'Feel Good';
+    // a match closes out when the lead exceeds the holes remaining -> "4 & 3"
+    return side + ' won ' + (up > left && left > 0 ? up + ' & ' + left : up + ' up');
+  };
 
   window.lmClearTyped = function(id) {
     var t = prompt('This wipes the live status for this match.\n\nType  CLEAR  to confirm.');
