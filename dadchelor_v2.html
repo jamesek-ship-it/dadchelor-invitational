@@ -4404,20 +4404,10 @@ if ('serviceWorker' in navigator) {
     if (live[id] && live[id].final) return;
     var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
 
-    // A match ENDS the moment the lead exceeds the holes remaining.
-    // So it can never be more than 1 clear of the holes left, and a lead
-    // can never exceed the holes actually played.
-    var wasDecided = window.lmDecided(s.status, s.holes);
-    if (wasDecided) {
-      alert('This match is already decided — ' + window.lmResultText(s.status, s.holes)
-          + '.\n\nConfirm it, or use Clear if it was entered wrong.');
-      return;
-    }
-
     if (ds) {
       var ns = s.status + ds;
       // Winning a hole means a hole was played — carry the hole count forward
-      // automatically rather than making anyone tap twice.
+      // automatically rather than making anyone tap twice or blocking the tap.
       if (Math.abs(ns) > s.holes && s.holes < 18) s.holes = Math.min(18, Math.abs(ns));
       s.status = ns;
     }
