@@ -499,6 +499,10 @@
   .alv-thru { font-family:'Cormorant Garamond',serif; font-size:11px; font-style:italic; color:var(--text-light); }
   .alv-btns { display:flex; gap:5px; flex-wrap:wrap; }
   .alv-btns .awb { padding:5px 11px; }
+  .alv-row.final { background:rgba(184,150,46,0.07); border-color:rgba(184,150,46,0.35); }
+  .alv-final { font-family:'Cormorant Garamond',serif; font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--gold); background:rgba(184,150,46,0.15); padding:2px 7px; border-radius:9px; margin-left:8px; vertical-align:middle; }
+  .awb-confirm { border-color:rgba(42,110,58,0.6); color:#fff; background:#2a6e3a; font-weight:700; }
+
   .awb.saving { box-shadow:0 0 0 2px rgba(184,150,46,0.55); }
   .awb.selected { font-weight:700; }
   .awb-look { border-color:rgba(77,190,106,0.4); color:#2a6e3a; }
@@ -2235,20 +2239,25 @@
         if (s.status > 0) { lbl = 'LG ' + s.status + ' UP'; cls = 'lg'; }
         else if (s.status < 0) { lbl = 'FG ' + Math.abs(s.status) + ' UP'; cls = 'fg'; }
         else { lbl = 'ALL SQUARE'; cls = 'as'; }
-        out += '<div class="alv-row">'
+        var fin = !!s.final;
+        var btns = fin
+          ? '<button class="awb awb-half" onclick="lmTap(this);lmAmend(\'' + m.id + '\')">✎ Amend</button>'
+          : '<button class="awb awb-look" onclick="lmTap(this);lmAdj(\'' + m.id + '\',1,0)">LG+</button>'
+            + '<button class="awb awb-half" onclick="lmTap(this);lmSquare(\'' + m.id + '\')">AS</button>'
+            + '<button class="awb awb-feel" onclick="lmTap(this);lmAdj(\'' + m.id + '\',-1,0)">FG+</button>'
+            + '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,1)">+h</button>'
+            + '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,-1)">−h</button>'
+            + '<button class="awb awb-confirm" onclick="lmTap(this);lmConfirm(\'' + m.id + '\')">✓ Confirm</button>'
+            + '<button class="awb awb-feel" onclick="lmTap(this);lmClear(\'' + m.id + '\')">clear</button>';
+        out += '<div class="alv-row' + (fin ? ' final' : '') + '">'
           + '<div class="alv-teams"><span class="alv-look">' + sur(m.look) + '</span>'
           +   '<span class="alv-v">v</span>'
-          +   '<span class="alv-feel">' + sur(m.feel) + '</span></div>'
+          +   '<span class="alv-feel">' + sur(m.feel) + '</span>'
+          +   (fin ? '<span class="alv-final">FINAL</span>' : '') + '</div>'
           + '<div class="alv-status"><span class="alv-badge ' + cls + '">' + lbl + '</span>'
-          +   '<span class="alv-thru">' + (s.holes ? 'thru ' + s.holes : 'not started') + '</span></div>'
-          + '<div class="alv-btns">'
-          +   '<button class="awb awb-look" onclick="lmTap(this);lmAdj(\'' + m.id + '\',1,0)">LG+</button>'
-          +   '<button class="awb awb-half" onclick="lmTap(this);lmSquare(\'' + m.id + '\')">AS</button>'
-          +   '<button class="awb awb-feel" onclick="lmTap(this);lmAdj(\'' + m.id + '\',-1,0)">FG+</button>'
-          +   '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,1)">+h</button>'
-          +   '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,-1)">−h</button>'
-          +   '<button class="awb awb-feel" onclick="lmTap(this);lmClear(\'' + m.id + '\')">clear</button>'
-          + '</div></div>';
+          +   '<span class="alv-thru">' + (s.holes ? 'thru ' + s.holes : 'not started')
+          +     (s.holes >= 18 && !fin ? ' · ready to confirm' : '') + '</span></div>'
+          + '<div class="alv-btns">' + btns + '</div></div>';
       });
       el.innerHTML = out;
     };
@@ -4164,10 +4173,11 @@ if ('serviceWorker' in navigator) {
     var open = MATCHES.filter(function(m){ return live[m.id] && (live[m.id].holes > 0 || live[m.id].status !== 0); });
     if (!open.length && !editing) { wrap.style.display='none'; return; }
     wrap.style.display='block';
-    var list = editing ? MATCHES.filter(function(m){ return m.look.length; }) : open;
+    var list = editing ? MATCHES.filter(function(m){ return m.look.length && !(live[m.id]&&live[m.id].final); }) : open;
     body.innerHTML = list.map(function(m) {
       var s = live[m.id] || { status:0, holes:0 };
       var lbl, cls;
+      if (s.final) { }
       if (s.status > 0) { lbl = s.status+' UP'; cls='look'; }
       else if (s.status < 0) { lbl = Math.abs(s.status)+' UP'; cls='feel'; }
       else { lbl = 'ALL SQUARE'; cls='sq'; }
@@ -4181,7 +4191,7 @@ if ('serviceWorker' in navigator) {
       return '<div class="lm-row">'
         + '<div class="lm-team look">'+sur(m.look)+'</div>'
         + '<div class="lm-stat"><div class="lm-up '+cls+'">'+lbl+'</div>'
-        +   '<div class="lm-thru">'+(s.holes ? 'thru '+s.holes : 'not started')+'</div></div>'
+        +   '<div class="lm-thru">'+(s.final ? 'FINAL' : (s.holes ? 'thru '+s.holes : 'not started'))+'</div></div>'
         + '<div class="lm-team feel">'+sur(m.feel)+'</div>'
         + (editing ? ctl : '')
         + '</div>';
@@ -4200,12 +4210,14 @@ if ('serviceWorker' in navigator) {
   }
 
   window.lmAdj = function(id, ds, dh) {
+    if (live[id] && live[id].final) return;
     var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
     if (ds) s.status = Math.max(-10, Math.min(10, s.status + ds));
     if (dh) s.holes  = Math.max(0, Math.min(18, s.holes + dh));
     render(); save(id); if (window.lmRefreshAdmin) window.lmRefreshAdmin();
   };
   window.lmSquare = function(id) {
+    if (live[id] && live[id].final) return;
     var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
     s.status = 0; render(); save(id); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); if (window.lmRefreshAdmin) window.lmRefreshAdmin();
   };
@@ -4234,6 +4246,65 @@ if ('serviceWorker' in navigator) {
     api('live_matches?match_id=eq.'+id, { method:'DELETE' }).then(function(){ delete live[id]; render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); });
   };
   window.lmAll = function(){ return live; };
+
+  function fmtOf(m) {
+    if (m.look.length === 1) return 'Singles';
+    if (m.id.indexOf('r2') === 0) return '2v2 Scramble';
+    return 'Fourball';
+  }
+
+  // Confirm a match: writes the SCORING result + a self-contained archive row, then locks it.
+  window.lmConfirm = function(id) {
+    var m = null;
+    try { m = MATCHES.filter(function(x){ return x.id === id; })[0]; } catch(e) {}
+    if (!m) return;
+    var s = live[id] || { status:0, holes:0 };
+    var winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
+    var lbl = winner === 'look' ? 'Look Good' : (winner === 'feel' ? 'Feel Good' : 'a halve');
+    if (!confirm('Confirm ' + lbl + '? This scores the match and locks it.')) return;
+
+    // 1. scoring result
+    fetch(URL + '/rest/v1/results?match_id=eq.' + id, {
+      method:'DELETE', headers:{ 'apikey':KEY, 'Authorization':'Bearer '+KEY }
+    })
+    .then(function() {
+      return api('results', { method:'POST', body: JSON.stringify({ match_id:id, winner:winner }) });
+    })
+    // 2. permanent archive row (independent of this year's config)
+    .then(function() {
+      return api('match_archive', { method:'POST', body: JSON.stringify({
+        year: 2026,
+        round: parseInt(id.charAt(1), 10),
+        format: fmtOf(m),
+        look_players: m.look,
+        feel_players: m.feel,
+        winner: winner,
+        margin: Math.abs(s.status),
+        holes: s.holes
+      })});
+    })
+    // 3. lock
+    .then(function() {
+      s.final = true; live[id] = s;
+      return api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes, final:true }) });
+    })
+    .then(function() {
+      render();
+      if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+      if (window.lbLoad) window.lbLoad();
+    })
+    .catch(function(){ alert('Confirm failed — check connection and try again.'); });
+  };
+
+  window.lmAmend = function(id) {
+    if (!confirm('Unlock this match for editing? The score stays until you re-confirm.')) return;
+    var s = live[id] || { status:0, holes:0 };
+    s.final = false; live[id] = s;
+    api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes, final:false }) })
+      .then(function(){ render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); });
+  };
+
+  window.lmIsFinal = function(id) { return !!(live[id] && live[id].final); };
   window.lmTap = function(btn) {
     if (!btn) return;
     btn.classList.add('saving');
