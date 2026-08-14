@@ -1079,6 +1079,7 @@
   .lm-row.mine .lm-matchup .look { color:#6fdc8c; text-align:right; flex:1; }
   .lm-row.mine .lm-matchup .feel { color:#7EB8E0; text-align:left; flex:1; }
   .lm-row.mine .lm-matchup .lm-vs { color:rgba(200,223,200,0.65); font-style:italic; flex:0 0 auto; }
+  .lm-ready { background:rgba(42,110,58,0.18); border:1px solid rgba(111,220,140,0.35); color:#8fe8a8; font-family:'Cormorant Garamond',serif; font-size:12.5px; font-weight:600; text-align:center; padding:8px 10px; border-radius:2px; margin:0 0 12px; line-height:1.4; }
   .lm-warn { background:rgba(214,40,40,0.1); border:1px solid rgba(214,40,40,0.28); color:#f0b8b8; font-family:'Cormorant Garamond',serif; font-size:12px; line-height:1.5; padding:9px 11px; border-radius:2px; margin-top:13px; }
   .lm-ctl2 { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:13px; }
   .lm-ctl2 button { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#e8f0e8; font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:10px 4px; border-radius:2px; cursor:pointer; transition:background 0.15s; }
@@ -4300,6 +4301,9 @@ if ('serviceWorker' in navigator) {
         + (editable
             ? '<div class="lm-big ' + cls + '">' + lbl + '</div>'
               + '<div class="lm-bigthru">' + (s.holes ? 'THRU ' + s.holes : 'NOT STARTED') + '</div>'
+              + (window.lmDecided && window.lmDecided(s.status, s.holes)
+                  ? '<div class="lm-ready">✓ ' + window.lmResultText(s.status, s.holes)
+                    + ' — tap Confirm to lock it in</div>' : '')
               + '<div class="lm-matchup"><span class="look">' + sur(m.look) + '</span>'
               + '<span class="lm-vs">v</span>'
               + '<span class="feel">' + sur(m.feel) + '</span></div>'
@@ -4380,8 +4384,43 @@ if ('serviceWorker' in navigator) {
   window.lmAdj = function(id, ds, dh) {
     if (live[id] && live[id].final) return;
     var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
-    if (ds) s.status = Math.max(-10, Math.min(10, s.status + ds));
-    if (dh) s.holes  = Math.max(0, Math.min(18, s.holes + dh));
+
+    // A match ENDS the moment the lead exceeds the holes remaining.
+    // So it can never be more than 1 clear of the holes left, and a lead
+    // can never exceed the holes actually played.
+    var wasDecided = window.lmDecided(s.status, s.holes);
+    if (wasDecided) {
+      alert('This match is already decided — ' + window.lmResultText(s.status, s.holes)
+          + '.\n\nConfirm it, or use Clear if it was entered wrong.');
+      return;
+    }
+
+    if (ds) {
+      var ns = s.status + ds;
+      var left = 18 - s.holes;
+      if (Math.abs(ns) > s.holes) {
+        alert('Only ' + s.holes + ' hole' + (s.holes===1?'':'s') + ' played — a side can\'t be '
+            + Math.abs(ns) + ' up yet.\n\nTap "+ hole" first, then set the lead.');
+        return;
+      }
+      if (Math.abs(ns) > left + 1) {
+        alert('That isn\'t possible. A lead of ' + Math.abs(ns) + ' with ' + left
+            + ' to play means the match would already have finished '
+            + Math.abs(ns) + ' & ' + (Math.abs(ns) - 1) + '.\n\nCheck the hole count.');
+        return;
+      }
+      s.status = ns;
+    }
+
+    if (dh) {
+      var nh = Math.max(0, Math.min(18, s.holes + dh));
+      if (Math.abs(s.status) > nh) {
+        alert('Can\'t drop to ' + nh + ' hole' + (nh===1?'':'s') + ' — a side is '
+            + Math.abs(s.status) + ' up.');
+        return;
+      }
+      s.holes = nh;
+    }
     render(); save(id); if (window.lmRefreshAdmin) window.lmRefreshAdmin();
   };
   window.lmSquare = function(id) {
