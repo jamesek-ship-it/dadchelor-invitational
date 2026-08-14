@@ -499,6 +499,11 @@
   .alv-thru { font-family:'Cormorant Garamond',serif; font-size:11px; font-style:italic; color:var(--text-light); }
   .alv-btns { display:flex; gap:5px; flex-wrap:wrap; }
   .alv-btns .awb { padding:5px 11px; }
+  .alv-scores { display:flex; align-items:center; justify-content:space-between; gap:10px; margin-bottom:7px; }
+  .alv-sc { font-family:'Playfair Display',serif; font-size:19px; font-weight:700; min-width:38px; }
+  .alv-sc.look { color:#2a6e3a; text-align:left; }
+  .alv-sc.feel { color:#1e4f6e; text-align:right; }
+  .alv-fmt { font-family:'Cormorant Garamond',serif; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-light); background:rgba(0,0,0,0.05); padding:2px 7px; border-radius:9px; margin-left:8px; }
   .alv-row.final { background:rgba(184,150,46,0.07); border-color:rgba(184,150,46,0.35); }
   .alv-final { font-family:'Cormorant Garamond',serif; font-size:9px; font-weight:700; letter-spacing:1.5px; color:var(--gold); background:rgba(184,150,46,0.15); padding:2px 7px; border-radius:9px; margin-left:8px; vertical-align:middle; }
   .awb-confirm { border-color:rgba(42,110,58,0.6); color:#fff; background:#2a6e3a; font-weight:700; }
@@ -1071,6 +1076,7 @@
   .lm-stat { text-align:center; white-space:nowrap; }
   .lm-up { font-family:'Playfair Display',serif; font-size:14px; font-weight:700; }
   .lm-up.look { color:#6fdc8c; } .lm-up.feel { color:#7EB8E0; } .lm-up.sq { color:var(--gold-light); }
+  .lm-parline { font-family:'Playfair Display',serif; font-size:17px; font-weight:700; margin-top:2px; }
   .lm-thru { font-family:'Cormorant Garamond',serif; font-size:9px; letter-spacing:1px; text-transform:uppercase; color:rgba(200,223,200,0.35); margin-top:2px; }
   .lm-ctl { display:none; grid-column:1/-1; gap:6px; padding-top:9px; justify-content:center; flex-wrap:wrap; }
   .lm-wrap.editing .lm-ctl { display:flex; }
@@ -1235,8 +1241,8 @@
     { id:'r1m2', look:['James Knox','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
     { id:'r1m3', look:['Kenny Dalen'], feel:['Brandon Bartneck'], pts:1 },
     { id:'r2m1', look:['Dan Kraft'], feel:['Dan Harras'], pts:1 },
-    { id:'r2m2', look:['James Knox','Tim McGuire'], feel:['Adam Hartley','Andrew Heppner'], pts:1 },
-    { id:'r2m3', look:['Matt Hus','Kenny Dalen'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r2m2', look:['James Knox','Tim McGuire'], feel:['Adam Hartley','Andrew Heppner'], pts:1, mode:'stroke' },
+    { id:'r2m3', look:['Matt Hus','Kenny Dalen'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1, mode:'stroke' },
     { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
     { id:'r3m2', look:['Matt Hus','Dan Kraft'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
     { id:'r3m3', look:['Tim McGuire','Kenny Dalen'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
@@ -2108,8 +2114,8 @@
     {id:'r1m2',look:['James Knox','Dan Kraft'],feel:['Keegan Chicilli','Dan Harras'],pts:1},
     {id:'r1m3',look:['Kenny Dalen'],feel:['Brandon Bartneck'],pts:1},
     {id:'r2m1',look:['Dan Kraft'],feel:['Dan Harras'],pts:1},
-    {id:'r2m2',look:['James Knox','Tim McGuire'],feel:['Adam Hartley','Andrew Heppner'],pts:1},
-    {id:'r2m3',look:['Matt Hus','Kenny Dalen'],feel:['Keegan Chicilli','Brandon Bartneck'],pts:1},
+    {id:'r2m2',look:['James Knox','Tim McGuire'],feel:['Adam Hartley','Andrew Heppner'],pts:1,mode:'stroke'},
+    {id:'r2m3',look:['Matt Hus','Kenny Dalen'],feel:['Keegan Chicilli','Brandon Bartneck'],pts:1,mode:'stroke'},
     {id:'r3m1',look:['James Knox','Ricky Moceri'],feel:['Dan Harras','Brandon Bartneck'],pts:1},
     {id:'r3m2',look:['Matt Hus','Dan Kraft'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1},
     {id:'r3m3',look:['Tim McGuire','Kenny Dalen'],feel:['Adam Hartley','Jon Boguth'],pts:1},
@@ -2241,6 +2247,41 @@
         else if (s.status < 0) { lbl = 'FG ' + Math.abs(s.status) + ' UP'; cls = 'fg'; }
         else { lbl = 'ALL SQUARE'; cls = 'as'; }
         var fin = !!s.final;
+        var stroke = (m.mode === 'stroke');
+        if (stroke) {
+          var ls = (s.look_score === undefined || s.look_score === null) ? null : s.look_score;
+          var fs = (s.feel_score === undefined || s.feel_score === null) ? null : s.feel_score;
+          var par = function(v){ return v === null ? '–' : (v===0?'E':(v>0?'+'+v:String(v))); };
+          if (ls !== null && fs !== null) {
+            if (ls < fs)      { lbl = 'LG by ' + (fs-ls); cls = 'lg'; }
+            else if (fs < ls) { lbl = 'FG by ' + (ls-fs); cls = 'fg'; }
+            else              { lbl = 'TIED'; cls = 'as'; }
+          } else { lbl = 'AWAITING SCORES'; cls = 'as'; }
+          var sbtns = fin
+            ? '<button class="awb awb-half" onclick="lmTap(this);lmAmend(\'' + m.id + '\')">✎ Amend</button>'
+            : '<button class="awb awb-look" onclick="lmTap(this);lmScore(\'' + m.id + '\',\'look\',-1)">LG −</button>'
+              + '<button class="awb awb-look" onclick="lmTap(this);lmScore(\'' + m.id + '\',\'look\',1)">LG +</button>'
+              + '<button class="awb awb-feel" onclick="lmTap(this);lmScore(\'' + m.id + '\',\'feel\',-1)">FG −</button>'
+              + '<button class="awb awb-feel" onclick="lmTap(this);lmScore(\'' + m.id + '\',\'feel\',1)">FG +</button>'
+              + '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,1)">+h</button>'
+              + '<button class="awb" onclick="lmTap(this);lmAdj(\'' + m.id + '\',0,-1)">−h</button>'
+              + '<button class="awb awb-confirm" onclick="lmTap(this);lmConfirm(\'' + m.id + '\')">✓ Confirm</button>'
+              + '<button class="awb awb-feel" onclick="lmTap(this);lmClear(\'' + m.id + '\')">clear</button>';
+          out += '<div class="alv-row' + (fin ? ' final' : '') + '">'
+            + '<div class="alv-teams"><span class="alv-look">' + sur(m.look) + '</span>'
+            +   '<span class="alv-v">v</span><span class="alv-feel">' + sur(m.feel) + '</span>'
+            +   '<span class="alv-fmt">stroke</span>'
+            +   (fin ? '<span class="alv-final">FINAL</span>' : '') + '</div>'
+            + '<div class="alv-scores">'
+            +   '<span class="alv-sc look">' + par(ls) + '</span>'
+            +   '<span class="alv-badge ' + cls + '">' + lbl + '</span>'
+            +   '<span class="alv-sc feel">' + par(fs) + '</span></div>'
+            + '<div class="alv-thru" style="display:block;margin-bottom:9px;">'
+            +   (s.holes ? 'thru ' + s.holes : 'not started')
+            +   (s.holes >= 18 && !fin ? ' · ready to confirm' : '') + '</div>'
+            + '<div class="alv-btns">' + sbtns + '</div></div>';
+          return;
+        }
         var btns = fin
           ? '<button class="awb awb-half" onclick="lmTap(this);lmAmend(\'' + m.id + '\')">✎ Amend</button>'
           : '<button class="awb awb-look" onclick="lmTap(this);lmAdj(\'' + m.id + '\',1,0)">LG+</button>'
@@ -3663,8 +3704,8 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
     { id:'r1m2', round:1, look:['James Knox','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
     { id:'r1m3', round:1, look:['Kenny Dalen'], feel:['Brandon Bartneck'], pts:1 },
     { id:'r2m1', round:2, look:['Dan Kraft'], feel:['Dan Harras'], pts:1 },
-    { id:'r2m2', round:2, look:['James Knox','Tim McGuire'], feel:['Adam Hartley','Andrew Heppner'], pts:1 },
-    { id:'r2m3', round:2, look:['Matt Hus','Kenny Dalen'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r2m2', round:2, look:['James Knox','Tim McGuire'], feel:['Adam Hartley','Andrew Heppner'], pts:1, mode:'stroke' },
+    { id:'r2m3', round:2, look:['Matt Hus','Kenny Dalen'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1, mode:'stroke' },
     { id:'r3m1', round:3, look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
     { id:'r3m2', round:3, look:['Matt Hus','Dan Kraft'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
     { id:'r3m3', round:3, look:['Tim McGuire','Kenny Dalen'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
@@ -4177,9 +4218,19 @@ if ('serviceWorker' in navigator) {
     var list = editing ? MATCHES.filter(function(m){ return m.look.length && !(live[m.id]&&live[m.id].final); }) : open;
     body.innerHTML = list.map(function(m) {
       var s = live[m.id] || { status:0, holes:0 };
-      var lbl, cls;
-      if (s.final) { }
-      if (s.status > 0) { lbl = s.status+' UP'; cls='look'; }
+      var lbl, cls, lead = '';
+      if (m.mode === 'stroke') {
+        var ls = (s.look_score===undefined||s.look_score===null)?null:s.look_score;
+        var fs = (s.feel_score===undefined||s.feel_score===null)?null:s.feel_score;
+        var pr = function(v){ return v===null?'–':(v===0?'E':(v>0?'+'+v:String(v))); };
+        if (ls!==null && fs!==null) {
+          if (ls < fs)      { lbl = 'LG by '+(fs-ls); cls='look'; }
+          else if (fs < ls) { lbl = 'FG by '+(ls-fs); cls='feel'; }
+          else              { lbl = 'TIED'; cls='sq'; }
+        } else { lbl = '–'; cls='sq'; }
+        lead = '<span class="lm-par look">'+pr(ls)+'</span><span class="lm-par feel">'+pr(fs)+'</span>';
+      }
+      else if (s.status > 0) { lbl = s.status+' UP'; cls='look'; }
       else if (s.status < 0) { lbl = Math.abs(s.status)+' UP'; cls='feel'; }
       else { lbl = 'ALL SQUARE'; cls='sq'; }
       var ctl = '<div class="lm-ctl">'
@@ -4190,10 +4241,10 @@ if ('serviceWorker' in navigator) {
         + '<button onclick="lmAdj(\''+m.id+'\',0,1)">+ hole</button>'
         + '</div>';
       return '<div class="lm-row">'
-        + '<div class="lm-team look">'+sur(m.look)+'</div>'
+        + '<div class="lm-team look">'+sur(m.look)+(m.mode==='stroke'&&lead?'<div class="lm-parline">'+(s.look_score===undefined||s.look_score===null?'–':(s.look_score===0?'E':(s.look_score>0?'+'+s.look_score:s.look_score)))+'</div>':'')+'</div>'
         + '<div class="lm-stat"><div class="lm-up '+cls+'">'+lbl+'</div>'
         +   '<div class="lm-thru">'+(s.final ? 'FINAL' : (s.holes ? 'thru '+s.holes : 'not started'))+'</div></div>'
-        + '<div class="lm-team feel">'+sur(m.feel)+'</div>'
+        + '<div class="lm-team feel">'+sur(m.feel)+(m.mode==='stroke'&&lead?'<div class="lm-parline">'+(s.feel_score===undefined||s.feel_score===null?'–':(s.feel_score===0?'E':(s.feel_score>0?'+'+s.feel_score:s.feel_score)))+'</div>':'')+'</div>'
         + (editing ? ctl : '')
         + '</div>';
     }).join('');
@@ -4206,8 +4257,11 @@ if ('serviceWorker' in navigator) {
   }
   function save(id) {
     var s = live[id];
-    api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes }) })
-      .catch(function(){});
+    api('live_matches', { method:'POST', body: JSON.stringify({
+      match_id:id, status:s.status, holes:s.holes,
+      look_score:s.look_score===undefined?null:s.look_score,
+      feel_score:s.feel_score===undefined?null:s.feel_score
+    })}).catch(function(){});
   }
 
   window.lmAdj = function(id, ds, dh) {
@@ -4248,6 +4302,33 @@ if ('serviceWorker' in navigator) {
   };
   window.lmAll = function(){ return live; };
 
+  window.lmIsStroke = function(id) {
+    try { var m = MATCHES.filter(function(x){return x.id===id;})[0]; return !!(m && m.mode==='stroke'); }
+    catch(e) { return false; }
+  };
+  // score to par, lower wins
+  window.lmScore = function(id, side, d) {
+    if (live[id] && live[id].final) return;
+    var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
+    var k = side==='look' ? 'look_score' : 'feel_score';
+    if (s[k] === undefined || s[k] === null) s[k] = 0;
+    s[k] = Math.max(-30, Math.min(30, s[k] + d));
+    if (s.look_score !== undefined && s.look_score !== null && s.feel_score !== undefined && s.feel_score !== null) {
+      s.status = s.feel_score - s.look_score;   // +ve => Look Good lower/ahead
+    }
+    render(); saveStroke(id);
+    if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+  };
+  function saveStroke(id) {
+    var s = live[id];
+    api('live_matches', { method:'POST', body: JSON.stringify({
+      match_id:id, status:s.status, holes:s.holes,
+      look_score:s.look_score===undefined?null:s.look_score,
+      feel_score:s.feel_score===undefined?null:s.feel_score
+    })}).catch(function(){});
+  }
+  window.lmPar = function(n) { return n===0 ? 'E' : (n>0 ? '+'+n : String(n)); };
+
   function fmtOf(m) {
     if (m.look.length === 1) return 'Singles';
     if (m.id.indexOf('r2') === 0) return '2v2 Scramble';
@@ -4260,7 +4341,15 @@ if ('serviceWorker' in navigator) {
     try { m = MATCHES.filter(function(x){ return x.id === id; })[0]; } catch(e) {}
     if (!m) return;
     var s = live[id] || { status:0, holes:0 };
-    var winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
+    var winner;
+    if (m.mode === 'stroke') {
+      var ls = (s.look_score===undefined||s.look_score===null)?null:s.look_score;
+      var fs = (s.feel_score===undefined||s.feel_score===null)?null:s.feel_score;
+      if (ls === null || fs === null) { alert('Both teams must report a score before confirming.'); return; }
+      winner = ls < fs ? 'look' : (fs < ls ? 'feel' : 'draw');   // tie = halved, ½ each
+    } else {
+      winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
+    }
     var lbl = winner === 'look' ? 'Look Good' : (winner === 'feel' ? 'Feel Good' : 'a halve');
     if (!confirm('Confirm ' + lbl + '? This scores the match and locks it.')) return;
 
