@@ -2635,15 +2635,16 @@
 
   window.adminDeletePhoto = function(id, path, year) {
     if (!confirm('Delete this photo?')) return;
-    // Delete from storage
-    fetch('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/photos/'+p_path, {
+    fetch('https://fjyusvkmjnununycqufk.supabase.co/storage/v1/object/photos/'+path, {
       method:'DELETE',
       headers:{'apikey':'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA','Authorization':'Bearer sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA'}
     }).then(function() {
       return sbFetch('photos?id=eq.'+id, {method:'DELETE'});
     }).then(function(){
       adminLoadPhotos(year);
-      photoLoad(year);
+      if (window.dcRenderPhotos) window.dcRenderPhotos(year);   // refresh the public gallery too
+    }).catch(function(){
+      alert('Delete failed — check your connection and try again.');
     });
   };
 
@@ -3544,6 +3545,7 @@ function dcGalleryNav(d) {
   });
 })();
 
+window.dcRenderPhotos = renderPhotos;
 function renderPhotos(year) {
   var wrap = document.getElementById('photos-' + year);
   var grid = wrap ? wrap.querySelector('.photo-grid') : null;
