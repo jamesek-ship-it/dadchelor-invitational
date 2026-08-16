@@ -4315,7 +4315,21 @@ if ('serviceWorker' in navigator) {
       return s && s.final && s.confirmed_by && s.confirmed_by !== me &&
              (m.look.indexOf(me) !== -1 || m.feel.indexOf(me) !== -1);
     }) : [];
-    if (!started.length) { wrap.style.display = 'none'; return; }
+
+    // Whoami must always be reachable, even with zero started matches -
+    // this is the ONLY way off a stale identity, so no early return may skip it.
+    if (!started.length) {
+      if (me) {
+        wrap.style.display = 'block';
+        body.innerHTML = '<div class="lm-whoami">Playing as <strong>' + me + '</strong>'
+          + ' &middot; <a href="#" onclick="window.lmForget();return false;">not you?</a></div>'
+          + '<div class="lm-nomatch">No rounds are open for scoring right now.<br><br>'
+          + 'Sit tight, or tell the Commissioner if a scoring update is needed.</div>';
+      } else {
+        wrap.style.display = 'none';
+      }
+      return;
+    }
     wrap.style.display = 'block';
 
     var mine = me ? shown.filter(function(m){
