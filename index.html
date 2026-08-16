@@ -1116,6 +1116,9 @@
   .gate-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: var(--gold-light); margin-bottom: 6px; }
   .gate-msg { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: rgba(232,244,232,0.9); margin-bottom: 4px; }
   .gate-sub { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-style: italic; color: rgba(200,223,200,0.6); }
+  .lm-whoami { font-family:'Cormorant Garamond',serif; font-size:12px; font-style:italic; color:rgba(200,223,200,0.55); text-align:center; padding:10px 16px 0; }
+  .lm-whoami strong { color:var(--gold-light); font-style:normal; }
+  .lm-whoami a { color:var(--gold-light); text-decoration:underline; }
   .lm-nomatch { padding:20px 16px; font-family:'Cormorant Garamond',serif; font-size:13px; line-height:1.6; color:rgba(200,223,200,0.85); text-align:center; }
   .lm-claim { padding:14px 16px; border-top:1px solid rgba(255,255,255,0.06); }
   .lm-claimq { font-family:'Cormorant Garamond',serif; font-size:12px; font-style:italic; color:rgba(200,223,200,0.8); margin-bottom:9px; line-height:1.4; }
@@ -4367,6 +4370,10 @@ if ('serviceWorker' in navigator) {
           +   'Confirmed by ' + s.confirmed_by.split(' ').pop() + '. If you disagree, tell the Commissioner.'
           + '</div></div>';
       }).join('');
+    }
+    if (me) {
+      html += '<div class="lm-whoami">Playing as <strong>' + me + '</strong>'
+            + ' &middot; <a href="#" onclick="window.lmForget();return false;">not you?</a></div>';
     }
     if (mine.length) {
       html += '<div class="lm-sec">Your match</div>' + mine.map(function(m){ return card(m,true); }).join('');
