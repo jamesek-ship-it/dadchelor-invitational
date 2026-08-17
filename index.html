@@ -1124,6 +1124,7 @@
   .bgl-rounds { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.05); }
   .bgl-round { padding:9px 6px; text-align:center; background:rgba(0,0,0,0.1); }
   .bgl-round-label { font-family:'Cormorant Garamond',serif; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(200,223,200,0.7); margin-bottom:4px; }
+  .bgl-round-pairing { font-family:'Cormorant Garamond',serif; font-size:9px; color:rgba(200,223,200,0.6); margin-bottom:2px; line-height:1.3; }
   .bgl-round-status { font-family:'Playfair Display',serif; font-size:12px; font-weight:700; }
   .bgl-round-status.look { color:#6fdc8c; } .bgl-round-status.feel { color:#7EB8E0; } .bgl-round-status.sq { color:var(--gold-light); }
   .bgl-players { padding:10px 16px; border-top:1px solid rgba(255,255,255,0.05); }
@@ -5156,11 +5157,15 @@ if ('serviceWorker' in navigator) {
 
     var html = '';
     if (Array.isArray(data.matches) && data.matches.length) {
+      // Forward-compatible: if Bogey Golf later exposes individual pairings
+      // (e.g. m.pairing / m.a2 / m.b2), show those instead of the team-level line.
       html += '<div class="bgl-rounds">' + data.matches.map(function(m) {
         var cls = statusClass(m);
         var label = cls === 'sq' ? 'ALL SQUARE' : (m.status || '—');
+        var pairing = m.pairing || (m.aPlayers && m.bPlayers ? m.aPlayers + ' v ' + m.bPlayers : '');
         return '<div class="bgl-round">'
           + '<div class="bgl-round-label">Round ' + m.round + '</div>'
+          + (pairing ? '<div class="bgl-round-pairing">' + pairing + '</div>' : '')
           + '<div class="bgl-round-status ' + cls + '">' + label + '</div>'
           + '</div>';
       }).join('') + '</div>';
