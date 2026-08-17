@@ -1115,6 +1115,22 @@
   .gate-title { font-family: 'Playfair Display', serif; font-size: 19px; font-weight: 700; color: var(--gold-light); margin-bottom: 6px; }
   .gate-msg { font-family: 'Cormorant Garamond', serif; font-size: 14px; color: rgba(232,244,232,0.9); margin-bottom: 4px; }
   .gate-sub { font-family: 'Cormorant Garamond', serif; font-size: 12px; font-style: italic; color: rgba(200,223,200,0.6); }
+
+  .bgl-wrap { margin-bottom:16px; border:1px solid rgba(184,150,46,0.2); border-radius:3px; overflow:hidden; background:rgba(0,0,0,0.15); }
+  .bgl-head { padding:10px 16px; display:flex; align-items:center; justify-content:space-between; background:rgba(0,0,0,0.2); }
+  .bgl-title { font-family:'Playfair Display',serif; font-size:13px; font-weight:700; color:var(--gold-light); }
+  .bgl-updated { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:rgba(200,223,200,0.6); }
+  .bgl-empty { font-family:'Cormorant Garamond',serif; font-size:13px; font-style:italic; color:rgba(200,223,200,0.6); padding:16px; text-align:center; }
+  .bgl-rounds { display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:rgba(255,255,255,0.05); }
+  .bgl-round { padding:9px 6px; text-align:center; background:rgba(0,0,0,0.1); }
+  .bgl-round-label { font-family:'Cormorant Garamond',serif; font-size:9px; letter-spacing:1.5px; text-transform:uppercase; color:rgba(200,223,200,0.7); margin-bottom:4px; }
+  .bgl-round-status { font-family:'Playfair Display',serif; font-size:12px; font-weight:700; }
+  .bgl-round-status.look { color:#6fdc8c; } .bgl-round-status.feel { color:#7EB8E0; } .bgl-round-status.sq { color:var(--gold-light); }
+  .bgl-players { padding:10px 16px; border-top:1px solid rgba(255,255,255,0.05); }
+  .bgl-players-label { font-family:'Cormorant Garamond',serif; font-size:9px; letter-spacing:2px; text-transform:uppercase; color:rgba(200,223,200,0.6); margin-bottom:8px; }
+  .bgl-player-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:6px 10px; }
+  .bgl-player { font-family:'Cormorant Garamond',serif; font-size:12px; color:rgba(232,244,232,0.9); display:flex; justify-content:space-between; }
+  .bgl-player-score { font-weight:700; color:var(--gold-light); }
   .lm-whoami { font-family:'Cormorant Garamond',serif; font-size:15px; font-weight:600; color:rgba(232,244,232,0.9); text-align:center; padding:12px 16px; background:rgba(184,150,46,0.08); border-bottom:1px solid rgba(184,150,46,0.15); }
   .lm-whoami strong { color:var(--gold-light); font-style:normal; }
   .lm-whoami a { color:var(--gold-light); text-decoration:underline; font-weight:700; }
@@ -1225,6 +1241,14 @@
   </div>
 
   
+
+  <div class="bgl-wrap" id="bgl-wrap" style="display:none;">
+    <div class="bgl-head">
+      <span class="bgl-title">📡 Bogey Golf Live</span>
+      <span class="bgl-updated" id="bgl-updated"></span>
+    </div>
+    <div id="bgl-body"><div class="bgl-empty">Loading...</div></div>
+  </div>
 
   <div class="lb-strip-wrap" id="lb-strip-wrap">
     <div class="lb-strip-pill">
@@ -5089,6 +5113,81 @@ if ('serviceWorker' in navigator) {
 
   function boot() {
     try { if (window.dcLoadR4Seed) window.dcLoadR4Seed(); } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+
+<script>
+/* Bogey Golf Live - read-only display of Nick's live feed.
+   Fully isolated: cannot write to our data, cannot affect scoring,
+   and a fetch/parse failure here can never break anything else. */
+(function() {
+  var FEED = 'https://golf.nickboguth.workers.dev/feed/rm_11a891eb9cb246258feef7b78aed5c32';
+
+  function statusClass(m) {
+    if (!m || !m.status) return 'sq';
+    var s = m.status.toLowerCase();
+    if (s.indexOf('all square') !== -1) return 'sq';
+    if (m.winner === m.a) return 'look';
+    if (m.winner === m.b) return 'feel';
+    // "Team Look Good 2up" style status without explicit winner field
+    if (s.indexOf('look good') === 0 || s.indexOf('look') === 0) return 'look';
+    if (s.indexOf('feel good') === 0 || s.indexOf('feel') === 0) return 'feel';
+    return 'sq';
+  }
+
+  function render(data) {
+    var wrap = document.getElementById('bgl-wrap');
+    var body = document.getElementById('bgl-body');
+    var upd = document.getElementById('bgl-updated');
+    if (!wrap || !body) return;
+
+    if (!data) { wrap.style.display = 'none'; return; }
+    wrap.style.display = 'block';
+
+    if (upd && data.updatedAt) {
+      try {
+        var d = new Date(data.updatedAt);
+        upd.textContent = 'Updated ' + d.toLocaleTimeString([], {hour:'numeric', minute:'2-digit'});
+      } catch (e) {}
+    }
+
+    var html = '';
+    if (Array.isArray(data.matches) && data.matches.length) {
+      html += '<div class="bgl-rounds">' + data.matches.map(function(m) {
+        var cls = statusClass(m);
+        var label = cls === 'sq' ? 'ALL SQUARE' : (m.status || '—');
+        return '<div class="bgl-round">'
+          + '<div class="bgl-round-label">Round ' + m.round + '</div>'
+          + '<div class="bgl-round-status ' + cls + '">' + label + '</div>'
+          + '</div>';
+      }).join('') + '</div>';
+    }
+
+    if (Array.isArray(data.rows) && data.rows.length) {
+      var scored = data.rows.filter(function(r) { return r.thru && Number(r.thru) > 0; });
+      html += '<div class="bgl-players">'
+        + '<div class="bgl-players-label">' + (scored.length ? 'Live Scores' : 'Field') + '</div>'
+        + '<div class="bgl-player-grid">' + data.rows.map(function(r) {
+          return '<div class="bgl-player"><span>' + r.name + '</span>'
+            + '<span class="bgl-player-score">' + (r.thru > 0 ? r.score : '—') + '</span></div>';
+        }).join('') + '</div></div>';
+    }
+
+    body.innerHTML = html || '<div class="bgl-empty">No data yet.</div>';
+  }
+
+  function load() {
+    fetch(FEED)
+      .then(function(r) { return r.json(); })
+      .then(function(data) { render(data); })
+      .catch(function() { /* feed unreachable - fail silently, never break the page */ });
+  }
+
+  function boot() {
+    try { load(); setInterval(load, 45000); } catch (e) {}
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
