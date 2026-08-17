@@ -636,7 +636,7 @@
       <li><span onclick="showPage('tournament2026')" id="nav-tournament2026" style="color:var(--gold-light);font-weight:600;">2026 &#x2605;</span></li>
       <li><span onclick="showDrawPage()" id="nav-draw" style="color:var(--gold-light);">The Draw &#x1F3CC;&#xFE0F;</span></li>
       <li><span onclick="showPage('leaderboard')" id="nav-leaderboard" style="color:var(--gold-light);">Leaderboard &#x1F3C6;</span></li>
-      <li><span onclick="showPage('rules')" id="nav-rules">Rules</span></li>
+      <li><span onclick="showPage('rules')" id="nav-rules">Rules &amp; Scoring</span></li>
       <li><span onclick="showPage('admin')" id="nav-admin" style="color:var(--gold);">Admin</span></li>
     </ul>
     <button class="hamburger" onclick="openMobileNav()" aria-label="Menu">
@@ -659,7 +659,7 @@
       <li><span onclick="showDrawPage();closeMobileNav();" id="mnav-draw" style="color:var(--gold-light);">The Draw 🏌️</span></li>
       
       <li><span onclick="showPage('leaderboard');closeMobileNav();" id="mnav-leaderboard" style="color:var(--gold-light);">Leaderboard 🏆</span></li>
-      <li><span onclick="showPage('rules');closeMobileNav();" id="mnav-rules">Rules</span></li>
+      <li><span onclick="showPage('rules');closeMobileNav();" id="mnav-rules">Rules &amp; Scoring</span></li>
       <li><span onclick="showPage('admin');closeMobileNav();" id="mnav-admin" style="color:var(--gold);">Admin</span></li>
     </ul>
   </div>
@@ -1574,7 +1574,7 @@
 <!-- RULES PAGE -->
 <div id="page-rules" class="page">
   <section class="hero" style="padding:60px 2rem 50px;">
-    <h1 style="font-size:clamp(28px,4vw,46px);">The <em>Rules</em></h1>
+    <h1 style="font-size:clamp(28px,4vw,46px);">Rules <em>&amp; Scoring</em></h1>
     <p class="hero-tagline">By Which The Game Is Played</p>
   </section>
   <div class="stripe-divider"></div>
@@ -1616,6 +1616,66 @@
       </div>
 
       
+
+      <!-- Scoring Info Sheet -->
+      <div style="margin:44px 0 40px;">
+        <div class="section-header" style="margin-bottom:24px;">
+          <span class="section-label">How Points Work</span>
+          <h2 class="section-title">The <em>Scoring</em></h2>
+          <div class="section-rule"></div>
+        </div>
+
+        <p style="font-family:'Cormorant Garamond',serif;font-size:16px;line-height:1.7;color:var(--text-mid);margin-bottom:24px;">
+          19 total points across the weekend &mdash; 15 from match play, 4 from side contests.
+        </p>
+
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Match Play &middot; 15 pts</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.65;color:var(--text-mid);margin-bottom:8px;">
+          Every match is worth <strong>1 team point</strong>, awarded to the winning team. A halved match splits the point &mdash; &frac12; to each team.
+        </p>
+        <div style="overflow-x:auto;margin-bottom:22px;">
+          <table style="width:100%;border-collapse:collapse;font-family:'Cormorant Garamond',serif;font-size:14px;">
+            <thead>
+              <tr style="border-bottom:2px solid var(--border);">
+                <th style="text-align:left;padding:8px 10px;color:var(--text-light);font-weight:600;">Round</th>
+                <th style="text-align:left;padding:8px 10px;color:var(--text-light);font-weight:600;">Format</th>
+                <th style="text-align:center;padding:8px 10px;color:var(--text-light);font-weight:600;">Matches</th>
+                <th style="text-align:center;padding:8px 10px;color:var(--text-light);font-weight:600;">Pts</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 10px;">R1 &mdash; Huron Breeze, Fri AM</td><td style="padding:8px 10px;">Fourball (2v2 &amp; 1v1)</td><td style="text-align:center;padding:8px 10px;">3</td><td style="text-align:center;padding:8px 10px;font-weight:600;">3</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 10px;">R2 &mdash; Red Hawk, Fri PM</td><td style="padding:8px 10px;">Battle of the Dans + two 2v2 matches</td><td style="text-align:center;padding:8px 10px;">3</td><td style="text-align:center;padding:8px 10px;font-weight:600;">3</td></tr>
+              <tr style="border-bottom:1px solid var(--border);"><td style="padding:8px 10px;">R3 &mdash; The Dream, Sat AM</td><td style="padding:8px 10px;">Fourball (2v2)</td><td style="text-align:center;padding:8px 10px;">3</td><td style="text-align:center;padding:8px 10px;font-weight:600;">3</td></tr>
+              <tr><td style="padding:8px 10px;">R4 &mdash; The Nightmare, Sat PM</td><td style="padding:8px 10px;">Individual match play, seeded by R3 standings</td><td style="text-align:center;padding:8px 10px;">6</td><td style="text-align:center;padding:8px 10px;font-weight:600;">6</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:13px;font-style:italic;color:var(--text-light);margin-bottom:24px;">
+          Results are recorded in standard match play notation &mdash; "4 &amp; 3," "2 up," "Halved." A match is decided once the leader's margin exceeds the holes remaining, or after all 18 are played.
+        </p>
+
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Side Contests &middot; 4 pts</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.65;color:var(--text-mid);margin-bottom:24px;">
+          Four contests &mdash; Closest to the Pin and Long Drive, one of each on Friday's two courses. Each is worth <strong>1 team point</strong> to the winner's team, plus individual recognition for that player.
+        </p>
+
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Champion Golfer of the Year (Individual)</div>
+        <ul style="font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.75;color:var(--text-mid);margin:0 0 24px 20px;">
+          <li>In a <strong>2-man team match</strong> (fourball, 2v2 scramble), a win credits <strong>each partner the full point individually</strong> &mdash; a 2v2 win is worth 1 pt to the team <em>and</em> 1 pt to each of the two players.</li>
+          <li>In a <strong>singles match</strong> (Battle of the Dans, Round 4), the point belongs solely to the individual winner.</li>
+          <li><strong>Side contest wins</strong> add a bonus to that player's individual total, shown separately in the standings.</li>
+          <li><strong>Halved matches</strong> split identically at the individual level &mdash; &frac12; point to each player involved.</li>
+        </ul>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:14px;line-height:1.7;color:var(--text-mid);margin-bottom:24px;">
+          A player's CGOY total = points earned from their own match record + any CTP/LD bonus. Tracked independently of team scoring &mdash; one guy can lead the individual race while playing for the team that's behind.
+        </p>
+
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Round 4 Seeding</div>
+        <p style="font-family:'Cormorant Garamond',serif;font-size:15px;line-height:1.7;color:var(--text-mid);">
+          Standings after Round 3 rank each team's six players. Round 4 pairs #1 vs #1, #2 vs #2, straight down to #6 vs #6 &mdash; always Look Good vs Feel Good. Two players who only play Saturday carry a +1 seeding adjustment that affects bracket placement only &mdash; it never touches their actual points or the leaderboard.
+        </p>
+      </div>
 
       <!-- Submit a Rule -->
       <div style="margin-top:28px;background:var(--cream-dark);border:1px solid var(--border);border-radius:2px;padding:20px;">
