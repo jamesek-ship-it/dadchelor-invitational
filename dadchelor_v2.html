@@ -2134,6 +2134,14 @@
 
     <!-- PENDING STORIES -->
     <div class="admin-section">
+      <div class="admin-section-title">🎯 Round 4 Auto-Seed</div>
+      <div style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--text-light);margin-bottom:10px;">
+        Seeds off current CGOY points after Round 3. Ricky and Jon get +1 for seeding purposes only
+        (Saturday-only players) - this does NOT affect their actual points or the leaderboard.
+      </div>
+      <div id="admin-r4-preview" style="font-family:'Cormorant Garamond',serif;font-size:13px;margin-bottom:10px;"></div>
+      <button class="awb awb-confirm" onclick="adminSeedR4()" style="width:100%;padding:10px;">Auto-Seed Round 4</button>
+
       <div class="admin-section-title">📖 Pending Stories</div>
       <div id="admin-pending-stories">
         <div class="admin-empty">Loading...</div>
@@ -2299,7 +2307,71 @@
       });
 
     // Live match override
-    window.adminRenderLive = function() {
+    // Round 4 auto-seed: reads CGOY points from `results`, applies seedBonus
+  // ONLY for pairing math, writes into MATCHES look/feel arrays for r4m1-r4m6.
+  window.adminSeedR4 = function() {
+    sbFetch('results?select=*').then(function(r){return r.json();}).then(function(rows) {
+      var cache = {};
+      if (Array.isArray(rows)) rows.forEach(function(r){ cache[r.match_id] = r; });
+
+      var pp = {};
+      var roster = [];
+      ['look','feel'].forEach(function(side) {
+        (ROSTER_2026[side] || []).forEach(function(e) {
+          pp[e.name] = 0;
+          roster.push({ name: e.name, side: side, seedBonus: e.seedBonus || 0 });
+        });
+      });
+
+      MATCHES.filter(function(m){ return !m.id.match(/ctp|ld/) && m.look.length; }).forEach(function(m) {
+        var res = cache[m.id];
+        if (!res) return;
+        var half = m.pts / (m.look.length + m.feel.length);
+        var full = m.pts / Math.min(m.look.length, m.feel.length);
+        if (res.winner === 'look') m.look.forEach(function(n){ pp[n] = (pp[n]||0) + full; });
+        else if (res.winner === 'feel') m.feel.forEach(function(n){ pp[n] = (pp[n]||0) + full; });
+        else if (res.winner === 'draw') {
+          m.look.concat(m.feel).forEach(function(n){ pp[n] = (pp[n]||0) + half; });
+        }
+      });
+
+      // rank each team by (actual points + seed bonus) - bonus is seeding-only
+      function rankTeam(side) {
+        return roster.filter(function(p){ return p.side === side; })
+          .map(function(p){ return { name:p.name, actual: pp[p.name]||0, seedVal:(pp[p.name]||0)+p.seedBonus }; })
+          .sort(function(a,b){ return b.seedVal - a.seedVal; });
+      }
+      var look = rankTeam('look'), feel = rankTeam('feel');
+
+      var preview = document.getElementById('admin-r4-preview');
+      if (preview) {
+        var rows = '';
+        for (var i = 0; i < 6; i++) {
+          rows += '<div style="display:flex;justify-content:space-between;padding:3px 0;">'
+            + '<span>' + (i+1) + '. ' + look[i].name + (look[i].actual !== look[i].seedVal ? ' <em>(seed only)</em>' : '') + '</span>'
+            + '<span>vs</span>'
+            + '<span>' + feel[i].name + (feel[i].actual !== feel[i].seedVal ? ' <em>(seed only)</em>' : '') + ' .' + (i+1) + '</span>'
+            + '</div>';
+        }
+        preview.innerHTML = rows;
+        // NOTE: best-vs-best (rank i vs rank i), NOT a bracket. Confirmed with James.
+      }
+
+      if (!confirm('Seed Round 4: best vs best, #1 vs #1 down to #6 vs #6. Overwrite r4m1-r4m6?')) return;
+
+      for (var k = 0; k < 6; k++) {
+        var mid = 'r4m' + (k+1);
+        MATCHES.forEach(function(m) {
+          if (m.id === mid) { m.look = [look[k].name]; m.feel = [feel[k].name]; }
+        });
+      }
+      if (window.syncDrawR4 && typeof syncDrawR4 === 'function') { try { syncDrawR4(); } catch(e) {} }
+      alert('Round 4 seeded. Remember: this only changes pairings in this session - '
+          + 'tell Claude the final bracket so it gets written into the Draw page permanently.');
+    });
+  };
+
+  window.adminRenderLive = function() {
       var el = document.getElementById('admin-live-rows');
       if (!el || typeof MATCHES === 'undefined') return;
       var live = (window.lmAll ? window.lmAll() : {});
@@ -3249,7 +3321,7 @@ const ROSTER_2026 = {
     { name:'Matt Hus' },
     { name:'Dan Kraft' },
     { name:'Kenny Dalen' },
-    { name:'Ricky Moceri' }
+    { name:'Ricky Moceri', seedBonus:1 }
   ],
   feel: [
     { name:'Dan Harras',      role:'C' },
@@ -3257,7 +3329,7 @@ const ROSTER_2026 = {
     { name:'Andrew Heppner' },
     { name:'Adam Hartley' },
     { name:'Keegan Chicilli' },
-    { name:'Jon Boguth' }
+    { name:'Jon Boguth', seedBonus:1 }
   ]
 };
 
