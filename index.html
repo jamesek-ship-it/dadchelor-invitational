@@ -1630,6 +1630,10 @@
           <div class="rule-num">9</div>
           <div class="rule-text">Rules within a match may be altered upon unanimous vote of the group (breakfast ball policies, the wearing of shoes, etc).</div>
         </div>
+        <div class="rule-item">
+          <div class="rule-num">10</div>
+          <div class="rule-text">Rule submissions are accepted throughout the calendar year, but all rule deliberation and voting shall take place during the tournament weekend, in the presence of all eligible participants, presided over by the Commissioner.</div>
+        </div>
       </div>
       </div>
 
@@ -1729,6 +1733,7 @@
     }, opts || {}));
   }
 
+  window.dcRulesLoad = rulesLoad;
   function rulesLoad() {
     var filter = rulesAdmin ? 'rules?order=created_at.asc' : 'rules?approved=eq.true&order=created_at.asc';
     sbFetch(filter)
@@ -2218,6 +2223,13 @@
       </div>
     </div>
 
+    <div class="admin-section">
+      <div class="admin-section-title">📜 Ratified Rules</div>
+      <div id="admin-ratified-rules">
+        <div class="admin-empty">Loading...</div>
+      </div>
+    </div>
+
     <!-- PENDING STORIES -->
     <div class="admin-section">
       <div class="admin-section-title">🎯 Round 4 Auto-Seed</div>
@@ -2542,6 +2554,25 @@
     };
     adminRenderLive();
 
+    // Ratified rules (approved) — delete only
+    sbFetch('rules?approved=eq.true&order=created_at.asc')
+      .then(function(r){return r.json();})
+      .then(function(rows) {
+        var el = document.getElementById('admin-ratified-rules');
+        if (!el) return;
+        if (!Array.isArray(rows)||!rows.length) { el.innerHTML='<div class="admin-empty">No ratified rules.</div>'; return; }
+        el.innerHTML = rows.map(function(r) {
+          var t = String(r.rule_text||'');
+          if (t.length > 160) t = t.slice(0,160) + '...';
+          return '<div class="admin-pending-item">'
+            +'<div class="admin-pending-meta">Submitted by '+(r.submitted_by||'Unknown')+'</div>'
+            +'<div class="admin-pending-text">'+t+'</div>'
+            +'<div class="admin-pending-actions">'
+            +'<button class="awb awb-feel" onclick="adminDeleteRatifiedRule('+r.id+')">✕ Delete</button>'
+            +'</div></div>';
+        }).join('');
+      });
+
     // Published stories (approved) — delete only
     sbFetch('stories?approved=eq.true&order=year.desc,created_at.asc')
       .then(function(r){return r.json();})
@@ -2853,6 +2884,13 @@
   window.adminDeleteStory = function(id) {
     if (!confirm('Delete this story?')) return;
     sbFetch('stories?id=eq.'+id, {method:'DELETE'}).then(function(){adminLoadPending();});
+  };
+  window.adminDeleteRatifiedRule = function(id) {
+    if (!confirm('Delete this ratified rule? It will disappear from the public Rules & Scoring page.')) return;
+    sbFetch('rules?id=eq.'+id, {method:'DELETE'}).then(function(){
+      adminLoadPending();
+      if (window.dcRulesLoad) window.dcRulesLoad();
+    });
   };
   window.adminDeletePublishedStory = function(id) {
     if (!confirm('Delete this published story? It will disappear from the History page.')) return;
