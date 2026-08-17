@@ -2326,16 +2326,13 @@
       MATCHES.filter(function(m){ return !m.id.match(/ctp|ld/) && m.look.length; }).forEach(function(m) {
         var res = cache[m.id];
         if (!res) return;
-        var half = m.pts / (m.look.length + m.feel.length);
         var full = m.pts / Math.min(m.look.length, m.feel.length);
+        var half = full / 2;
         if (res.winner === 'look') m.look.forEach(function(n){ pp[n] = (pp[n]||0) + full; });
         else if (res.winner === 'feel') m.feel.forEach(function(n){ pp[n] = (pp[n]||0) + full; });
-        else if (res.winner === 'draw') {
-          m.look.concat(m.feel).forEach(function(n){ pp[n] = (pp[n]||0) + half; });
-        }
+        else if (res.winner === 'draw') m.look.concat(m.feel).forEach(function(n){ pp[n] = (pp[n]||0) + half; });
       });
 
-      // rank each team by (actual points + seed bonus) - bonus is seeding-only
       function rankTeam(side) {
         return roster.filter(function(p){ return p.side === side; })
           .map(function(p){ return { name:p.name, actual: pp[p.name]||0, seedVal:(pp[p.name]||0)+p.seedBonus }; })
@@ -2354,21 +2351,53 @@
             + '</div>';
         }
         preview.innerHTML = rows;
-        // NOTE: best-vs-best (rank i vs rank i), NOT a bracket. Confirmed with James.
       }
 
-      if (!confirm('Seed Round 4: best vs best, #1 vs #1 down to #6 vs #6. Overwrite r4m1-r4m6?')) return;
+      if (!confirm('Seed Round 4: best vs best, #1 vs #1 down to #6 vs #6.\n\nThis writes the bracket permanently - it will appear on the Draw page for everyone immediately.')) return;
 
+      // 1. apply to in-memory MATCHES for this session's Match Scoring
+      var pairs = [];
       for (var k = 0; k < 6; k++) {
         var mid = 'r4m' + (k+1);
+        pairs.push({ match_id: mid, look_player: look[k].name, feel_player: feel[k].name });
         MATCHES.forEach(function(m) {
           if (m.id === mid) { m.look = [look[k].name]; m.feel = [feel[k].name]; }
         });
       }
-      if (window.syncDrawR4 && typeof syncDrawR4 === 'function') { try { syncDrawR4(); } catch(e) {} }
-      alert('Round 4 seeded. Remember: this only changes pairings in this session - '
-          + 'tell Claude the final bracket so it gets written into the Draw page permanently.');
+
+      // 2. persist to Supabase so it survives refresh / works on any device
+      var hdr = { 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY, 'Content-Type':'application/json', 'Prefer':'resolution=merge-duplicates,return=minimal' };
+      Promise.all(pairs.map(function(p) {
+        return fetch(SB_URL + '/rest/v1/r4_seed', { method:'POST', headers:hdr, body: JSON.stringify(p) });
+      })).then(function() {
+        // 3. redraw the Draw page + Admin labels + Match Scoring right now, live
+        if (window.dcApplyR4Seed) window.dcApplyR4Seed(pairs);
+        if (window.adminLoadResults) window.adminLoadResults();
+        if (window.adminRenderLive) window.adminRenderLive();
+        alert('Round 4 is seeded and live on the Draw page for everyone.');
+      }).catch(function() {
+        alert('Bracket applied on this device, but saving to the server failed. Try again before anyone else opens the site.');
+      });
     });
+  };
+
+  // Loads any saved Round 4 seed and applies it to MATCHES + the Draw page.
+  // Runs on every page load so R4 stays correct after Admin seeds it, with no manual step.
+  window.dcLoadR4Seed = function() {
+    fetch(SB_URL + '/rest/v1/r4_seed?select=*', { headers:{ 'apikey':SB_KEY, 'Authorization':'Bearer '+SB_KEY } })
+      .then(function(r){ return r.json(); })
+      .then(function(rows) {
+        if (!Array.isArray(rows) || !rows.length) return;
+        rows.forEach(function(row) {
+          MATCHES.forEach(function(m) {
+            if (m.id === row.match_id) { m.look = [row.look_player]; m.feel = [row.feel_player]; }
+          });
+        });
+        if (window.dcApplyR4Seed) window.dcApplyR4Seed(rows.map(function(r){
+          return { match_id:r.match_id, look_player:r.look_player, feel_player:r.feel_player };
+        }));
+      })
+      .catch(function() {});
   };
 
   window.adminRenderLive = function() {
@@ -4890,6 +4919,48 @@ if ('serviceWorker' in navigator) {
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
   setInterval(boot, 60000);
+})();
+</script>
+
+<script>
+/* Round 4 seed renderer - replaces the TBD block on the Draw page with the
+   actual pairings, and updates the round-4 point tags on point available.
+   Isolated, idempotent, safe to call repeatedly. */
+(function() {
+  var VS = function(l, r) {
+    return '<div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;">'
+      + '<span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>';
+  };
+
+  function sur(name) { return name; }
+
+  window.dcApplyR4Seed = function(pairs) {
+    try {
+      var area = document.querySelector('#page-draw .round-block:last-of-type .matches-area');
+      if (!area) return;
+      if (!pairs || pairs.length < 6) return;
+
+      var rows = pairs.slice(0, 6).map(function(p) {
+        return '<div class="match-row">'
+          + '<div class="match-team look">' + sur(p.look_player) + '</div>'
+          + VS()
+          + '<div class="match-team feel">' + sur(p.feel_player) + '</div>'
+          + '</div>';
+      }).join('\n        ');
+
+      area.innerHTML = rows
+        + '\n        <div style="font-family:\'Cormorant Garamond\',serif;font-size:12px;font-style:italic;color:rgba(200,223,200,0.5);text-align:center;margin-top:10px;">Seeded by Round 3 standings &middot; 1 pt per match &middot; double value round</div>';
+
+      // reapply Captain/Alternate badges and any bold-name styling to the new rows
+      if (window.syncDrawRoles) { try { window.syncDrawRoles(); } catch (e) {} }
+    } catch (e) {}
+  };
+
+  function boot() {
+    try { if (window.dcLoadR4Seed) window.dcLoadR4Seed(); } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
 </script>
 </body>
