@@ -1282,7 +1282,7 @@
     </div>
     <div class="lb-vs-mid">
       <div class="lb-vs-dash">—</div>
-      <div class="lb-vs-total" id="lb-vs-total">of 19</div>
+      <div class="lb-vs-total" id="lb-vs-total">of 17</div>
     </div>
     <div class="lb-team-side feel">
       <div class="lb-team-label">Team</div>
@@ -1292,7 +1292,7 @@
     </div>
   </div>
 
-  <div class="lb-status-strip" id="lb-pts-strip">0 of 19 pts decided</div>
+  <div class="lb-status-strip" id="lb-pts-strip">0 of 17 pts decided</div>
 
   <div class="lb-cgoy-section">
     <div class="lb-cgoy-title">🏅 Champion Golfer of the Year Standings</div>
@@ -1316,12 +1316,12 @@
   var SB_KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
 
   var MATCHES = [
-    { id:'r1m1', look:['James Knox','Kenny Dalen'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
-    { id:'r1m2', look:['Matt Hus','Tim McGuire'], feel:['Adam Hartley','Brandon Bartneck'], pts:1 },
-    { id:'r1m3', look:['Dan Kraft'], feel:['Andrew Heppner'], pts:1 },
-    { id:'r2m1', look:['Dan Kraft'], feel:['Dan Harras'], pts:1 },
-    { id:'r2m2', look:['James Knox','Tim McGuire'], feel:['Adam Hartley','Andrew Heppner'], pts:1 },
-    { id:'r2m3', look:['Matt Hus','Kenny Dalen'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r1m1', look:['Matt Hus','Tim McGuire'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
+    { id:'r1m2', look:['James Knox','Dan Kraft'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
+    { id:'r1m3', look:[], feel:[], pts:0 },
+    { id:'r2m1', look:['Matt Hus','Dan Kraft'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
+    { id:'r2m2', look:['James Knox','Tim McGuire'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
+    { id:'r2m3', look:[], feel:[], pts:0 },
     { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
     { id:'r3m2', look:['Matt Hus','Dan Kraft'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
     { id:'r3m3', look:['Tim McGuire','Kenny Dalen'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
@@ -1427,12 +1427,12 @@
       if (lEl) lEl.textContent = fmt(lp);
       if (fEl) fEl.textContent = fmt(fp);
       var vsTotal = document.getElementById('lb-vs-total');
-      if (vsTotal) vsTotal.textContent = 'of 19';
+      if (vsTotal) vsTotal.textContent = 'of 17';
       if (strip) {
         var decided = fmt(lp+fp);
         var lookRec = lw+'-'+ll+(lh>0?'-'+lh:'');
         var feelRec = fw+'-'+fl+(fh>0?'-'+fh:'');
-        strip.innerHTML = decided+' of 19 pts decided &nbsp;·&nbsp; Look Good: <strong>'+lookRec+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+feelRec+'</strong>';
+        strip.innerHTML = decided+' of 17 pts decided &nbsp;·&nbsp; Look Good: <strong>'+lookRec+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+feelRec+'</strong>';
       }
       if (sub) sub.textContent = (lp+fp===0) ? 'Tournament begins August 28 · Huron Breeze · 9:00 AM' : 'Live · Updated just now';
 
@@ -1692,7 +1692,7 @@
         </div>
 
         <p style="font-family:'Cormorant Garamond',serif;font-size:16px;line-height:1.7;color:var(--text-mid);margin-bottom:24px;">
-          19 total points across the weekend &mdash; 15 from match play, 4 from side contests.
+          17 total points across the weekend &mdash; 13 from match play, 4 from side contests.
         </p>
 
         <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:600;color:var(--green-deep);margin-bottom:10px;">Match Play &middot; 15 pts</div>
@@ -1888,31 +1888,22 @@
       <div class="admin-round-block">
         <div class="admin-round-label">Round 1 — Huron Breeze · Fri AM · Fourball</div>
         <div class="admin-match-row">
-          <span class="admin-match-name look">Knox / Dalen</span>
+          <span class="admin-match-name look">Hus / McGuire</span>
           <div class="admin-win-btns">
             <button class="awb awb-look" data-match="r1m1" data-val="look" onclick="adminScore('r1m1','look',this)">LG</button>
             <button class="awb awb-half" data-match="r1m1" data-val="draw" onclick="adminScore('r1m1','draw',this)">½</button>
             <button class="awb awb-feel" data-match="r1m1" data-val="feel" onclick="adminScore('r1m1','feel',this)">FG</button>
           </div>
-          <span class="admin-match-name feel">Chicilli / Harras</span>
+          <span class="admin-match-name feel">Heppner / Chicilli</span>
         </div>
         <div class="admin-match-row">
-          <span class="admin-match-name look">Hus / McGuire</span>
+          <span class="admin-match-name look">Knox / Kraft</span>
           <div class="admin-win-btns">
             <button class="awb awb-look" data-match="r1m2" data-val="look" onclick="adminScore('r1m2','look',this)">LG</button>
             <button class="awb awb-half" data-match="r1m2" data-val="draw" onclick="adminScore('r1m2','draw',this)">½</button>
             <button class="awb awb-feel" data-match="r1m2" data-val="feel" onclick="adminScore('r1m2','feel',this)">FG</button>
           </div>
-          <span class="admin-match-name feel">Hartley / Bartneck</span>
-        </div>
-        <div class="admin-match-row">
-          <span class="admin-match-name look">Kraft</span>
-          <div class="admin-win-btns">
-            <button class="awb awb-look" data-match="r1m3" data-val="look" onclick="adminScore('r1m3','look',this)">LG</button>
-            <button class="awb awb-half" data-match="r1m3" data-val="draw" onclick="adminScore('r1m3','draw',this)">½</button>
-            <button class="awb awb-feel" data-match="r1m3" data-val="feel" onclick="adminScore('r1m3','feel',this)">FG</button>
-          </div>
-          <span class="admin-match-name feel">Heppner</span>
+          <span class="admin-match-name feel">Harras / Bartneck</span>
         </div>
         <div class="admin-contests">
           <div class="admin-contest-row">
@@ -1955,15 +1946,15 @@
       </div>
 
       <div class="admin-round-block">
-        <div class="admin-round-label">Round 2 — Red Hawk · Fri PM · Dans + 2v2 Scrambles</div>
+        <div class="admin-round-label">Round 2 — Red Hawk · Fri PM · 2v2 Scrambles</div>
         <div class="admin-match-row">
-          <span class="admin-match-name look">Kraft</span>
+          <span class="admin-match-name look">Hus / Kraft</span>
           <div class="admin-win-btns">
             <button class="awb awb-look" data-match="r2m1" data-val="look" onclick="adminScore('r2m1','look',this)">LG</button>
             <button class="awb awb-half" data-match="r2m1" data-val="draw" onclick="adminScore('r2m1','draw',this)">½</button>
             <button class="awb awb-feel" data-match="r2m1" data-val="feel" onclick="adminScore('r2m1','feel',this)">FG</button>
           </div>
-          <span class="admin-match-name feel">Harras · Singles ⚔️</span>
+          <span class="admin-match-name feel">Harras / Bartneck</span>
         </div>
         <div class="admin-match-row">
           <span class="admin-match-name look">Knox / McGuire</span>
@@ -1972,16 +1963,7 @@
             <button class="awb awb-half" data-match="r2m2" data-val="draw" onclick="adminScore('r2m2','draw',this)">½</button>
             <button class="awb awb-feel" data-match="r2m2" data-val="feel" onclick="adminScore('r2m2','feel',this)">FG</button>
           </div>
-          <span class="admin-match-name feel">Hartley / Heppner</span>
-        </div>
-        <div class="admin-match-row">
-          <span class="admin-match-name look">Hus / Dalen</span>
-          <div class="admin-win-btns">
-            <button class="awb awb-look" data-match="r2m3" data-val="look" onclick="adminScore('r2m3','look',this)">LG</button>
-            <button class="awb awb-half" data-match="r2m3" data-val="draw" onclick="adminScore('r2m3','draw',this)">½</button>
-            <button class="awb awb-feel" data-match="r2m3" data-val="feel" onclick="adminScore('r2m3','feel',this)">FG</button>
-          </div>
-          <span class="admin-match-name feel">Chicilli / Bartneck</span>
+          <span class="admin-match-name feel">Heppner / Chicilli</span>
         </div>
       </div>
 
@@ -2309,12 +2291,12 @@
   var SB_KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
   var ADMIN_PW = 'Daddy';
   var MATCHES = [
-    {id:'r1m1',look:['James Knox','Kenny Dalen'],feel:['Keegan Chicilli','Dan Harras'],pts:1},
-    {id:'r1m2',look:['Matt Hus','Tim McGuire'],feel:['Adam Hartley','Brandon Bartneck'],pts:1},
-    {id:'r1m3',look:['Dan Kraft'],feel:['Andrew Heppner'],pts:1},
-    {id:'r2m1',look:['Dan Kraft'],feel:['Dan Harras'],pts:1},
-    {id:'r2m2',look:['James Knox','Tim McGuire'],feel:['Adam Hartley','Andrew Heppner'],pts:1},
-    {id:'r2m3',look:['Matt Hus','Kenny Dalen'],feel:['Keegan Chicilli','Brandon Bartneck'],pts:1},
+    {id:'r1m1',look:['Matt Hus','Tim McGuire'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1},
+    {id:'r1m2',look:['James Knox','Dan Kraft'],feel:['Dan Harras','Brandon Bartneck'],pts:1},
+    {id:'r1m3',look:[],feel:[],pts:0},
+    {id:'r2m1',look:['Matt Hus','Dan Kraft'],feel:['Dan Harras','Brandon Bartneck'],pts:1},
+    {id:'r2m2',look:['James Knox','Tim McGuire'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1},
+    {id:'r2m3',look:[],feel:[],pts:0},
     {id:'r3m1',look:['James Knox','Ricky Moceri'],feel:['Dan Harras','Brandon Bartneck'],pts:1},
     {id:'r3m2',look:['Matt Hus','Dan Kraft'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1},
     {id:'r3m3',look:['Tim McGuire','Kenny Dalen'],feel:['Adam Hartley','Jon Boguth'],pts:1},
@@ -3119,7 +3101,7 @@
         </div>
         <div class="round-tags">
           <span class="tag tag-fb">⛳ Fourball</span>
-          <span class="tag tag-pts">1 pt/match</span>
+          <span class="tag tag-pts">2 pts available</span>
         </div>
       </div>
       <div class="matches-area">
@@ -3129,19 +3111,14 @@
           <span style="color:rgba(77,154,190,0.4);">Feel Good</span>
         </div>
         <div class="match-row">
-          <div class="match-team look">James Knox<br><span>Kenny Dalen</span></div>
-          <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
-          <div class="match-team feel">Keegan Chicilli<br><span>Dan Harras</span></div>
-        </div>
-        <div class="match-row">
           <div class="match-team look">Matt Hus<br><span>Tim McGuire</span></div>
           <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
-          <div class="match-team feel">Adam Hartley<br><span>Brandon Bartneck</span></div>
+          <div class="match-team feel">Andrew Heppner<br><span>Keegan Chicilli</span></div>
         </div>
         <div class="match-row">
-          <div class="match-team look">Dan Kraft</div>
+          <div class="match-team look">James Knox<br><span>Dan Kraft</span></div>
           <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
-          <div class="match-team feel">Andrew Heppner</div>
+          <div class="match-team feel">Dan Harras<br><span>Brandon Bartneck</span></div>
         </div>
       </div>
     </div>
@@ -3151,12 +3128,12 @@
       <div class="round-header">
         <div class="round-num">Round 2</div>
         <div class="round-title-group">
-          <div class="round-title">Dans + 2v2 Scrambles — Red Hawk Golf Club</div>
+          <div class="round-title">2v2 Scrambles — Red Hawk Golf Club</div>
           <div class="round-meta">Friday August 28 · 3:00 PM · East Tawas, Michigan</div>
         </div>
         <div class="round-tags">
           <span class="tag tag-sc">🏌️ Scramble</span>
-          <span class="tag tag-pts">3 pts available</span>
+          <span class="tag tag-pts">2 pts available</span>
         </div>
       </div>
       <div class="matches-area">
@@ -3166,19 +3143,14 @@
           <span style="color:rgba(77,154,190,0.4);">Feel Good</span>
         </div>
         <div class="match-row">
-          <div class="match-team look">Dan Kraft</div>
-          <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span style="font-size:9px;color:rgba(200,223,200,0.3);">Battle of the Dans</span><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
-          <div class="match-team feel">Dan Harras</div>
+          <div class="match-team look">Matt Hus<br><span>Dan Kraft</span></div>
+          <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
+          <div class="match-team feel">Dan Harras<br><span>Brandon Bartneck</span></div>
         </div>
         <div class="match-row">
           <div class="match-team look">James Knox<br><span>Tim McGuire</span></div>
-          <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span style="font-size:9px;color:rgba(200,223,200,0.3);">2v2 scramble</span><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
-          <div class="match-team feel">Adam Hartley<br><span>Andrew Heppner</span></div>
-        </div>
-        <div class="match-row">
-          <div class="match-team look">Matt Hus<br><span>Kenny Dalen</span></div>
-          <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span style="font-size:9px;color:rgba(200,223,200,0.3);">2v2 scramble</span><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
-          <div class="match-team feel">Keegan Chicilli<br><span>Brandon Bartneck</span></div>
+          <div class="match-vs" style="display:flex;flex-direction:column;align-items:center;gap:2px;"><span>vs</span><span style="font-size:9px;color:rgba(184,150,46,0.5);">1 pt</span></div>
+          <div class="match-team feel">Andrew Heppner<br><span>Keegan Chicilli</span></div>
         </div>
       </div>
     </div>
@@ -3254,12 +3226,12 @@
   <div class="bottom-grid">
     <div class="points-box">
       <div class="box-title">Points Available</div>
-      <div class="pts-row"><span>R1 Fourball (Fri)</span><span class="pts-val">3</span></div>
-      <div class="pts-row"><span>R2 Dans + Scramble (Fri)</span><span class="pts-val">3</span></div>
+      <div class="pts-row"><span>R1 2v2 (Fri)</span><span class="pts-val">2</span></div>
+      <div class="pts-row"><span>R2 2v2 Scramble (Fri)</span><span class="pts-val">2</span></div>
       <div class="pts-row"><span>R3 Fourball (Sat)</span><span class="pts-val">3</span></div>
       <div class="pts-row"><span>R4 Match Play (Sat)</span><span class="pts-val pts-highlight">6</span></div>
       <div class="pts-row"><span>Side Games (CTP/LD)</span><span class="pts-val">4</span></div>
-      <div class="pts-row" style="border-top:1px solid rgba(184,150,46,0.2);margin-top:4px;padding-top:10px;"><span style="font-weight:600;">Total</span><span class="pts-val pts-highlight">19</span></div>
+      <div class="pts-row" style="border-top:1px solid rgba(184,150,46,0.2);margin-top:4px;padding-top:10px;"><span style="font-weight:600;">Total</span><span class="pts-val pts-highlight">17</span></div>
     </div>
     <div class="cgoy-box">
       <div class="cgoy-icon">🏅</div>
@@ -4048,12 +4020,12 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
 
   // All matches defined: id, round, look players, feel players, pts
   var MATCHES = [
-    { id:'r1m1', round:1, look:['James Knox','Kenny Dalen'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
-    { id:'r1m2', round:1, look:['Matt Hus','Tim McGuire'], feel:['Adam Hartley','Brandon Bartneck'], pts:1 },
-    { id:'r1m3', round:1, look:['Dan Kraft'], feel:['Andrew Heppner'], pts:1 },
-    { id:'r2m1', round:2, look:['Dan Kraft'], feel:['Dan Harras'], pts:1 },
-    { id:'r2m2', round:2, look:['James Knox','Tim McGuire'], feel:['Adam Hartley','Andrew Heppner'], pts:1 },
-    { id:'r2m3', round:2, look:['Matt Hus','Kenny Dalen'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r1m1', round:1, look:['Matt Hus','Tim McGuire'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
+    { id:'r1m2', round:1, look:['James Knox','Dan Kraft'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
+    { id:'r1m3', round:1, look:[], feel:[], pts:0 },
+    { id:'r2m1', round:2, look:['Matt Hus','Dan Kraft'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
+    { id:'r2m2', round:2, look:['James Knox','Tim McGuire'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
+    { id:'r2m3', round:2, look:[], feel:[], pts:0 },
     { id:'r3m1', round:3, look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
     { id:'r3m2', round:3, look:['Matt Hus','Dan Kraft'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
     { id:'r3m3', round:3, look:['Tim McGuire','Kenny Dalen'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
@@ -4202,7 +4174,7 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
     var bEl = document.getElementById('live-pts-breakdown');
     if (lEl) lEl.textContent = lookPts % 1 === 0 ? lookPts : lookPts.toFixed(1);
     if (fEl) fEl.textContent = feelPts % 1 === 0 ? feelPts : feelPts.toFixed(1);
-    if (bEl) bEl.textContent = (lookPts + feelPts).toFixed(1) + ' of 19 pts decided';
+    if (bEl) bEl.textContent = (lookPts + feelPts).toFixed(1) + ' of 17 pts decided';
 
     // CGOY table
     var tbody = document.getElementById('live-cgoy-tbody');

@@ -58,7 +58,7 @@ admin = re.findall(r'admin-match-name look">([^<]*)</span>.*?data-match="(\w+)".
 
 print("\n=== Draw page vs MATCHES ===")
 norm = lambda s: ','.join(sorted(x.strip() for x in s.replace('  ',' ').split(',') if x.strip()))
-ids = [k for k in M if not k.startswith('r4')]
+ids = [k for k in M if not k.startswith('r4') and M[k][0] and M[k][1]]  # skip empty (unused) slots
 check(len(drawn) == len(ids), f"draw shows {len(drawn)} matches, MATCHES has {len(ids)}")
 for k, mid in enumerate(ids):
     if k >= len(drawn): break
@@ -70,20 +70,29 @@ print("\n=== Admin labels vs MATCHES ===")
 for lk, mid, fl in admin:
     if mid not in M:
         check(False, f"{mid} in admin but not MATCHES"); continue
+    if not M[mid][0] or not M[mid][1]:
+        check(False, f"{mid} has an admin row but MATCHES marks it empty (stale slot?)"); continue
     el, ef = sur(M[mid][0]), sur(M[mid][1])
     gl = re.sub(r'[^A-Za-z/]', '', lk); gf = re.sub(r'[^A-Za-z/]', '', fl)
     check(gl == el.replace(' ', '') and gf.startswith(ef.replace(' ', '')),
           f"{mid}: {lk.strip()} vs {fl.strip()}")
 
+# ---------- 1b. Empty match slots must have zero presence anywhere ----------
+print("\n=== Empty match slots ===")
+empty_ids = [k for k in base if not k.endswith(('ctp','ld')) and (not base[k][0] or not base[k][1])]
+admin_ids_present = set(mid for _, mid, _ in admin)
+for eid in empty_ids:
+    check(eid not in admin_ids_present, f"{eid} is empty in MATCHES but still has an Admin row")
+
 print("\n=== Point totals ===")
 mp = sum(v[2] for v in M.values())
-check(mp == 15, f"match points = {mp} (expect 15)")
+check(mp == 13, f"match points = {mp} (expect 13)")
 rows = re.findall(r'<span>([^<]+)</span><span class="pts-val[^"]*">(\d+)</span>', h)
 tbl = {a: int(b) for a, b in rows}
 s = sum(v for k, v in tbl.items() if k != 'Total')
-check(s == 19, f"Points Available rows sum = {s} (expect 19)")
-check(tbl.get('Total') == 19 or 'Total' not in tbl, f"Points Available total = {tbl.get('Total')}")
-check(h.count("textContent = 'of 19'") == 1, "leaderboard denominator = 19")
+check(s == 17, f"Points Available rows sum = {s} (expect 17)")
+check(tbl.get('Total') == 17 or 'Total' not in tbl, f"Points Available total = {tbl.get('Total')}")
+check(h.count("textContent = 'of 17'") == 1, "leaderboard denominator = 17")
 
 print("\n=== Structure ===")
 body = re.sub(r'<style>.*?</style>', '', re.sub(r'<script>.*?</script>', '', h, flags=re.DOTALL), flags=re.DOTALL)
