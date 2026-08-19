@@ -5335,8 +5335,7 @@ if ('serviceWorker' in navigator) {
         if (!c) return;
         fill('ctpld-' + key + '-ctp-hole', c.ctp.hole);
         fill('ctpld-' + key + '-ld-hole', c.ld.hole);
-        fill('ctpld-' + key + '-ctp-yds', yds(c.ctp));
-        fill('ctpld-' + key + '-ld-yds', yds(c.ld));
+        // yardage intentionally not displayed - hole number only
         ctpParts.push('Hole ' + c.ctp.hole + ' (' + c.course + ')');
         ldParts.push('Hole ' + c.ld.hole + ' (' + c.course + ')');
       });
