@@ -1123,6 +1123,12 @@
   .lm-row.mine .lm-matchup .feel { color:#7EB8E0; text-align:left; flex:1; }
   .lm-row.mine .lm-matchup .lm-vs { color:rgba(200,223,200,0.65); font-style:italic; flex:0 0 auto; }
   .lm-ready { background:rgba(42,110,58,0.18); border:1px solid rgba(111,220,140,0.35); color:#8fe8a8; font-family:'Cormorant Garamond',serif; font-size:12.5px; font-weight:600; text-align:center; padding:8px 10px; border-radius:2px; margin:0 0 12px; line-height:1.4; }
+  .lm-fmtrow { margin-top:10px; }
+  .lm-fmtsel { width:100%; background:rgba(0,0,0,0.3); border:1px solid rgba(184,150,46,0.3); color:#e8f0e8; font-family:'Cormorant Garamond',serif; font-size:13px; padding:8px 10px; border-radius:2px; }
+  .lm-fmtnotice { background:rgba(184,150,46,0.1); border:1px solid rgba(184,150,46,0.3); color:#f0dfa0; font-family:'Cormorant Garamond',serif; font-size:12px; line-height:1.5; padding:9px 11px; border-radius:2px; margin-top:10px; }
+  .lm-fmtnotice strong { color:var(--gold-light); }
+  .lm-fmtnotice a { color:#f0b8b8; text-decoration:underline; font-weight:600; }
+  .lm-fmtnotice-ro { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:rgba(184,150,46,0.7); margin-top:2px; }
   .lm-warn { background:rgba(214,40,40,0.1); border:1px solid rgba(214,40,40,0.28); color:#f0b8b8; font-family:'Cormorant Garamond',serif; font-size:12px; line-height:1.5; padding:9px 11px; border-radius:2px; margin-top:13px; }
   .lm-ctl2 { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:13px; }
   .lm-ctl2 button { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#e8f0e8; font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:10px 4px; border-radius:2px; cursor:pointer; transition:background 0.15s; }
@@ -1347,15 +1353,15 @@
   var SB_KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
 
   var MATCHES = [
-    { id:'r1m1', look:['James Knox','Dan Kraft'], feel:['Andrew Heppner','Dan Harras'], pts:1 },
-    { id:'r1m2', look:['Matt Hus','Tim McGuire'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r1m1', look:['James Knox','Dan Kraft'], feel:['Andrew Heppner','Dan Harras'], pts:1, fmt:'fourball' },
+    { id:'r1m2', look:['Matt Hus','Tim McGuire'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1, fmt:'fourball' },
     { id:'r1m3', look:[], feel:[], pts:0 },
-    { id:'r2m1', look:['James Knox','Tim McGuire'], feel:['Andrew Heppner','Brandon Bartneck'], pts:1 },
-    { id:'r2m2', look:['Matt Hus','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
+    { id:'r2m1', look:['James Knox','Tim McGuire'], feel:['Andrew Heppner','Brandon Bartneck'], pts:1, fmt:'fourball' },
+    { id:'r2m2', look:['Matt Hus','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1, fmt:'fourball' },
     { id:'r2m3', look:[], feel:[], pts:0 },
-    { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
-    { id:'r3m2', look:['Matt Hus','Kenny Dalen'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
-    { id:'r3m3', look:['Tim McGuire','Dan Kraft'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
+    { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1, fmt:'fourball' },
+    { id:'r3m2', look:['Matt Hus','Kenny Dalen'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1, fmt:'fourball' },
+    { id:'r3m3', look:['Tim McGuire','Dan Kraft'], feel:['Adam Hartley','Jon Boguth'], pts:1, fmt:'fourball' },
     { id:'r4m1', look:[], feel:[], pts:1 },
     { id:'r4m2', look:[], feel:[], pts:1 },
     { id:'r4m3', look:[], feel:[], pts:1 },
@@ -2364,15 +2370,15 @@
   var SB_KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
   var ADMIN_PW = 'Daddy';
   var MATCHES = [
-    {id:'r1m1',look:['James Knox','Dan Kraft'],feel:['Andrew Heppner','Dan Harras'],pts:1},
-    {id:'r1m2',look:['Matt Hus','Tim McGuire'],feel:['Keegan Chicilli','Brandon Bartneck'],pts:1},
+    {id:'r1m1',look:['James Knox','Dan Kraft'],feel:['Andrew Heppner','Dan Harras'],pts:1, fmt:'fourball'},
+    {id:'r1m2',look:['Matt Hus','Tim McGuire'],feel:['Keegan Chicilli','Brandon Bartneck'],pts:1, fmt:'fourball'},
     {id:'r1m3',look:[],feel:[],pts:0},
-    {id:'r2m1',look:['James Knox','Tim McGuire'],feel:['Andrew Heppner','Brandon Bartneck'],pts:1},
-    {id:'r2m2',look:['Matt Hus','Dan Kraft'],feel:['Keegan Chicilli','Dan Harras'],pts:1},
+    {id:'r2m1',look:['James Knox','Tim McGuire'],feel:['Andrew Heppner','Brandon Bartneck'],pts:1, fmt:'fourball'},
+    {id:'r2m2',look:['Matt Hus','Dan Kraft'],feel:['Keegan Chicilli','Dan Harras'],pts:1, fmt:'fourball'},
     {id:'r2m3',look:[],feel:[],pts:0},
-    {id:'r3m1',look:['James Knox','Ricky Moceri'],feel:['Dan Harras','Brandon Bartneck'],pts:1},
-    {id:'r3m2',look:['Matt Hus','Kenny Dalen'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1},
-    {id:'r3m3',look:['Tim McGuire','Dan Kraft'],feel:['Adam Hartley','Jon Boguth'],pts:1},
+    {id:'r3m1',look:['James Knox','Ricky Moceri'],feel:['Dan Harras','Brandon Bartneck'],pts:1, fmt:'fourball'},
+    {id:'r3m2',look:['Matt Hus','Kenny Dalen'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1, fmt:'fourball'},
+    {id:'r3m3',look:['Tim McGuire','Dan Kraft'],feel:['Adam Hartley','Jon Boguth'],pts:1, fmt:'fourball'},
     {id:'r4m1',look:[],feel:[],pts:1},{id:'r4m2',look:[],feel:[],pts:1},
     {id:'r4m3',look:[],feel:[],pts:1},{id:'r4m4',look:[],feel:[],pts:1},
     {id:'r4m5',look:[],feel:[],pts:1},{id:'r4m6',look:[],feel:[],pts:1}
@@ -4125,15 +4131,15 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
 
   // All matches defined: id, round, look players, feel players, pts
   var MATCHES = [
-    { id:'r1m1', round:1, look:['James Knox','Dan Kraft'], feel:['Andrew Heppner','Dan Harras'], pts:1 },
-    { id:'r1m2', round:1, look:['Matt Hus','Tim McGuire'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1 },
+    { id:'r1m1', round:1, look:['James Knox','Dan Kraft'], feel:['Andrew Heppner','Dan Harras'], pts:1, fmt:'fourball' },
+    { id:'r1m2', round:1, look:['Matt Hus','Tim McGuire'], feel:['Keegan Chicilli','Brandon Bartneck'], pts:1, fmt:'fourball' },
     { id:'r1m3', round:1, look:[], feel:[], pts:0 },
-    { id:'r2m1', round:2, look:['James Knox','Tim McGuire'], feel:['Andrew Heppner','Brandon Bartneck'], pts:1 },
-    { id:'r2m2', round:2, look:['Matt Hus','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1 },
+    { id:'r2m1', round:2, look:['James Knox','Tim McGuire'], feel:['Andrew Heppner','Brandon Bartneck'], pts:1, fmt:'fourball' },
+    { id:'r2m2', round:2, look:['Matt Hus','Dan Kraft'], feel:['Keegan Chicilli','Dan Harras'], pts:1, fmt:'fourball' },
     { id:'r2m3', round:2, look:[], feel:[], pts:0 },
-    { id:'r3m1', round:3, look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1 },
-    { id:'r3m2', round:3, look:['Matt Hus','Kenny Dalen'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1 },
-    { id:'r3m3', round:3, look:['Tim McGuire','Dan Kraft'], feel:['Adam Hartley','Jon Boguth'], pts:1 },
+    { id:'r3m1', round:3, look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1, fmt:'fourball' },
+    { id:'r3m2', round:3, look:['Matt Hus','Kenny Dalen'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1, fmt:'fourball' },
+    { id:'r3m3', round:3, look:['Tim McGuire','Dan Kraft'], feel:['Adam Hartley','Jon Boguth'], pts:1, fmt:'fourball' },
     { id:'r4m1', round:4, look:[], feel:[], pts:1 },
     { id:'r4m2', round:4, look:[], feel:[], pts:1 },
     { id:'r4m3', round:4, look:[], feel:[], pts:1 },
@@ -4682,16 +4688,40 @@ if ('serviceWorker' in navigator) {
       else if (s.status < 0) { lbl = 'FEEL GOOD UP ' + Math.abs(s.status); cls = 'feel'; }
       else { lbl = 'ALL SQUARE'; cls = 'sq'; }
       var notice = editable && window.lmEditorNotice ? window.lmEditorNotice(m.id) : '';
+      var curFmt = scoreFmt(m);
+      var defFmt = m.fmt || 'fourball';
+      var isSwitched = s.fmt_override && s.fmt_override !== defFmt;
+
+      var fmtBlock = '';
+      if (editable) {
+        var opts = Object.keys(FMT_NAMES).map(function(f) {
+          return '<option value="' + f + '"' + (f === curFmt ? ' selected' : '') + '>' + FMT_NAMES[f] + '</option>';
+        }).join('');
+        fmtBlock = '<div class="lm-fmtrow">'
+          + '<select class="lm-fmtsel" onchange="lmSwitchFormat(\'' + m.id + '\',this.value)">' + opts + '</select>'
+          + '</div>';
+        if (isSwitched) {
+          fmtBlock += '<div class="lm-fmtnotice">'
+            + '⚠️ ' + (s.fmt_changed_by ? s.fmt_changed_by.split(' ').pop() : 'Someone') + ' changed this match to '
+            + '<strong>' + fmtLabel(s.fmt_override) + '</strong> (was ' + fmtLabel(defFmt) + ').'
+            + ' <a href="#" onclick="lmRejectFormat(\'' + m.id + '\');return false;">Reject</a>'
+            + '</div>';
+        }
+      } else if (isSwitched) {
+        fmtBlock = '<div class="lm-fmtnotice-ro">' + fmtLabel(s.fmt_override) + '</div>';
+      }
+
       return '<div class="lm-row' + (editable ? ' mine' : '') + '">'
         + (editable
             ? '<div class="lm-big ' + cls + '">' + lbl + '</div>'
-              + '<div class="lm-bigthru">' + (s.holes ? 'THRU ' + s.holes : 'NOT STARTED') + '</div>'
-              + (window.lmDecided && window.lmDecided(s.status, s.holes)
-                  ? '<div class="lm-ready">✓ ' + window.lmResultText(s.status, s.holes)
+              + '<div class="lm-bigthru">' + (dispHoles(s) ? 'THRU ' + dispHoles(s) : 'NOT STARTED') + '</div>'
+              + (window.lmDecided && window.lmDecided(s.status, dispHoles(s), window.lmMaxSwing(curFmt))
+                  ? '<div class="lm-ready">✓ ' + window.lmResultText(s.status, dispHoles(s), window.lmMaxSwing(curFmt))
                     + ' — tap Confirm to lock it in</div>' : '')
               + '<div class="lm-matchup"><span class="look">' + sur(m.look) + '</span>'
               + '<span class="lm-vs">v</span>'
               + '<span class="feel">' + sur(m.feel) + '</span></div>'
+              + fmtBlock
               + (notice ? '<div class="lm-warn">⚠️ ' + notice + '</div>' : '')
               + '<div class="lm-ctl2">'
               + '<button class="lm-b-look" onclick="lmAdj(\'' + m.id + '\',1,0)">◀ LG</button>'
@@ -4704,7 +4734,7 @@ if ('serviceWorker' in navigator) {
             : '<div class="lm-team look">' + sur(m.look) + '</div>'
               + '<div class="lm-stat"><div class="lm-up ' + cls + '">'
               + (s.status>0? s.status+' UP' : (s.status<0? Math.abs(s.status)+' UP':'ALL SQUARE'))
-              + '</div><div class="lm-thru">' + (s.holes ? 'thru '+s.holes : 'not started') + '</div></div>'
+              + '</div><div class="lm-thru">' + (dispHoles(s) ? 'thru '+dispHoles(s) : 'not started') + '</div>' + fmtBlock + '</div>'
               + '<div class="lm-team feel">' + sur(m.feel) + '</div>')
         + '</div>';
     }
@@ -4713,7 +4743,7 @@ if ('serviceWorker' in navigator) {
     if (justConfirmed.length) {
       html += justConfirmed.map(function(m) {
         var s = live[m.id];
-        var res = window.lmResultText ? window.lmResultText(s.status, s.holes)
+        var res = window.lmResultText ? window.lmResultText(s.status, dispHoles(s), window.lmMaxSwing(scoreFmt(m)))
                   : (s.status > 0 ? 'Look Good won' : (s.status < 0 ? 'Feel Good won' : 'Halved'));
         return '<div class="lm-confnote">'
           + '<div class="lm-confnote-h">✓ Match confirmed</div>'
@@ -4775,7 +4805,10 @@ if ('serviceWorker' in navigator) {
     api('live_matches?select=*').then(function(r){ return r.json(); })
       .then(function(rows){
         live={};
-        if (Array.isArray(rows)) rows.forEach(function(r){ live[r.match_id]=r; });
+        if (Array.isArray(rows)) rows.forEach(function(r){
+          r.holePts = r.hole_pts || 0;   // map DB snake_case to the JS field lmAdj expects
+          live[r.match_id]=r;
+        });
         render();
         if (window.lmRefreshAdmin) window.lmRefreshAdmin();
         if (window.adminLoadResults) window.adminLoadResults();
@@ -4785,30 +4818,53 @@ if ('serviceWorker' in navigator) {
   }
   function save(id) {
     var s = live[id];
-    api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes }) })
-      .catch(function(){});
+    // Every save must re-send format fields too, or a plain score tap would
+    // silently wipe an in-progress format switch back to null on the next write
+    // (PostgREST POST/upsert replaces the whole row, it doesn't merge fields).
+    api('live_matches', { method:'POST', body: JSON.stringify({
+      match_id:id, status:s.status, holes:s.holes, hole_pts:s.holePts||0,
+      fmt_override:s.fmt_override||null, fmt_changed_by:s.fmt_changed_by||null,
+      fmt_changed_at:s.fmt_changed_at||null
+    })}).catch(function(){});
   }
 
   window.lmAdj = function(id, ds, dh) {
     if (live[id] && live[id].final) return;
-    var s = live[id] || (live[id] = { match_id:id, status:0, holes:0 });
+    var s = live[id] || (live[id] = { match_id:id, status:0, holes:0, holePts:0 });
+    if (s.holePts === undefined) s.holePts = 0;   // migrate older saved matches
+    var m = null;
+    try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
+    var sw = window.lmMaxSwing(m ? scoreFmt(m) : 'fourball');
 
     if (ds) {
-      var ns = s.status + ds;
-      // Winning a hole means a hole was played — carry the hole count forward
-      // automatically rather than making anyone tap twice or blocking the tap.
-      if (Math.abs(ns) > s.holes && s.holes < 18) s.holes = Math.min(18, Math.abs(ns));
-      s.status = ns;
+      // s.holes is COMPLETED holes; s.holePts is points scored on the hole
+      // currently in progress (0 if none yet). The displayed "thru N" is
+      // holes + (holePts > 0 ? 1 : 0) - i.e. once any point lands, we're
+      // "thru" that hole even before it's full. A hole fills at sw points;
+      // the next point after that starts a fresh hole.
+      if (s.holePts >= sw) {
+        s.holes = Math.min(18, s.holes + 1);
+        s.holePts = 1;
+      } else {
+        s.holePts += 1;
+      }
+      s.status += ds;
     }
 
     if (dh) {
-      var nh = Math.max(0, Math.min(18, s.holes + dh));
-      if (Math.abs(s.status) > nh) {
-        alert('Can\'t drop to ' + nh + ' hole' + (nh===1?'':'s') + ' — a side is '
-            + Math.abs(s.status) + ' up.');
+      // A +hole/-hole tap moves the "thru N" marker by exactly dh from wherever
+      // it currently reads. Whatever was in progress on the current hole is
+      // done being tracked - the new position becomes a clean completed count
+      // with nothing in progress yet.
+      var curDisp = dispHoles(s);
+      var target = Math.max(0, Math.min(18, curDisp + dh));
+      if (Math.abs(s.status) > target * sw) {
+        alert('Can\'t drop to ' + target + ' hole' + (target===1?'':'s') + ' — a side is '
+            + Math.abs(s.status) + ' up' + (sw > 1 ? ' (max ' + (target*sw) + ' possible in ' + target + ' holes)' : '') + '.');
         return;
       }
-      s.holes = nh;
+      s.holes = target;
+      s.holePts = 0;
     }
     render(); save(id); if (window.lmRefreshAdmin) window.lmRefreshAdmin();
   };
@@ -4961,28 +5017,111 @@ if ('serviceWorker' in navigator) {
     return 'Fourball';
   }
 
+  // The ACTUAL scoring format for a match: live override (if a format switch is in
+  // effect) takes priority, otherwise the match's configured default (m.fmt),
+  // otherwise 'fourball'. This is what drives max-swing-per-hole, not fmtOf()'s label.
+  var FMT_NAMES = { fourball: 'Fourball', scramble: '2v2 Scramble', highlow: 'High-Low' };
+  function fmtLabel(f) { return FMT_NAMES[f] || f; }
+
+  function scoreFmt(m) {
+    var s = live[m.id];
+    if (s && s.fmt_override) return s.fmt_override;
+    return m.fmt || 'fourball';
+  }
+  window.dcScoreFmt = scoreFmt;
+
+  // Switch a match's format. If a score already exists, requires explicit
+  // confirmation to clear it first (per James: warn, offer to clear+switch).
+  // If no score exists, applies instantly - the initiator is never slowed down.
+  window.lmSwitchFormat = function(id, newFmt) {
+    var m = null;
+    try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
+    if (!m) return;
+    if (!me) { alert('Identify yourself first so we know who made this change.'); return; }
+    var s = live[id] || (live[id] = { match_id:id, status:0, holes:0, holePts:0 });
+    var curFmt = scoreFmt(m);
+    if (newFmt === curFmt) return;
+
+    var hasScore = (s.holes && s.holes > 0) || (s.holePts && s.holePts > 0) || s.status !== 0;
+    if (hasScore) {
+      if (!confirm('There\'s already a ' + fmtLabel(curFmt) + ' score — do you want to '
+                 + 'clear the score and play ' + fmtLabel(newFmt) + ' instead?')) return;
+      s.status = 0; s.holes = 0; s.holePts = 0;
+    }
+
+    s.fmt_override = newFmt;
+    s.fmt_changed_by = me;
+    s.fmt_changed_at = new Date().toISOString();
+    live[id] = s;
+    render();
+    api('live_matches', { method:'POST', body: JSON.stringify({
+      match_id:id, status:s.status, holes:s.holes, hole_pts:s.holePts||0,
+      fmt_override:newFmt, fmt_changed_by:me, fmt_changed_at:s.fmt_changed_at
+    })}).catch(function(){});
+  };
+
+  // Reject a pending format change: reverts to the match's configured default
+  // and clears whatever score exists. Destructive, so it's gated behind a
+  // typed confirmation, not a single tap - can happen at any point, no time limit.
+  window.lmRejectFormat = function(id) {
+    var m = null;
+    try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
+    if (!m) return;
+    var s = live[id];
+    if (!s || !s.fmt_override) return;
+    var curFmt = scoreFmt(m);
+    var defFmt = m.fmt || 'fourball';
+    var t = prompt('Rejecting will clear ALL scores entered for this match and revert to '
+                  + fmtLabel(defFmt) + '.\n\nThis cannot be undone.\n\nType  REJECT  to confirm.');
+    if (!t || t.trim().toUpperCase() !== 'REJECT') return;
+
+    s.fmt_override = null;
+    s.fmt_changed_by = null;
+    s.fmt_changed_at = null;
+    s.status = 0; s.holes = 0; s.holePts = 0;
+    live[id] = s;
+    render();
+    api('live_matches', { method:'POST', body: JSON.stringify({
+      match_id:id, status:0, holes:0, hole_pts:0,
+      fmt_override:null, fmt_changed_by:null, fmt_changed_at:null
+    })}).catch(function(){});
+    if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+  };
+
+  // Display value for "thru N": s.holes tracks COMPLETED holes; if points have
+  // landed on the hole in progress, we're visually "thru" that hole too.
+  function dispHoles(s) {
+    if (!s) return 0;
+    return s.holes + ((s.holePts && s.holePts > 0) ? 1 : 0);
+  }
+  window.dcDispHoles = dispHoles;
+
   // Confirm a match: writes the SCORING result + a self-contained archive row, then locks it.
   window.lmConfirm = function(id, force) {
     var m = null;
     try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
     if (!m) return;
-    var s = live[id] || { status:0, holes:0 };
+    var s = live[id] || { status:0, holes:0, holePts:0 };
     var winner = s.status > 0 ? 'look' : (s.status < 0 ? 'feel' : 'draw');
-    if (!window.lmValid(s.status, s.holes)) {
-      var up = Math.abs(s.status), left = 18 - (s.holes||0);
-      var should = window.lmCloseoutHoles(s.status);
+    var sw = window.lmMaxSwing(scoreFmt(m));
+    var dh = dispHoles(s);   // "thru N" - what every check below actually means by "holes"
+    if (!window.lmValid(s.status, dh, sw)) {
+      var up = Math.abs(s.status), left = 18 - dh;
+      var should = window.lmCloseoutHoles(s.status, sw);
       var fix = 'A lead of ' + up + ' with ' + left + ' to play is not a possible match state — '
               + 'the match would have ended on hole ' + should + ' as ' + up + ' & ' + (up-1) + '.';
       if (confirm(fix + '\n\nSet the hole count to ' + should + ' and confirm as '
                 + up + ' & ' + (up-1) + '?')) {
-        s.holes = should;
+        s.holes = should;   // Confirm resets holePts implicitly - this becomes the final completed count
+        s.holePts = 0;
+        dh = should;
         live[id] = s;
       } else { return; }
     }
-    var decided = window.lmDecided(s.status, s.holes);
-    var lbl = window.lmResultText(s.status, s.holes);
+    var decided = window.lmDecided(s.status, dh, sw);
+    var lbl = window.lmResultText(s.status, dh, sw);
     if (!decided) {
-      var left = Math.max(0, 18 - (s.holes||0)), up = Math.abs(s.status||0);
+      var left = Math.max(0, 18 - dh), up = Math.abs(s.status||0);
       var why = up === 0
         ? 'The match is all square with ' + left + ' to play.'
         : (up === left
@@ -5012,17 +5151,18 @@ if ('serviceWorker' in navigator) {
         year: 2026,
         round: parseInt(id.charAt(1), 10),
         format: fmtOf(m),
+        score_fmt: scoreFmt(m),   // raw key: 'fourball' or 'highlow' - for future stats
         look_players: m.look,
         feel_players: m.feel,
         winner: winner,
         margin: Math.abs(s.status),
-        holes: s.holes
+        holes: dh
       })});
     })
     // 3. lock
     .then(function() {
       s.final = true; s.confirmed_by = me || 'Commissioner'; live[id] = s;
-      return api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes, final:true, confirmed_by:s.confirmed_by }) });
+      return api('live_matches', { method:'POST', body: JSON.stringify({ match_id:id, status:s.status, holes:s.holes, hole_pts:s.holePts||0, final:true, confirmed_by:s.confirmed_by }) });
     })
     .then(function() {
       render();
@@ -5043,40 +5183,52 @@ if ('serviceWorker' in navigator) {
 
   window.lmIsFinal = function(id) { return !!(live[id] && live[id].final); };
 
-  // A match is decided only when the lead EXCEEDS the holes remaining,
-  // or all 18 have been played. Level with holes left, or dormie, is still live.
-  // Is this state even reachable? A lead can't exceed holes played, and can't be
-  // more than 1 clear of the holes remaining (the match would have ended earlier).
-  window.lmValid = function(status, holes) {
+  // Max points a single hole can swing by, based on match format.
+  // Fourball / Scramble: standard match play, 1 point per hole.
+  // High-Low: two points on the table each hole (Low ball + High ball), so a
+  // hole can swing the net margin by up to 2 - this is the ONLY thing that
+  // changes for High-Low. Everything else (buttons, notation, Confirm) is identical.
+  window.lmMaxSwing = function(fmt) { return fmt === 'highlow' ? 2 : 1; };
+
+  // A match is decided only when the lead EXCEEDS the holes remaining times the
+  // max possible swing per hole, or all 18 have been played. Dormie (or its
+  // High-Low equivalent) is still live.
+  window.lmValid = function(status, holes, maxSwing) {
+    var sw = maxSwing || 1;
     var up = Math.abs(status || 0), h = holes || 0;
-    if (up > h) return false;                 // can't lead by more than holes played
-    if (h >= 18) return up <= 2;              // after 18 the most you can win by is 2 up
-    if (up > (18 - h) + 1) return false;      // otherwise the match would have ended earlier
+    if (up > h * sw) return false;             // can't lead by more than holes played allow
+    if (h >= 18) return up <= 2 * sw;          // after 18, the most you can win by is 2*sw
+    if (up > (18 - h) * sw + sw) return false; // otherwise the match would have ended earlier
     return true;
   };
-  // The hole a match of this margin must have finished on.
-  window.lmCloseoutHoles = function(status) {
+  // The hole a match of this margin must have finished on (assumes max-swing holes from there).
+  window.lmCloseoutHoles = function(status, maxSwing) {
+    var sw = maxSwing || 1;
     var up = Math.abs(status || 0);
-    return up <= 1 ? 18 : 19 - up;
+    return up <= sw ? 18 : 19 - Math.ceil(up / sw);
   };
 
-  window.lmDecided = function(status, holes) {
+  window.lmDecided = function(status, holes, maxSwing) {
+    var sw = maxSwing || 1;
     var h = holes || 0;
     if (h >= 18) return true;
-    return Math.abs(status || 0) > (18 - h);
+    return Math.abs(status || 0) > (18 - h) * sw;
   };
 
   // Proper notation: "4 & 3" closed out early, "2 up" after 18, "Halved" level after 18.
-  window.lmResultText = function(status, holes) {
+  // Identical wording regardless of format - High-Low just allows the margin to
+  // grow faster per hole, it doesn't change how a decided margin is described.
+  window.lmResultText = function(status, holes, maxSwing) {
+    var sw = maxSwing || 1;
     var h = holes || 0, left = Math.max(0, 18 - h), up = Math.abs(status || 0);
-    if (!window.lmDecided(status, h)) {
+    if (!window.lmDecided(status, h, sw)) {
       if (!status) return 'All square thru ' + h + ' — not decided';
-      if (up === left) return (status>0?'Look Good':'Feel Good') + ' dormie ' + up + ' thru ' + h + ' — not decided';
+      if (up === left * sw) return (status>0?'Look Good':'Feel Good') + ' dormie ' + up + ' thru ' + h + ' — not decided';
       return (status>0?'Look Good':'Feel Good') + ' ' + up + ' up thru ' + h + ' — not decided';
     }
     if (!status) return 'Halved';
     var side = status > 0 ? 'Look Good' : 'Feel Good';
-    if (!window.lmValid(status, h)) {
+    if (!window.lmValid(status, h, sw)) {
       return side + ' ' + up + ' up thru ' + h + ' — impossible, check hole count';
     }
     return side + ' won ' + (left > 0 ? up + ' & ' + left : up + ' up');
