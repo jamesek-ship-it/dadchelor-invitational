@@ -1362,12 +1362,12 @@
     { id:'r3m1', look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1, fmt:'fourball' },
     { id:'r3m2', look:['Matt Hus','Kenny Dalen'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1, fmt:'fourball' },
     { id:'r3m3', look:['Tim McGuire','Dan Kraft'], feel:['Adam Hartley','Jon Boguth'], pts:1, fmt:'fourball' },
-    { id:'r4m1', look:[], feel:[], pts:1 },
-    { id:'r4m2', look:[], feel:[], pts:1 },
-    { id:'r4m3', look:[], feel:[], pts:1 },
-    { id:'r4m4', look:[], feel:[], pts:1 },
-    { id:'r4m5', look:[], feel:[], pts:1 },
-    { id:'r4m6', look:[], feel:[], pts:1 }
+    { id:'r4m1', look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m2', look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m3', look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m4', look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m5', look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m6', look:[], feel:[], pts:1, fmt:'singles' }
   ];
   window.DC_MATCHES = MATCHES;   // shared with the live-match tracker
   var CONTESTS = ['r1ctp','r1ld','r2ctp','r2ld','r3ctp','r3ld','r4ctp','r4ld'];
@@ -2379,9 +2379,9 @@
     {id:'r3m1',look:['James Knox','Ricky Moceri'],feel:['Dan Harras','Brandon Bartneck'],pts:1, fmt:'fourball'},
     {id:'r3m2',look:['Matt Hus','Kenny Dalen'],feel:['Andrew Heppner','Keegan Chicilli'],pts:1, fmt:'fourball'},
     {id:'r3m3',look:['Tim McGuire','Dan Kraft'],feel:['Adam Hartley','Jon Boguth'],pts:1, fmt:'fourball'},
-    {id:'r4m1',look:[],feel:[],pts:1},{id:'r4m2',look:[],feel:[],pts:1},
-    {id:'r4m3',look:[],feel:[],pts:1},{id:'r4m4',look:[],feel:[],pts:1},
-    {id:'r4m5',look:[],feel:[],pts:1},{id:'r4m6',look:[],feel:[],pts:1}
+    {id:'r4m1',look:[],feel:[],pts:1, fmt:'singles'},{id:'r4m2',look:[],feel:[],pts:1, fmt:'singles'},
+    {id:'r4m3',look:[],feel:[],pts:1, fmt:'singles'},{id:'r4m4',look:[],feel:[],pts:1, fmt:'singles'},
+    {id:'r4m5',look:[],feel:[],pts:1, fmt:'singles'},{id:'r4m6',look:[],feel:[],pts:1, fmt:'singles'}
   ];
 
   function sbFetch(path, opts) {
@@ -4140,12 +4140,12 @@ document.addEventListener('keydown', function(e) { if(e.key === 'Escape') closeL
     { id:'r3m1', round:3, look:['James Knox','Ricky Moceri'], feel:['Dan Harras','Brandon Bartneck'], pts:1, fmt:'fourball' },
     { id:'r3m2', round:3, look:['Matt Hus','Kenny Dalen'], feel:['Andrew Heppner','Keegan Chicilli'], pts:1, fmt:'fourball' },
     { id:'r3m3', round:3, look:['Tim McGuire','Dan Kraft'], feel:['Adam Hartley','Jon Boguth'], pts:1, fmt:'fourball' },
-    { id:'r4m1', round:4, look:[], feel:[], pts:1 },
-    { id:'r4m2', round:4, look:[], feel:[], pts:1 },
-    { id:'r4m3', round:4, look:[], feel:[], pts:1 },
-    { id:'r4m4', round:4, look:[], feel:[], pts:1 },
-    { id:'r4m5', round:4, look:[], feel:[], pts:1 },
-    { id:'r4m6', round:4, look:[], feel:[], pts:1 },
+    { id:'r4m1', round:4, look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m2', round:4, look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m3', round:4, look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m4', round:4, look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m5', round:4, look:[], feel:[], pts:1, fmt:'singles' },
+    { id:'r4m6', round:4, look:[], feel:[], pts:1, fmt:'singles' },
   ];
 
   var CONTESTS = [
@@ -4692,9 +4692,11 @@ if ('serviceWorker' in navigator) {
       var defFmt = m.fmt || 'fourball';
       var isSwitched = s.fmt_override && s.fmt_override !== defFmt;
 
+      var canSwitchFmt = editable && m.look.length >= 2 && m.feel.length >= 2;
       var fmtBlock = '';
-      if (editable) {
-        var opts = Object.keys(FMT_NAMES).map(function(f) {
+      if (canSwitchFmt) {
+        var switchable = ['fourball', 'scramble', 'highlow'];   // singles is never a switch target
+        var opts = switchable.map(function(f) {
           return '<option value="' + f + '"' + (f === curFmt ? ' selected' : '') + '>' + FMT_NAMES[f] + '</option>';
         }).join('');
         fmtBlock = '<div class="lm-fmtrow">'
@@ -5012,15 +5014,16 @@ if ('serviceWorker' in navigator) {
   };
 
   function fmtOf(m) {
-    if (m.look.length === 1) return 'Singles';
-    if (m.id.indexOf('r2') === 0) return '2v2 Scramble';
-    return 'Fourball';
+    // Human label for the archive - derives from the same source of truth as
+    // scoring (scoreFmt/FMT_NAMES), so it can never drift from what a match
+    // was actually scored as, even after a mid-match format switch.
+    return fmtLabel(scoreFmt(m));
   }
 
   // The ACTUAL scoring format for a match: live override (if a format switch is in
   // effect) takes priority, otherwise the match's configured default (m.fmt),
   // otherwise 'fourball'. This is what drives max-swing-per-hole, not fmtOf()'s label.
-  var FMT_NAMES = { fourball: 'Fourball', scramble: '2v2 Scramble', highlow: 'High-Low' };
+  var FMT_NAMES = { fourball: 'Fourball', scramble: 'Scramble', highlow: 'High-Low', singles: 'Singles Match Play' };
   function fmtLabel(f) { return FMT_NAMES[f] || f; }
 
   function scoreFmt(m) {
@@ -5037,6 +5040,7 @@ if ('serviceWorker' in navigator) {
     var m = null;
     try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
     if (!m) return;
+    if (m.look.length < 2 || m.feel.length < 2) return;   // singles/incomplete matches never switch format
     if (!me) { alert('Identify yourself first so we know who made this change.'); render(); return; }
     var s = live[id] || (live[id] = { match_id:id, status:0, holes:0, holePts:0 });
     var curFmt = scoreFmt(m);
