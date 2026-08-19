@@ -1056,6 +1056,26 @@
       </div>
     </div>
   </section>
+
+  <section class="section" style="padding-top:0;">
+    <div class="section-header">
+      <span class="section-label">Friday Side Games</span>
+      <h2 class="section-title">Closest to the Pin &amp; <em>Long Drive</em></h2>
+      <div class="section-rule"></div>
+    </div>
+    <div style="max-width:800px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:16px;" id="ctpld-2026-cards">
+      <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:2px;padding:20px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:6px;">Huron Breeze &middot; Friday AM</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--green-deep);margin-bottom:10px;">🎯 Closest to the Pin &mdash; Hole <span id="ctpld-huron-ctp-hole"></span></div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--green-deep);">💣 Long Drive &mdash; Hole <span id="ctpld-huron-ld-hole"></span></div>
+      </div>
+      <div style="background:var(--cream-dark);border:1px solid var(--border);border-radius:2px;padding:20px;">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);margin-bottom:6px;">Red Hawk &middot; Friday PM</div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--green-deep);margin-bottom:10px;">🎯 Closest to the Pin &mdash; Hole <span id="ctpld-redhawk-ctp-hole"></span></div>
+        <div style="font-family:'Playfair Display',serif;font-size:16px;font-weight:700;color:var(--green-deep);">💣 Long Drive &mdash; Hole <span id="ctpld-redhawk-ld-hole"></span></div>
+      </div>
+    </div>
+  </section>
 </div>
 
 
@@ -1912,7 +1932,7 @@
         </div>
         <div class="admin-contests">
           <div class="admin-contest-row">
-            <span class="admin-contest-label">🎯 CTP</span>
+            <span class="admin-contest-label">🎯 CTP (Hole 13)</span>
             <select class="admin-contest-input" data-contest="r1ctp"><option value="">Select player...</option>
 <option value="Matt Hus">Matt Hus</option>
 <option value="Tim McGuire">Tim McGuire</option>
@@ -1930,7 +1950,7 @@
             <span class="admin-contest-current" id="ac-r1ctp">—</span>
           </div>
           <div class="admin-contest-row">
-            <span class="admin-contest-label">💣 LD</span>
+            <span class="admin-contest-label">💣 LD (Hole 14)</span>
             <select class="admin-contest-input" data-contest="r1ld"><option value="">Select player...</option>
 <option value="Matt Hus">Matt Hus</option>
 <option value="Tim McGuire">Tim McGuire</option>
@@ -1969,6 +1989,44 @@
             <button class="awb awb-feel" data-match="r2m2" data-val="feel" onclick="adminScore('r2m2','feel',this)">FG</button>
           </div>
           <span class="admin-match-name feel">Chicilli / Harras</span>
+        </div>
+        <div class="admin-contests">
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">🎯 CTP (Hole 17)</span>
+            <select class="admin-contest-input" data-contest="r2ctp"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
+            <button class="admin-contest-save" id="csave-r2ctp" onclick="adminSaveContest(\'r2ctp\')">Save</button>
+            <span class="admin-contest-current" id="ac-r2ctp">—</span>
+          </div>
+          <div class="admin-contest-row">
+            <span class="admin-contest-label">💣 LD (Hole 7)</span>
+            <select class="admin-contest-input" data-contest="r2ld"><option value="">Select player...</option>
+<option value="Matt Hus">Matt Hus</option>
+<option value="Tim McGuire">Tim McGuire</option>
+<option value="James Knox">James Knox</option>
+<option value="Dan Kraft">Dan Kraft</option>
+<option value="Kenny Dalen">Kenny Dalen</option>
+<option value="Ricky Moceri">Ricky Moceri</option>
+<option value="Andrew Heppner">Andrew Heppner</option>
+<option value="Adam Hartley">Adam Hartley</option>
+<option value="Keegan Chicilli">Keegan Chicilli</option>
+<option value="Dan Harras">Dan Harras</option>
+<option value="Brandon Bartneck">Brandon Bartneck</option>
+<option value="Jon Boguth">Jon Boguth</option></select>
+            <button class="admin-contest-save" id="csave-r2ld" onclick="adminSaveContest(\'r2ld\')">Save</button>
+            <span class="admin-contest-current" id="ac-r2ld">—</span>
+          </div>
         </div>
       </div>
 
@@ -3090,7 +3148,9 @@
     <span class="fpill">Round 1 each day = Fourball</span><div class="fdot"></div>
     <span class="fpill">Fri R2 = 2-man Scrambles</span><div class="fdot"></div>
     <span class="fpill">Sat R2 = Individual Match Play</span><div class="fdot"></div>
-    <span class="fpill">Most points wins the Cup</span>
+    <span class="fpill">Most points wins the Cup</span><div class="fdot"></div>
+    <span class="fpill" id="fpill-ctp">🎯 CTP</span><div class="fdot"></div>
+    <span class="fpill" id="fpill-ld">💣 LD</span>
   </div>
 
   <!-- ROUNDS -->
@@ -3480,6 +3540,24 @@ function goToYear(year) {
 }
 
 // ── 2026 ROSTER ──  role: 'C' = Captain, 'a' = assistant Captain
+// Single source of truth for CTP/LD holes - edit here to update the Draw page,
+// the 2026 page, and Admin all at once.
+const CTP_LD_2026 = {
+  huron: {
+    course: 'Huron Breeze',
+    tee: '6,034',
+    ctp: { hole: 13, par: 3 },
+    ld:  { hole: 14, par: 5, yards: 510 }
+  },
+  redhawk: {
+    course: 'Red Hawk',
+    tee: '6,111 (Gold)',
+    ctp: { hole: 17, par: 3, yards: 141 },
+    ld:  { hole: 7,  par: 5, yards: 533 }
+  }
+};
+window.CTP_LD_2026 = CTP_LD_2026;  // explicit global exposure for cross-script access
+
 const ROSTER_2026 = {
   look: [
     { name:'James Knox',      role:'C' },
@@ -5207,6 +5285,37 @@ if ('serviceWorker' in navigator) {
   function go() { try { renumber(); } catch (e) {} }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', go);
   else go();
+})();
+</script>
+
+<script>
+/* CTP/LD hole renderer - fills in the Side Contests card on the 2026 page
+   from the single CTP_LD_2026 config. Isolated, safe, never breaks the page. */
+(function() {
+  function fill(id, val) {
+    var el = document.getElementById(id);
+    if (el && val !== undefined && val !== null) el.textContent = val;
+  }
+  function boot() {
+    try {
+      var cfg = window.CTP_LD_2026;
+      if (!cfg) return;
+      if (cfg.huron) {
+        fill('ctpld-huron-ctp-hole', cfg.huron.ctp.hole);
+        fill('ctpld-huron-ld-hole', cfg.huron.ld.hole);
+      }
+      if (cfg.redhawk) {
+        fill('ctpld-redhawk-ctp-hole', cfg.redhawk.ctp.hole);
+        fill('ctpld-redhawk-ld-hole', cfg.redhawk.ld.hole);
+      }
+      if (cfg.huron && cfg.redhawk) {
+        fill('fpill-ctp', '🎯 CTP: Hole ' + cfg.huron.ctp.hole + ' (Huron) / Hole ' + cfg.redhawk.ctp.hole + ' (Red Hawk)');
+        fill('fpill-ld', '💣 LD: Hole ' + cfg.huron.ld.hole + ' (Huron) / Hole ' + cfg.redhawk.ld.hole + ' (Red Hawk)');
+      }
+    } catch (e) {}
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
 })();
 </script>
 </body>
