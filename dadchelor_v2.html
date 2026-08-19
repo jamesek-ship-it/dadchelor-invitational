@@ -5023,7 +5023,7 @@ if ('serviceWorker' in navigator) {
   // The ACTUAL scoring format for a match: live override (if a format switch is in
   // effect) takes priority, otherwise the match's configured default (m.fmt),
   // otherwise 'fourball'. This is what drives max-swing-per-hole, not fmtOf()'s label.
-  var FMT_NAMES = { fourball: 'Fourball', scramble: 'Scramble', highlow: 'High-Low', singles: 'Singles Match Play' };
+  var FMT_NAMES = { fourball: 'Fourball (Match Play)', scramble: 'Scramble (Match Play)', highlow: 'High-Low', singles: 'Singles (Match Play)' };
   function fmtLabel(f) { return FMT_NAMES[f] || f; }
 
   function scoreFmt(m) {
