@@ -5037,15 +5037,16 @@ if ('serviceWorker' in navigator) {
     var m = null;
     try { m = DCM().filter(function(x){ return x.id === id; })[0]; } catch(e) {}
     if (!m) return;
-    if (!me) { alert('Identify yourself first so we know who made this change.'); return; }
+    if (!me) { alert('Identify yourself first so we know who made this change.'); render(); return; }
     var s = live[id] || (live[id] = { match_id:id, status:0, holes:0, holePts:0 });
     var curFmt = scoreFmt(m);
     if (newFmt === curFmt) return;
 
     var hasScore = (s.holes && s.holes > 0) || (s.holePts && s.holePts > 0) || s.status !== 0;
     if (hasScore) {
-      if (!confirm('There\'s already a ' + fmtLabel(curFmt) + ' score — do you want to '
-                 + 'clear the score and play ' + fmtLabel(newFmt) + ' instead?')) return;
+      var t = prompt('There\'s already a ' + fmtLabel(curFmt) + ' score.\n\n'
+                    + 'Type  CLEAR  to wipe it and switch to ' + fmtLabel(newFmt) + '.');
+      if (!t || t.trim().toUpperCase() !== 'CLEAR') { render(); return; }   // re-render resets the <select> to curFmt
       s.status = 0; s.holes = 0; s.holePts = 0;
     }
 
