@@ -2794,7 +2794,7 @@
         +  '  · all match results and points\n'
         +  '  · all live statuses, holes and confirmations\n'
         +  '  · all CTP / LD contest winners\n'
-        +  '  · the 2026 match archive (all-time history)\n\n'
+        +  '  · the 2026 match archive AND side-contest archive (all-time history)\n\n'
         +  'This cannot be undone.';
     if (!confirm(msg)) return;
 
@@ -2805,7 +2805,8 @@
     var wipes = [
       fetch(SB_URL+'/rest/v1/results?match_id=neq.NONE',      {method:'DELETE', headers:hdr}),
       fetch(SB_URL+'/rest/v1/live_matches?match_id=neq.NONE', {method:'DELETE', headers:hdr}),
-      fetch(SB_URL+'/rest/v1/match_archive?year=eq.2026',     {method:'DELETE', headers:hdr})
+      fetch(SB_URL+'/rest/v1/match_archive?year=eq.2026',     {method:'DELETE', headers:hdr}),
+      fetch(SB_URL+'/rest/v1/contest_archive?year=eq.2026',   {method:'DELETE', headers:hdr})
     ];
     Promise.all(wipes.map(function(p){ return p.catch(function(){}); }))
       .then(function() {
@@ -2818,6 +2819,7 @@
         if (window.lmReset) window.lmReset();          // clear in-memory immediately
         adminLoadResults();
         if (window.lbLoad) window.lbLoad();
+        if (window.dcCareerStats) window.dcCareerStats.refresh();   // clear cached career stats
         if (window.lmLoad) window.lmLoad(function() {   // then re-sync from empty server
           if (window.lmRefreshAdmin) window.lmRefreshAdmin();
           if (window.adminLoadResults) window.adminLoadResults();
@@ -5715,6 +5717,15 @@ if ('serviceWorker' in navigator) {
 
   window.dcCareerStats = {
     load: load,
+    // Drop the in-memory cache and refetch - used after a hard reset so the
+    // all-time leaderboard and player modals don't keep showing wiped data.
+    refresh: function() {
+      cache = null; stats = null; loading = false;
+      return load().then(function(s) {
+        try { if (window.dcRenderAllTime) window.dcRenderAllTime(); } catch (e) {}
+        return s;
+      });
+    },
     get: function(name) { return stats ? stats[name] : null; },
     all: function() { return stats; },
     rows: function() { return cache ? cache.matches : []; },
