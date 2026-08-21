@@ -3571,9 +3571,11 @@ function showPage(id) {
 function openMobileNav() { document.getElementById('mobile-nav-drawer').classList.add('open'); document.body.style.overflow = 'hidden'; }
 function closeMobileNav() { document.getElementById('mobile-nav-drawer').classList.remove('open'); document.body.style.overflow = ''; }
 
-// Countdown to August 28, 2026 6:00 AM
+// Countdown to August 28, 2026 8:30 AM ET (first tee, Huron Breeze)
+// Explicit -04:00 offset so everyone sees the same countdown regardless of
+// their phone's timezone.
 function updateCountdown() {
-  const target = new Date('2026-08-28T06:00:00').getTime();
+  const target = new Date('2026-08-28T08:30:00-04:00').getTime();
   const diff = target - Date.now();
   const set = (field, val) => document.querySelectorAll('[data-cd="'+field+'"]').forEach(el => el.textContent = val);
   const pad = n => String(n).padStart(2,'0');
