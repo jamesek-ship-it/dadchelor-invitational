@@ -1416,6 +1416,7 @@
         }
       } catch (e) {}
       var lw=0, ll=0, lh=0, fw=0, fl=0, fh=0;
+      var r4Won = {};   // player name -> true if they won their Round 4 singles match (CGOY tiebreak step 3)
 
       MATCHES.forEach(function(m) {
         var res = cache[m.id];
@@ -1431,10 +1432,12 @@
           lp+=m.pts; lw+=1; fl+=1;
           look.forEach(function(p){ pp[p]=(pp[p]||0)+1; pw[p]=(pw[p]||0)+1; });
           feel.forEach(function(p){ pl[p]=(pl[p]||0)+1; });
+          if (m.id.startsWith('r4')) look.forEach(function(p){ r4Won[p] = true; });
         } else if (w==='feel') {
           fp+=m.pts; fw+=1; ll+=1;
           feel.forEach(function(p){ pp[p]=(pp[p]||0)+1; pw[p]=(pw[p]||0)+1; });
           look.forEach(function(p){ pl[p]=(pl[p]||0)+1; });
+          if (m.id.startsWith('r4')) feel.forEach(function(p){ r4Won[p] = true; });
         } else {
           lp+=m.pts/2; fp+=m.pts/2; lh+=1; fh+=1;
           look.forEach(function(p){ pp[p]=(pp[p]||0)+0.5; ph[p]=(ph[p]||0)+1; });
@@ -1488,7 +1491,16 @@
       // Update CGOY table
       var tbody = document.getElementById('lb-cgoy-rows');
       if (!tbody) return;
-      var players = Object.keys(pp).sort(function(a,b){ return pp[b]-pp[a]; });
+      var players = Object.keys(pp).sort(function(a,b){
+        // CGOY tiebreak cascade (Rules & Scoring, Gameplay #3):
+        // 1) total points  2) most match wins  3) most CTP/LD bonus  4) R4 singles win  5) fewest losses
+        if (pp[b] !== pp[a]) return pp[b] - pp[a];
+        if ((pw[b]||0) !== (pw[a]||0)) return (pw[b]||0) - (pw[a]||0);
+        if ((bonusPts[b]||0) !== (bonusPts[a]||0)) return (bonusPts[b]||0) - (bonusPts[a]||0);
+        var r4b = r4Won[b] ? 1 : 0, r4a = r4Won[a] ? 1 : 0;
+        if (r4b !== r4a) return r4b - r4a;
+        return (pl[a]||0) - (pl[b]||0);   // fewer losses ranks higher
+      });
       if (!players.length) {
         tbody.innerHTML = '<div class="cgoy-empty">No results yet — check back after Round 1</div>';
         return;
@@ -1674,6 +1686,14 @@
         <div class="rule-item">
           <div class="rule-num">1</div>
           <div class="rule-text">Rules within a match &mdash; including game format &mdash; may be altered upon unanimous vote of the group (breakfast ball policies, the wearing of shoes, changing from Four-ball to High-Low, etc), so long as the designated number of points for that round are unchanged.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">2</div>
+          <div class="rule-text">Should the tournament finish tied, the champion shall be decided by a sudden-death playoff hole. The nearest playable par 4 that will not disrupt other groups on the course shall be used, in this order of preference: 18, 17, 1, 2.</div>
+        </div>
+        <div class="rule-item">
+          <div class="rule-num">3</div>
+          <div class="rule-text">Should two or more players finish tied for Champion Golfer of the Year, the tie shall be broken in this order: (1) most total match wins, (2) most CTP/LD bonus points, (3) result of their Round 4 singles match, if applicable, (4) fewest total match losses.</div>
         </div>
       </div>
 
