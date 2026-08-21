@@ -162,6 +162,18 @@
   .modal-stat-val { font-family: 'Playfair Display', Georgia, serif; font-size: 24px; font-weight: 700; color: var(--green-deep); display: block; }
   .modal-stat-label { font-family: 'Cormorant Garamond', Georgia, serif; font-size: 11px; letter-spacing: 1.5px; text-transform: uppercase; color: var(--text-light); display: block; margin-top: 2px; font-weight:600; }
   .modal-bio { font-size: 16px; color: var(--text-mid); line-height: 1.75; margin-bottom: 24px; }
+  .career-sub { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:2px; text-transform:uppercase; color:var(--text-light); margin:16px 0 6px; font-weight:600; }
+  .career-rows { display:flex; flex-direction:column; gap:4px; }
+  .career-row { display:flex; justify-content:space-between; font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text-mid); padding:4px 0; border-bottom:1px solid var(--border); }
+  .career-row span:last-child { font-weight:700; color:var(--green-deep); }
+  .at-head, .at-row { display:grid; grid-template-columns:36px 1fr 74px 56px 52px; align-items:center; gap:8px; padding:9px 12px; font-family:'Cormorant Garamond',serif; }
+  .at-head { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-light); font-weight:600; border-bottom:2px solid var(--border); }
+  .at-row { font-size:14px; color:var(--text-mid); border-bottom:1px solid var(--border); }
+  .at-row:nth-child(2) { background:rgba(184,150,46,0.07); }
+  .at-c-pos { font-family:'Playfair Display',serif; font-weight:700; color:var(--gold); }
+  .at-c-name { font-weight:600; color:var(--green-deep); }
+  .at-c-rec, .at-c-pct { text-align:center; }
+  .at-c-pts { text-align:right; font-weight:700; color:var(--green-deep); }
   .modal-section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 600; color: var(--green-deep); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
   .modal-results-list { list-style: none; }
   .modal-results-list li { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
@@ -921,6 +933,21 @@
     <p class="hero-tagline">Every Edition. Every Champion. Every Legend.</p>
   </section>
   <div class="stripe-divider"></div>
+
+  <section class="section" id="alltime-section" style="display:none;">
+    <div class="section-header">
+      <span class="section-label">All-Time</span>
+      <h2 class="section-title">Career <em>Leaderboard</em></h2>
+      <div class="section-rule"></div>
+    </div>
+    <div style="max-width:720px;margin:0 auto;">
+      <div id="alltime-body"></div>
+      <p style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--text-light);text-align:center;margin-top:14px;">
+        Compiled from every confirmed match. Updates live as results come in.
+      </p>
+    </div>
+  </section>
+
   <section class="section">
     <div class="section-header">
       <span class="section-label">Year by Year</span>
@@ -945,6 +972,7 @@
     <div class="modal-body">
       <div class="modal-stats-row" id="modal-stats"></div>
       <p class="modal-bio" id="modal-bio"></p>
+      <div id="modal-career"></div>
       <h3 class="modal-section-title">Tournament Results</h3>
       <ul class="modal-results-list" id="modal-results"></ul>
     </div>
@@ -3714,6 +3742,39 @@ function openPlayer(id) {
   document.getElementById('modal-results').innerHTML = p.results && p.results.length
     ? p.results.map(r => `<li><span class="result-year">${r.year}</span><span class="result-course">${r.course}</span><span class="result-finish ${r.finish===1?'win':r.finish<=3?'top':''}">${r.finish===1?'🏆 Champion':r.finish===2?'Runner-Up':r.finish+'th Place'}</span></li>`).join('')
     : '<li style="color:var(--text-light);font-style:italic;font-family:\'Cormorant Garamond\',serif;">Results coming soon.</li>';
+  // Career stats from match_archive - renders once data loads, hidden until then
+  (function(playerName) {
+    var el = document.getElementById('modal-career');
+    if (!el || !window.dcCareerStats) return;
+    el.innerHTML = '';
+    window.dcCareerStats.load().then(function() {
+      var r = window.dcCareerStats.get(playerName);
+      if (!r || !r.matches) return;   // nothing to show until they've played
+      var S = window.dcCareerStats;
+
+      function topList(obj, label, limit) {
+        var keys = Object.keys(obj).sort(function(a,b){
+          var ra = obj[a], rb = obj[b];
+          return (rb.w - rb.l) - (ra.w - ra.l);
+        }).slice(0, limit);
+        if (!keys.length) return '';
+        return '<div class="career-sub">' + label + '</div>'
+          + '<div class="career-rows">' + keys.map(function(k) {
+              return '<div class="career-row"><span>' + k + '</span><span>' + S.recStr(obj[k]) + '</span></div>';
+            }).join('') + '</div>';
+      }
+
+      el.innerHTML = '<h3 class="modal-section-title">Career Record</h3>'
+        + '<div class="modal-stats-row">'
+        +   '<div class="modal-stat"><span class="modal-stat-val">' + S.recStr(r) + '</span><span class="modal-stat-label">W-L-H</span></div>'
+        +   '<div class="modal-stat"><span class="modal-stat-val">' + r.pts + '</span><span class="modal-stat-label">Points</span></div>'
+        +   '<div class="modal-stat"><span class="modal-stat-val">' + Math.round(r.winPct * 100) + '%</span><span class="modal-stat-label">Win Rate</span></div>'
+        + '</div>'
+        + topList(r.partners, 'Best Partners', 3)
+        + topList(r.h2h, 'Head-to-Head', 4);
+    });
+  })(p.name);
+
   document.getElementById('player-modal').classList.add('open');
 }
 
@@ -5520,6 +5581,157 @@ if ('serviceWorker' in navigator) {
       if (ldParts.length) fill('fpill-ld', '💣 LD: ' + ldParts.join(' / '));
     } catch (e) {}
   }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+
+<script>
+/* ── Career stats engine ──────────────────────────────────────────────
+   Reads match_archive (permanent, survives hard resets of the live board)
+   and computes per-player career records, partner records, head-to-head,
+   and an all-time leaderboard. Starts producing real numbers the moment
+   the first match is confirmed. Fully isolated: a failure here can never
+   affect scoring, the leaderboard, or any other page. */
+(function() {
+  var SB = 'https://fjyusvkmjnununycqufk.supabase.co';
+  var KEY = 'sb_publishable_2I4TSssYg4wX9zWZ_Holqw_ZXZZONeA';
+
+  var cache = null;      // raw archive rows
+  var stats = null;      // computed
+  var loading = false;
+
+  function fetchArchive() {
+    return fetch(SB + '/rest/v1/match_archive?select=*&order=year.asc,round.asc', {
+      headers: { 'apikey': KEY, 'Authorization': 'Bearer ' + KEY }
+    }).then(function(r){ return r.json(); });
+  }
+
+  function compute(rows) {
+    var P = {};   // name -> record
+    function rec(n) {
+      if (!P[n]) P[n] = {
+        name: n, w: 0, l: 0, h: 0, matches: 0, years: {},
+        partners: {},    // partnerName -> {w,l,h}
+        h2h: {}          // opponentName -> {w,l,h}
+      };
+      return P[n];
+    }
+
+    (rows || []).forEach(function(row) {
+      var look = row.look_players || [], feel = row.feel_players || [];
+      if (!look.length || !feel.length) return;
+      var w = row.winner;
+
+      [[look, feel, 'look'], [feel, look, 'feel']].forEach(function(pair) {
+        var side = pair[0], opp = pair[1], sideKey = pair[2];
+        var outcome = (w === 'draw') ? 'h' : (w === sideKey ? 'w' : 'l');
+        side.forEach(function(n) {
+          var r = rec(n);
+          r[outcome] += 1;
+          r.matches += 1;
+          r.years[row.year] = true;
+          // partner record (everyone else on my side)
+          side.forEach(function(mate) {
+            if (mate === n) return;
+            if (!r.partners[mate]) r.partners[mate] = { w:0, l:0, h:0 };
+            r.partners[mate][outcome] += 1;
+          });
+          // head to head (everyone on the other side)
+          opp.forEach(function(o) {
+            if (!r.h2h[o]) r.h2h[o] = { w:0, l:0, h:0 };
+            r.h2h[o][outcome] += 1;
+          });
+        });
+      });
+    });
+
+    Object.keys(P).forEach(function(n) {
+      var r = P[n];
+      r.pts = r.w + (r.h * 0.5);
+      r.yearsPlayed = Object.keys(r.years).length;
+      r.winPct = r.matches ? (r.w + r.h * 0.5) / r.matches : 0;
+    });
+    return P;
+  }
+
+  function load() {
+    if (loading) return Promise.resolve(stats);
+    loading = true;
+    return fetchArchive().then(function(rows) {
+      cache = rows || [];
+      stats = compute(cache);
+      loading = false;
+      return stats;
+    }).catch(function() {
+      loading = false;
+      return null;
+    });
+  }
+
+  window.dcCareerStats = {
+    load: load,
+    get: function(name) { return stats ? stats[name] : null; },
+    all: function() { return stats; },
+    rows: function() { return cache; },
+    recStr: function(r) {
+      if (!r) return '—';
+      return r.w + '-' + r.l + (r.h ? '-' + r.h : '');
+    }
+  };
+})();
+</script>
+
+<script>
+/* All-time career leaderboard - History page. Reads the shared career stats
+   engine, renders a ranked table, and stays hidden entirely until at least one
+   match has been confirmed (so it never shows an empty shell pre-tournament).
+   Isolated and non-blocking. */
+(function() {
+  function render() {
+    var sec = document.getElementById('alltime-section');
+    var body = document.getElementById('alltime-body');
+    if (!sec || !body || !window.dcCareerStats) return;
+
+    window.dcCareerStats.load().then(function(stats) {
+      if (!stats) return;
+      var names = Object.keys(stats).filter(function(n){ return stats[n].matches > 0; });
+      if (!names.length) { sec.style.display = 'none'; return; }
+
+      names.sort(function(a, b) {
+        var ra = stats[a], rb = stats[b];
+        if (rb.pts !== ra.pts) return rb.pts - ra.pts;
+        if (rb.w !== ra.w) return rb.w - ra.w;
+        if (ra.l !== rb.l) return ra.l - rb.l;
+        return rb.matches - ra.matches;
+      });
+
+      var S = window.dcCareerStats;
+      var html = '<div class="at-head">'
+        + '<span class="at-c-pos">#</span><span class="at-c-name">Player</span>'
+        + '<span class="at-c-rec">W-L-H</span><span class="at-c-pct">Win%</span>'
+        + '<span class="at-c-pts">Pts</span></div>';
+
+      var pos = 0, prevPts = null, shown = 0;
+      names.forEach(function(n) {
+        var r = stats[n];
+        shown += 1;
+        if (r.pts !== prevPts) { pos = shown; prevPts = r.pts; }
+        html += '<div class="at-row">'
+          + '<span class="at-c-pos">' + pos + '</span>'
+          + '<span class="at-c-name">' + n + '</span>'
+          + '<span class="at-c-rec">' + S.recStr(r) + '</span>'
+          + '<span class="at-c-pct">' + Math.round(r.winPct * 100) + '%</span>'
+          + '<span class="at-c-pts">' + r.pts + '</span>'
+          + '</div>';
+      });
+
+      body.innerHTML = html;
+      sec.style.display = 'block';
+    });
+  }
+  window.dcRenderAllTime = render;
+  function boot() { try { render(); } catch (e) {} }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
