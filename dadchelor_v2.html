@@ -972,6 +972,7 @@
     <div class="modal-body">
       <div class="modal-stats-row" id="modal-stats"></div>
       <p class="modal-bio" id="modal-bio"></p>
+      <div id="modal-team-record"></div>
       <div id="modal-career"></div>
       <h3 class="modal-section-title">Tournament Results</h3>
       <ul class="modal-results-list" id="modal-results"></ul>
@@ -3416,6 +3417,47 @@ const IMAGES = {
   brandon: "/portraits/brandon.jpg"
 };
 
+// Team Record: which team a player was ROSTERED to each year, and whether
+// that team won the tournament overall. Deliberately separate from the
+// match-level career stats engine (which only has real 2026 data) - this is
+// year-level, roster-only, no individual match results implied or guessed.
+// "tie" = player appears on both team rosters that year (see 2023).
+const TEAM_HISTORY = {
+  2025: { winner: 'look',
+    look: ['Jon Boguth','Ricky Moceri','James Knox','Adam Hartley','Kenny Dalen'],
+    feel: ['Nick Boguth','Dan Harras','Dan Kraft','Andrew Heppner','Tim McGuire','Brandon Bartneck'] },
+  2023: { winner: 'feel',
+    look: ['Nick Boguth','Ricky Moceri','Kenny Dalen','Brandon Bartneck','Jon Boguth','Andrew Heppner'],
+    feel: ['James Knox','Dan Harras','Paul','Matt Hus','Jon Boguth','Andrew Heppner'],
+    tie: ['Jon Boguth','Andrew Heppner'] },
+  2022: { winner: 'look',
+    look: ['Adam Hartley','Angelo','Dan Harras','Faadi Dallo','Kenny Dalen','Matt Hus','Nick Boguth','Ricky Moceri'],
+    feel: ['Brandon Bartneck','Danny Schoenherr','James Knox','Jon Boguth','Josh Bitel','Keegan Chicilli','Shyler Engel','Tim McGuire'] },
+  2021: { winner: 'bigpeen',
+    bigpeen: ['Jon Boguth','Tim McGuire','Brandon Bartneck','Kenny Dalen','Dan Harras','Shyler Engel','Angelo'],
+    lilpeen: ['James Knox','Ricky Moceri','Faadi Dallo','Josh Bitel','Nick Boguth','Vito','Adam Hartley'] }
+};
+
+function teamRecordFor(name) {
+  var w = 0, l = 0, t = 0, years = [];
+  Object.keys(TEAM_HISTORY).forEach(function(year) {
+    var yr = TEAM_HISTORY[year];
+    var onTie = yr.tie && yr.tie.indexOf(name) !== -1;
+    var side = null;
+    if (yr.look && yr.look.indexOf(name) !== -1) side = 'look';
+    else if (yr.feel && yr.feel.indexOf(name) !== -1) side = 'feel';
+    else if (yr.bigpeen && yr.bigpeen.indexOf(name) !== -1) side = 'bigpeen';
+    else if (yr.lilpeen && yr.lilpeen.indexOf(name) !== -1) side = 'lilpeen';
+    if (!side) return;
+    years.push(year);
+    if (onTie) { t += 1; return; }
+    if (side === yr.winner) w += 1; else l += 1;
+  });
+  if (!years.length) return null;
+  return { w: w, l: l, t: t, years: years };
+}
+window.dcTeamRecordFor = teamRecordFor;
+
 const PLAYERS = [
   { id:1, name:"James Knox", nickname:"The Holdout", key:"james", wins:0, appearances:2, bestFinish:"—", bio:"Winner of the 2015 Knox vs. Harras living-room tussle — a fact he has not let anyone forget. Rising up the ranks and a perennial dark horse, James brings the kind of competitive intensity that only comes from being the guy the bios are written about.", results:[] },
   { id:2, name:"Nick Boguth", nickname:"The Machine", key:"nick", wins:0, appearances:4, bestFinish:"—", bio:"The reigning and repeat Dadchelor — bringing his third child into the world on Valentine's Day 2023, this man continues to make light work of procreation and embarrassing his married friends, who can barely make a par let alone babies. Winner of several long drive contests and the best score on a grad-level stats exam while intoxicated. The first person ever voted off the Mariano tribe on Survivor Lansing, despite being close personal friends with Tyson Apostol.", results:[] },
@@ -3426,7 +3468,7 @@ const PLAYERS = [
   { id:7, name:"Adam Hartley", nickname:"Adam &ldquo;Three Phones&rdquo; Hartley", key:"hartley", wins:0, appearances:4, bestFinish:"—", bio:"First in our hearts and first on the tee. Winner of the in-laws family lottery and Time's Man of the Year for 2019 and 2020. The only man handsome enough to marry into the Boguth family and make all the men look average. Single-handedly project managing all construction on I-75. The most prepared man in the room — he's got three sets of rain gear and just bought another one in the clubhouse. If you lose your phone, ask Adam — he's got three.", results:[] },
   { id:8, name:"Jon Boguth", nickname:"I got this beer!", key:"jon", wins:0, appearances:4, bestFinish:"—", bio:"He's the best golfer here — but he's also had decades longer to practice. A seasoned and critically acclaimed book reviewer. A 2021 addition to Team TaylorMade and a true gentleman — he even brought a whole box of cigars to share this weekend... with himself. His confidence makes Nick look meek. If you need the cart girl, she's probably doing shots with Jon's group, and he does NOT apologize for the holdup.", results:[] },
   { id:9, name:"Shyler Engel", nickname:"Big Booty Judy", key:null, wins:0, appearances:4, bestFinish:"—", bio:"A true anarchist who has been summering at Forest Dunes. American Lawyer Industry Awards finalist for preferred counsel of adult degenerates. When asked what he hoped to achieve at the Invitational, he simply said, 'No broken clubs.' Believes the earth is flat — but also not real. Does not own a pair of shoes, but drives a $6.4M BMW.", results:[] },
-  { id:10, name:"Josh Bitel", nickname:"The Great Guy", key:"josh", wins:0, appearances:4, bestFinish:"—", bio:"Five-time winner of the Fall Sweater Award. His boyish charm makes mothers swoon. Once sent 30,000 texts in a month — more than one text per waking minute. In high school, he dated two different girls named Taylor. Newly engaged to the woman of his dreams, he's making a run at the Guinness record for the longest bachelor party in recorded history. A Great Guy.", results:[] },
+  { id:10, name:"Josh Bitel", nickname:"In the Park After Dark", key:"josh", wins:0, appearances:4, bestFinish:"—", bio:"Five-time winner of the Fall Sweater Award. His boyish charm makes mothers swoon. Once sent 30,000 texts in a month — more than one text per waking minute. In high school, he dated two different girls named Taylor. Newly engaged to the woman of his dreams, he's making a run at the Guinness record for the longest bachelor party in recorded history. A Great Guy.", results:[] },
   { id:11, name:"Danny Schoenherr", nickname:"The Rising Star", key:null, wins:0, appearances:4, bestFinish:"—", bio:"A crowd favorite and certified rising star. Notorious in the music industry for his ability to D-mix any clean song into an explicit version. Achieved the perfect quaff in 2014 and has maintained it since. Having only taken up golf two years ago, he's already on a Charlie Woods-like trajectory. His wardrobe is a priceless collection of vintage pieces sourced from the recesses of fashion history and Nordstrom Rack.", results:[] },
   { id:12, name:"Faadi Dallo", nickname:"The Real McDougal", key:null, wins:0, appearances:4, bestFinish:"—", bio:"Three-time winner of the HFII Mock Election Awards. Has seen every golf TikTok in existence. The hungriest person in any room at all times but never knows what he wants to eat — often taking down Chipotle for lunch and Qdoba for dinner. Once went to the gym, played two soccer games, and sold millions of dollars of wire harnesses to maquiladoras, all while actively participating in several group chats simultaneously.", results:[] },
   { id:13, name:"Matt Hus", nickname:"Freaky Long & Freaky Strong", key:"matt", wins:0, appearances:4, bestFinish:"—", bio:"Don't be surprised by the capris or the bucket hat. This mustache-donning bachelor has been called 'FREAKY LONG AND FREAKY STRONG.' Often sporting an unreal tan in the summer, frequently mistaken as 'not a white guy.' Won the Euchre World Championships at age 12 and went alone. Single-handedly created household names such as 'Burger King' and 'Flo' from Progressive. A smooth criminal.", results:[] },
@@ -3470,10 +3512,10 @@ const TOURNAMENTS = [
     location: "Gaylord, Michigan",
     venue: "Treetops",
     eventName: "Second Tussle at Treetops",
-    champion: "???",
+    champion: "Team Big Peen",
     courses: ["Threetops (Treetops Resort)", "The Tribute at Otsego Club", "Premier Course (Treetops Resort)", "Signature Course (Treetops Resort)"],
     summary: "The Dadchelor returned to Gaylord for a second crack at Treetops, this time in the heat of summer. The field took on the legendary Threetops par-3 course, the historic Tribute layout at Otsego Club, and rounded out the weekend on Treetops' Premier and Signature tracks.",
-    highlight: "No one remembers the winning team, but driver off the deck was mandatory, and shoes were optional.",
+    highlight: "Team Big Peen took it down, driver off the deck mandatory, shoes optional. The full scorecard is hazier than the memories.",
     results: []
   },
   {
@@ -3483,7 +3525,7 @@ const TOURNAMENTS = [
     location: "Forest Dunes, Roscommon, Michigan",
     venue: "Forest Dunes / Au Sable",
     eventName: "Battle on the Au Sable",
-    champion: "???",
+    champion: "Team Look Good",
     courses: ["The Loop", "Bootlegger Short Course", "Dream Course", "Nightmare Course", "The Fortress"],
     summary: "The most ambitious edition yet. Forest Dunes is home to The Loop — the only reversible 18-hole golf course in the world, designed by Tom Doak — playable in both directions on the same day. Add the Dream and Nightmare courses at Garland Lodge and the fortress-like Fortress course and this was a weekend of golf unlike any other.",
     highlight: "The field slept in a hunting cabin where the mounted animals outnumbered the golfers ten to one. A formal bid for High Noon sponsorship remains unanswered to this day.",
@@ -3496,10 +3538,10 @@ const TOURNAMENTS = [
     location: "Ann Arbor & Northville, Michigan",
     venue: "UofM / EMU",
     eventName: "The Southern Swing (Battle of Higher Ed)",
-    champion: "???",
+    champion: "Team Feel Good",
     courses: ["Eagle Crest Golf Club", "The Michigan Course (Radrick Farms)", "Northville Hills Golf Club"],
     summary: "A rare southern swing brought the field to the Ann Arbor area for the 2023 edition — closer to home but no less competitive. Eagle Crest, the University of Michigan's Radrick Farms, and Northville Hills delivered three distinct tests over two days.",
-    highlight: "Billed as the Battle of Higher Ed. One hundred pitchers of Steelhead Red ensured no one learned anything.",
+    highlight: "Billed as the Battle of Higher Ed. One hundred pitchers of Steelhead Red ensured no one learned anything — and at least two players suited up for both sides that weekend.",
     results: []
   },
   {
@@ -3522,10 +3564,10 @@ const TOURNAMENTS = [
     location: "Tawas City & Au Gres, Michigan",
     venue: "Au Gres",
     eventName: "The Reverse Sear",
-    champion: "???",
+    champion: "Team Look Good",
     courses: ["Red Hawk Golf Course", "Huron Breeze Golf & Country Club", "The Fortress Golf Course"],
     summary: "The 2025 edition took the field to the Tawas/Au Gres area on the shores of Lake Huron. Red Hawk, Huron Breeze, and The Fortress made up the three-course slate — another chapter written into Dadchelor history.",
-    highlight: "The Dark Ages end here. 2025 was the last edition before the Modern Era — before the Dadchelor Chalice, before the live leaderboard, before any of it was written down.",
+    highlight: "The last edition before the Modern Era — before the Dadchelor Chalice, before the live leaderboard. Team Look Good closed out the Dark Ages on top.",
     results: []
   },
 ];
@@ -3757,6 +3799,23 @@ function openPlayer(id) {
     <div class="modal-stat"><span class="modal-stat-val">${p.wins}</span><span class="modal-stat-label">Wins</span></div>
     <div class="modal-stat"><span class="modal-stat-val">${p.appearances}</span><span class="modal-stat-label">Appearances</span></div>
     <div class="modal-stat"><span class="modal-stat-val" style="font-size:18px;">${p.bestFinish}</span><span class="modal-stat-label">Best Finish</span></div>`;
+  // Team Record: which years this player's team won/lost, roster-only, no
+  // individual match data implied - kept visually distinct from career stats.
+  (function() {
+    var el = document.getElementById('modal-team-record');
+    if (!el) return;
+    var r = window.dcTeamRecordFor ? window.dcTeamRecordFor(p.name) : null;
+    if (!r) { el.innerHTML = ''; return; }
+    var recStr = r.w + '-' + r.l + (r.t ? '-' + r.t : '');
+    el.innerHTML = '<h3 class="modal-section-title">Team Record</h3>'
+      + '<div class="modal-stats-row">'
+      +   '<div class="modal-stat"><span class="modal-stat-val">' + recStr + '</span><span class="modal-stat-label">Years Team Won</span></div>'
+      +   '<div class="modal-stat"><span class="modal-stat-val">' + r.years.length + '</span><span class="modal-stat-label">Years Played</span></div>'
+      + '</div>'
+      + '<p style="font-family:\'Cormorant Garamond\',serif;font-size:11px;font-style:italic;color:var(--text-light);margin-top:6px;">'
+      + 'Whether the team ' + p.name.split(' ')[0] + ' was rostered to won that year overall &mdash; not an individual match record.</p>';
+  })();
+
   document.getElementById('modal-results').innerHTML = p.results && p.results.length
     ? p.results.map(r => `<li><span class="result-year">${r.year}</span><span class="result-course">${r.course}</span><span class="result-finish ${r.finish===1?'win':r.finish<=3?'top':''}">${r.finish===1?'🏆 Champion':r.finish===2?'Runner-Up':r.finish+'th Place'}</span></li>`).join('')
     : '<li style="color:var(--text-light);font-style:italic;font-family:\'Cormorant Garamond\',serif;">Results coming soon.</li>';
