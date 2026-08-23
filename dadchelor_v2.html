@@ -3503,7 +3503,7 @@ const TOURNAMENTS = [
     location: "Harbor Springs, Michigan",
     venue: "Boyne",
     eventName: "Battle of Boyne",
-    champion: "???",
+    champion: "Team Big Peen",
     courses: ["Crooked Tree Golf Club", "Donald Ross Memorial Course", "Arthur Hills Course", "Heather Course"],
     summary: "Year two took the field to the iconic Boyne Highlands resort in Harbor Springs, home to four world-class courses. The Donald Ross Memorial and Arthur Hills layouts provided a proper test, while the Heather Course delivered one of the most scenic rounds in tournament history.",
     highlight: "Even in the Dark Ages, legends whisper through the highland trees. Onlookers tell tales of the only Dadchelor to end in a tie-breaking hole — Boguth vs Boguth, brother vs brother, Big Peen vs Lil Peen. The outcome was sealed at the tee box.",
@@ -3878,9 +3878,6 @@ function buildYears() {
     const courseChips = t.courses && t.courses.length
       ? `<div style="margin-bottom:16px;"><span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);display:block;margin-bottom:6px;">Courses Played</span>${t.courses.map(c=>`<span style="display:inline-block;background:var(--green-deep);color:var(--green-pale);font-family:'Cormorant Garamond',serif;font-size:13px;padding:4px 10px;margin:3px 4px 3px 0;border-radius:2px;">${c}</span>`).join('')}</div>`
       : '';
-    const resultsHtml = t.results && t.results.length
-      ? t.results.map(r=>`<tr><td class="pos${r.pos===1?' pos-1':''}">${r.pos===1?'🏆':r.pos}</td><td>${r.player}</td><td style="font-family:'Cormorant Garamond',serif;color:${r.pos===1?'var(--gold)':'var(--text-mid)'};">${r.score}</td></tr>`).join('')
-      : `<tr><td colspan="3" style="color:var(--text-light);font-style:italic;font-family:'Cormorant Garamond',serif;padding:14px 10px;">Results to be added.</td></tr>`;
     return `
     <div class="year-accordion" data-year="${t.year}">
       <div class="year-accordion-header" onclick="toggleYear(this.parentElement)">
@@ -3899,10 +3896,10 @@ function buildYears() {
       <div class="year-accordion-body">
         <div class="year-body-grid">
           <div>
-            <table class="year-results-table">
-              <thead><tr><th>Pos</th><th>Player</th><th>Score</th></tr></thead>
-              <tbody>${resultsHtml}</tbody>
-            </table>
+            <div style="margin-bottom:18px;">
+              <span style="font-family:'Cormorant Garamond',serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--text-light);display:block;margin-bottom:6px;">Winning Team</span>
+              <span style="font-family:'Playfair Display',serif;font-size:22px;font-weight:700;color:var(--gold);">${t.champion}</span>
+            </div>
             ${courseChips}
           </div>
           <div class="year-summary">
