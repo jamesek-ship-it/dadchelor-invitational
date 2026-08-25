@@ -3090,18 +3090,7 @@
 
 <!-- DRAW PAGE -->
 <div id="page-draw" class="page">
-  <div id="draw-gate" style="min-height:60vh;display:flex;align-items:center;justify-content:center;padding:2rem;">
-    <div style="background:var(--green-deep);border:1px solid rgba(184,150,46,0.3);border-top:4px solid var(--gold);padding:40px 36px;max-width:380px;width:100%;border-radius:2px;text-align:center;">
-      <div style="font-size:40px;margin-bottom:14px;">&#x1F512;</div>
-      <h2 style="font-family:'Playfair Display',serif;font-size:24px;font-weight:700;color:var(--white);margin-bottom:8px;">The Draw</h2>
-      <p style="font-family:'Cormorant Garamond',serif;font-size:15px;color:var(--green-pale);font-style:italic;margin-bottom:24px;">Players only. Enter the password to view the 2026 tournament draw.</p>
-      <input type="password" id="draw-pw-input" placeholder="Password" onkeydown="if(event.key===&apos;Enter&apos;)checkDrawPw()"
-        style="width:100%;padding:10px 14px;background:rgba(255,255,255,0.08);border:1px solid rgba(184,150,46,0.3);color:var(--white);font-family:'EB Garamond',serif;font-size:16px;border-radius:2px;outline:none;text-align:center;letter-spacing:2px;margin-bottom:14px;">
-      <div id="draw-pw-error" style="font-family:'Cormorant Garamond',serif;font-size:13px;color:#e07070;margin-bottom:12px;min-height:18px;"></div>
-      <button onclick="checkDrawPw()" style="width:100%;background:var(--gold);color:var(--green-deep);border:none;padding:13px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;font-weight:700;cursor:pointer;border-radius:2px;">Enter &#x2192;</button>
-    </div>
-  </div>
-  <div id="draw-content" style="display:none;">
+  <div id="draw-content">
     <style>.draw-isolated { --look-accent: #4dbe6a; --feel-accent: #4d9abe; }
 
 
@@ -3615,18 +3604,6 @@ function showDrawPage() {
   const mel = document.getElementById('mnav-draw');
   if (mel) mel.classList.add('active');
   window.scrollTo(0, 0);
-}
-
-function checkDrawPw() {
-  const pw = document.getElementById('draw-pw-input').value;
-  if (pw === 'Daddy') {
-    document.getElementById('draw-gate').style.display = 'none';
-    document.getElementById('draw-content').style.display = 'block';
-    document.getElementById('draw-pw-error').textContent = '';
-  } else {
-    document.getElementById('draw-pw-error').textContent = 'Incorrect password.';
-    document.getElementById('draw-pw-input').value = '';
-  }
 }
 
 function showPage(id) {
