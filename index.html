@@ -622,10 +622,34 @@
   }
   .hist-block.open .hist-chevron { transform: rotate(180deg); }
   .hist-body { display: none; padding-bottom: 16px; }
+
+  /* Theme song player - fixed, always reachable, survives page navigation */
+  #dc-theme-btn {
+    position: fixed; right: 16px; bottom: 16px; z-index: 900;
+    display: flex; align-items: center; gap: 7px;
+    background: var(--green-deep); color: var(--gold-light);
+    border: 1px solid rgba(184,150,46,0.5); border-radius: 30px;
+    padding: 10px 16px; cursor: pointer;
+    font-family: 'Cormorant Garamond', serif; font-size: 12px;
+    letter-spacing: 1.5px; text-transform: uppercase; font-weight: 600;
+    box-shadow: 0 3px 14px rgba(0,0,0,0.35);
+    transition: background 0.2s, transform 0.15s;
+  }
+  #dc-theme-btn:active { transform: scale(0.96); }
+  #dc-theme-btn.playing { background: var(--gold); color: var(--green-deep); border-color: var(--gold); }
+  #dc-theme-icon { font-size: 13px; line-height: 1; }
+  @media (max-width: 600px) {
+    #dc-theme-btn { right: 12px; bottom: 12px; padding: 9px 14px; font-size: 11px; }
+  }
   .hist-block.open .hist-body { display: block; }
 </style>
 </head>
 <body>
+
+<audio id="dc-theme" src="/theme.mp3" loop preload="none"></audio>
+<button id="dc-theme-btn" onclick="dcToggleTheme()" aria-label="Play theme song">
+  <span id="dc-theme-icon">&#9654;</span><span id="dc-theme-label">Theme</span>
+</button>
 
 <div class="nav-banner">Est. 2019 &nbsp;·&nbsp; A Tradition Unlike Any Other (Among Dads)</div>
 
@@ -5852,6 +5876,61 @@ if ('serviceWorker' in navigator) {
   }
   window.dcRenderAllTime = render;
   function boot() { try { render(); } catch (e) {} }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
+  else boot();
+})();
+</script>
+
+<script>
+/* Theme song. Browsers block autoplay-with-sound until the user interacts,
+   so this is an explicit one-tap control rather than an autoplay attempt.
+   Remembers whether it was playing across page loads. Isolated + safe. */
+(function() {
+  var KEY = 'dc_theme_on';
+
+  function el() { return document.getElementById('dc-theme'); }
+  function btn() { return document.getElementById('dc-theme-btn'); }
+
+  function paint(playing) {
+    var b = btn(), i = document.getElementById('dc-theme-icon'), l = document.getElementById('dc-theme-label');
+    if (!b) return;
+    b.classList.toggle('playing', playing);
+    if (i) i.innerHTML = playing ? '&#10074;&#10074;' : '&#9654;';
+    if (l) l.textContent = playing ? 'Playing' : 'Theme';
+  }
+
+  window.dcToggleTheme = function() {
+    var a = el();
+    if (!a) return;
+    if (a.paused) {
+      a.play().then(function() {
+        paint(true);
+        try { localStorage.setItem(KEY, '1'); } catch (e) {}
+      }).catch(function() {
+        paint(false);   // blocked or failed - leave the button in a sane state
+      });
+    } else {
+      a.pause();
+      paint(false);
+      try { localStorage.removeItem(KEY); } catch (e) {}
+    }
+  };
+
+  function boot() {
+    try {
+      var a = el();
+      if (!a) return;
+      a.addEventListener('ended', function(){ paint(false); });
+      a.addEventListener('pause', function(){ paint(false); });
+      a.addEventListener('play',  function(){ paint(true); });
+      // If they had it on last visit, try to resume - will silently fail
+      // until they interact, which is expected browser behaviour.
+      var wanted = null;
+      try { wanted = localStorage.getItem(KEY); } catch (e) {}
+      if (wanted === '1') { a.play().catch(function(){ paint(false); }); }
+      paint(!a.paused);
+    } catch (e) {}
+  }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
 })();
