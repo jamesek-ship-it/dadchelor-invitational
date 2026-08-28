@@ -1170,7 +1170,7 @@
   .lm-big.look { color:#6fdc8c; }
   .lm-big.feel { color:#7EB8E0; }
   .lm-big.sq   { color:var(--gold-light); }
-  .lm-bigthru { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:2.5px; text-transform:uppercase; color:rgba(232,244,232,0.95); text-align:center; margin:4px 0 14px; }
+  .lm-bigthru { font-family:'Playfair Display',serif; font-size:18px; font-weight:700; letter-spacing:1px; text-transform:uppercase; color:rgba(232,244,232,0.95); text-align:center; margin:4px 0 14px; }
   .lm-row.mine .lm-matchup { display:flex; align-items:center; justify-content:center; gap:10px; font-family:'Cormorant Garamond',serif; font-size:13px; padding-bottom:13px; border-bottom:1px solid rgba(255,255,255,0.07); }
   .lm-row.mine .lm-matchup .look { color:#6fdc8c; text-align:right; flex:1; }
   .lm-row.mine .lm-matchup .feel { color:#7EB8E0; text-align:left; flex:1; }
@@ -1183,6 +1183,8 @@
   .lm-fmtnotice a { color:#f0b8b8; text-decoration:underline; font-weight:600; }
   .lm-fmtnotice-ro { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:rgba(184,150,46,0.7); margin-top:2px; }
   .lm-warn { background:rgba(214,40,40,0.1); border:1px solid rgba(214,40,40,0.28); color:#f0b8b8; font-family:'Cormorant Garamond',serif; font-size:12px; line-height:1.5; padding:9px 11px; border-radius:2px; margin-top:13px; }
+  .lm-warn-ok { display:block; margin:8px auto 0; background:rgba(214,40,40,0.25); border:1px solid rgba(214,40,40,0.4); color:#fff; font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1.5px; text-transform:uppercase; padding:5px 18px; border-radius:2px; cursor:pointer; }
+  .lm-warn-ok:active { background:rgba(214,40,40,0.4); }
   .lm-ctl2 { display:grid; grid-template-columns:repeat(3,1fr); gap:6px; margin-top:13px; }
   .lm-ctl2 button { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.15); color:#e8f0e8; font-family:'Cormorant Garamond',serif; font-size:11px; letter-spacing:1px; text-transform:uppercase; padding:10px 4px; border-radius:2px; cursor:pointer; transition:background 0.15s; }
   .lm-ctl2 button:active { background:rgba(184,150,46,0.3); border-color:var(--gold); }
@@ -4861,6 +4863,7 @@ if ('serviceWorker' in navigator) {
       else if (s.status < 0) { lbl = 'FEEL GOOD UP ' + Math.abs(s.status); cls = 'feel'; }
       else { lbl = 'ALL SQUARE'; cls = 'sq'; }
       var notice = editable && window.lmEditorNotice ? window.lmEditorNotice(m.id) : '';
+      if (notice && dismissedNotices[m.id] === notice) notice = '';   // acknowledged, and situation hasn't changed
       var curFmt = scoreFmt(m);
       var defFmt = m.fmt || 'fourball';
       var isSwitched = s.fmt_override && s.fmt_override !== defFmt;
@@ -4897,11 +4900,12 @@ if ('serviceWorker' in navigator) {
               + '<span class="lm-vs">v</span>'
               + '<span class="feel">' + sur(m.feel) + '</span></div>'
               + fmtBlock
-              + (notice ? '<div class="lm-warn">⚠️ ' + notice + '</div>' : '')
+              + (notice ? '<div class="lm-warn">⚠️ ' + notice
+                    + '<button class="lm-warn-ok" onclick="lmDismissNotice(\'' + m.id + '\')">OK</button></div>' : '')
               + '<div class="lm-ctl2">'
               + '<button class="lm-b-look" onclick="lmAdj(\'' + m.id + '\',1,0)">◀ LG</button>'
               + '<button class="lm-b-feel" onclick="lmAdj(\'' + m.id + '\',-1,0)">FG ▶</button>'
-              + '<button class="lm-b-conf" onclick="lmConfirm(\'' + m.id + '\')">✓ Confirm</button>'
+              + '<button class="lm-b-conf" onclick="lmConfirm(\'' + m.id + '\')">✓ Confirm Round</button>'
               + '<button class="lm-b-hole" onclick="lmAdj(\'' + m.id + '\',0,-1)">− hole</button>'
               + '<button class="lm-b-hole" onclick="lmAdj(\'' + m.id + '\',0,1)">+ hole</button>'
               + '<button class="lm-b-clear" onclick="lmClearTyped(\'' + m.id + '\')">Clear</button>'
@@ -5116,6 +5120,11 @@ if ('serviceWorker' in navigator) {
     return nameList(names) + ' are already updating this match. Agree between you who\'s entering scores.';
   };
 
+  var dismissedNotices = {};   // match id -> notice text that was acknowledged
+  window.lmDismissNotice = function(id) {
+    dismissedNotices[id] = window.lmEditorNotice ? window.lmEditorNotice(id) : '';
+    render();
+  };
   window.lmMe = function(){ return me; };
   window.lmForget = function() {
     me = null;
