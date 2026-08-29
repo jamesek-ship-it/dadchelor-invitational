@@ -5181,13 +5181,32 @@ if ('serviceWorker' in navigator) {
       if (!confirm('Start Round ' + rnd + '? Players will be able to update these ' + ms.length + ' matches.')) return;
     }
 
-    var want = !isOn, n = 0;
+    var want = !isOn, n = 0, failed = 0;
+    // Update local state immediately so the UI reflects the tap right away,
+    // even before the network confirms - a flaky connection on the course
+    // should never leave the button looking like it did nothing.
     ms.forEach(function(m) {
       var s = live[m.id] || (live[m.id] = { match_id:m.id, status:0, holes:0 });
       s.active = want;
+    });
+    render();
+    if (window.lmRefreshAdmin) window.lmRefreshAdmin();
+
+    function settle() {
+      if (++n === ms.length) {
+        if (failed > 0) {
+          alert(failed + ' of ' + ms.length + ' match' + (ms.length>1?'es':'') + ' didn\'t sync - '
+              + 'check your connection and try tapping ' + (isOn ? 'End' : 'Start') + ' again to retry. '
+              + 'The screen shows the change, but it may not be saved on the server yet.');
+        }
+      }
+    }
+    ms.forEach(function(m) {
+      var s = live[m.id];
       api('live_matches', { method:'POST', body: JSON.stringify({
         match_id:m.id, status:s.status, holes:s.holes, active:want }) })
-        .then(function(){ if (++n === ms.length) { render(); if (window.lmRefreshAdmin) window.lmRefreshAdmin(); } });
+        .then(settle)
+        .catch(function(){ failed++; settle(); });
     });
   };
   window.lmRoundActive = function(rnd) {
