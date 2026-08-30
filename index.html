@@ -1353,7 +1353,8 @@
   .lb-vs-mid { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 16px 12px; }
   .lb-vs-dash { font-family: 'Playfair Display', serif; font-size: 20px; color: rgba(184,150,46,0.5); }
   .lb-vs-total { font-family: 'Cormorant Garamond', serif; font-size: 9px; letter-spacing: 1px; text-transform: uppercase; color: rgba(200,223,200,0.7); margin-top: 4px; white-space: nowrap; }
-  .lb-status-strip { background: rgba(26,58,42,0.4); border: 1px solid rgba(184,150,46,0.15); border-radius: 2px; padding: 8px 14px; margin-bottom: 16px; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 13px; color: rgba(200,223,200,0.5); font-style: italic; }
+  .lb-status-strip { background: rgba(26,58,42,0.4); border: 1px solid rgba(184,150,46,0.15); border-radius: 2px; padding: 10px 14px; margin-bottom: 16px; text-align: center; font-family: 'Cormorant Garamond', serif; font-size: 13px; line-height: 1.6; color: rgba(200,223,200,0.7); font-style: italic; }
+  .lb-status-strip strong { font-style: normal; color: rgba(255,255,255,0.9); }
   .lb-cgoy-section { background: rgba(26,58,42,0.4); border: 1px solid rgba(184,150,46,0.15); border-radius: 3px; overflow: hidden; }
   .lb-cgoy-title { font-family: 'Playfair Display', serif; font-size: 13px; font-weight: 600; color: var(--gold-light); padding: 12px 16px; border-bottom: 1px solid rgba(184,150,46,0.15); letter-spacing: 0.5px; }
   .lb-cgoy-header { display: grid; grid-template-columns: 40px 1fr auto; gap: 10px; padding: 6px 16px; border-bottom: 1px solid rgba(184,150,46,0.1); }
@@ -1547,13 +1548,14 @@
       });
 
       var ctpWins = {}, ldWins = {}, bonusPts = {};
+      var lookSide = 0, feelSide = 0;
       CONTESTS.forEach(function(cid) {
         var res = cache[cid];
         if (!res||!res.winner) return;
         bonusPts[res.winner] = (bonusPts[res.winner]||0)+0.5;
         pp[res.winner]=(pp[res.winner]||0)+0.5;
         var t=team(res.winner);
-        if (t==='look') lp+=0.5; else if (t==='feel') fp+=0.5;
+        if (t==='look') { lp+=0.5; lookSide+=0.5; } else if (t==='feel') { fp+=0.5; feelSide+=0.5; }
         if (cid.indexOf('ctp')!==-1) {
           ctpWins[res.winner] = (ctpWins[res.winner]||0)+1;
         } else {
@@ -1571,9 +1573,18 @@
       if (vsTotal) vsTotal.textContent = 'of 17';
       if (strip) {
         var decided = fmt(lp+fp);
+        var matchLookPts = lw + lh*0.5, matchFeelPts = fw + fh*0.5;
         var lookRec = lw+'-'+ll+(lh>0?'-'+lh:'');
         var feelRec = fw+'-'+fl+(fh>0?'-'+fh:'');
-        strip.innerHTML = decided+' of 17 pts decided &nbsp;·&nbsp; Look Good: <strong>'+lookRec+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+feelRec+'</strong>';
+        var line1 = decided+' of 17 pts decided &nbsp;·&nbsp; Match Play — Look Good: <strong>'+lookRec+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+feelRec+'</strong>'
+          + (lh>0 ? ' <span style="opacity:0.75;">(halved matches worth &frac12; pt to each side)</span>' : '');
+        var line2 = 'Match Pts — Look Good: <strong>'+fmt(matchLookPts)+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+fmt(matchFeelPts)+'</strong>'
+          + ' &nbsp;&nbsp;|&nbsp;&nbsp; Side Games (CTP/LD) — Look Good: <strong>'+fmt(lookSide)+'</strong> &nbsp;·&nbsp; Feel Good: <strong>'+fmt(feelSide)+'</strong>';
+        var line3 = 'Total — Look Good: <strong>'+fmt(lp)+'</strong> pts &nbsp;·&nbsp; Feel Good: <strong>'+fmt(fp)+'</strong> pts';
+        if (decided==='17' && lp===fp) {
+          line3 += ' <span style="color:var(--gold-light,#d4af55);">— tied 8½–8½, decided by a sudden-death playoff (Team Look Good won it)</span>';
+        }
+        strip.innerHTML = '<div>'+line1+'</div><div style="margin-top:4px;">'+line2+'</div><div style="margin-top:4px;">'+line3+'</div>';
       }
       if (sub) sub.textContent = (lp+fp===0) ? 'Tournament begins August 28 · Huron Breeze · 9:00 AM' : 'Live · Updated just now';
 
