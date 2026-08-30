@@ -762,6 +762,9 @@
         </div>
       </div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--green-pale);line-height:1.8;max-width:720px;margin:24px auto 0;">Individually, <strong style="color:var(--white);">Brandon Bartneck</strong> was crowned the inaugural Champion Golfer of the Year — a perfect 4-0 record plus a ½-point bonus for <strong style="color:var(--gold-light);">4½ points</strong>, the best mark in the field — and became the first man in Dadchelor history to drink from the Dadchelor Chalice.</p>
+      <div style="margin-top:28px;">
+        <button onclick="openUpload(2026)" style="background:var(--gold);color:var(--green-deep);border:none;padding:12px 30px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;font-weight:700;border-radius:2px;">📸 Upload Your 2026 Photos</button>
+      </div>
     </div>
   </div>
 
@@ -1086,6 +1089,9 @@
         </div>
       </div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:16px;color:var(--text-mid);line-height:1.8;text-align:center;max-width:720px;margin:24px auto 0;">Brandon Bartneck was crowned the inaugural Champion Golfer of the Year, going 4-0 with a ½-point bonus for 4½ points — the best mark in the field — and became the first to drink from the Dadchelor Chalice.</p>
+      <div style="text-align:center;margin-top:28px;">
+        <button onclick="openUpload(2026)" style="background:var(--green-deep);color:var(--gold-pale);border:none;padding:12px 30px;font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:2px;text-transform:uppercase;cursor:pointer;border-radius:2px;">📸 Upload Your 2026 Photos</button>
+      </div>
     </div>
   </div>
 
@@ -3737,6 +3743,19 @@ const TOURNAMENTS = [
     highlight: "The last edition before the Modern Era — before the Dadchelor Chalice, before the live leaderboard. Team Look Good closed out the Dark Ages on top.",
     results: []
   },
+  {
+    year: 2026,
+    edition: "8th Edition",
+    dates: "August 28–29, 2026",
+    location: "Au Gres & West Branch, Michigan",
+    venue: "Huron Breeze / Garland",
+    eventName: "The Modern Era Begins",
+    champion: "Team Look Good",
+    courses: ["Huron Breeze Golf & Country Club", "Red Hawk Golf Club", "The Dream Course", "The Nightmare Course"],
+    summary: "The Modern Era arrived — live scoring, the debut of the Champion Golfer of the Year race, and the Dadchelor Chalice itself all introduced for the first time. Day one ran the Lake Huron swing at Huron Breeze and Red Hawk; day two moved to Garland Lodge's Dream and Nightmare courses for the championship round. The tournament finished level at 8½–8½, forcing the first-ever sudden-death playoff.",
+    highlight: "Dan Harras stuck his approach to 20 feet in the playoff — and James Knox answered with a wedge to 3 feet, draining the putt to win it for Team Look Good. Brandon Bartneck went 4-0 with a bonus point (4½ pts) to become the inaugural Champion Golfer of the Year and the first man to drink from the Dadchelor Chalice.",
+    results: []
+  },
 ];
 
 function showDrawPage() {
@@ -4137,7 +4156,7 @@ let uploadTargetYear = null;
 
 function openUpload(year) {
   uploadTargetYear = year;
-  const YEAR_NAMES = {'2019':'The Original Dadchelor','2020':'Battle of Boyne','2021':'Second Tussle at Treetops','2022':'Battle on the Au Sable','2023':'The Southern Swing','2024':'The Homeward Drive','2025':'The Reverse Sear','2026':'The Dadchelor Invitational'};
+  const YEAR_NAMES = {'2019':'The Original Dadchelor','2020':'Battle of Boyne','2021':'Second Tussle at Treetops','2022':'Battle on the Au Sable','2023':'The Southern Swing','2024':'The Homeward Drive','2025':'The Reverse Sear','2026':'The Modern Era Begins'};
   document.getElementById('upload-modal').classList.add('open');
   document.getElementById('upload-year-label').textContent = year + ' — ' + (YEAR_NAMES[year] || '');
   document.getElementById('upload-warning').textContent = '⚠️ YOU are uploading photos for ' + year + ' — ' + (YEAR_NAMES[year]||'') + ' — please do not include photos from other years in this upload.';
