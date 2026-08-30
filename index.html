@@ -166,6 +166,17 @@
   .career-rows { display:flex; flex-direction:column; gap:4px; }
   .career-row { display:flex; justify-content:space-between; font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text-mid); padding:4px 0; border-bottom:1px solid var(--border); }
   .career-row span:last-child { font-weight:700; color:var(--green-deep); }
+  .matchlog-list { display:flex; flex-direction:column; gap:6px; }
+  .matchlog-row { display:flex; align-items:center; justify-content:space-between; gap:12px; padding:8px 10px; border-left:3px solid var(--border); background:rgba(0,0,0,0.02); border-radius:2px; }
+  .matchlog-row.win { border-left-color:#2e7d32; }
+  .matchlog-row.loss { border-left-color:#a33; }
+  .matchlog-row.half { border-left-color:var(--gold); }
+  .matchlog-meta { font-family:'Cormorant Garamond',serif; font-size:10px; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); white-space:nowrap; }
+  .matchlog-detail { font-family:'Cormorant Garamond',serif; font-size:14px; color:var(--text-mid); flex:1; }
+  .matchlog-result { font-family:'Playfair Display',serif; font-size:13px; font-weight:700; white-space:nowrap; }
+  .matchlog-row.win .matchlog-result { color:#2e7d32; }
+  .matchlog-row.loss .matchlog-result { color:#a33; }
+  .matchlog-row.half .matchlog-result { color:var(--gold-dark, #8a6d1e); }
   .at-head, .at-row { display:grid; grid-template-columns:36px 1fr 74px 56px 52px; align-items:center; gap:8px; padding:9px 12px; font-family:'Cormorant Garamond',serif; }
   .at-head { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-light); font-weight:600; border-bottom:2px solid var(--border); }
   .at-row { font-size:14px; color:var(--text-mid); border-bottom:1px solid var(--border); }
@@ -1019,6 +1030,7 @@
       <p class="modal-bio" id="modal-bio"></p>
       <div id="modal-team-record"></div>
       <div id="modal-career"></div>
+      <div id="modal-matchlog"></div>
       <h3 class="modal-section-title">Tournament Results</h3>
       <ul class="modal-results-list" id="modal-results"></ul>
     </div>
@@ -3929,6 +3941,42 @@ function openPlayer(id) {
     });
   })(p.name);
 
+  // Individual matchup results - full chronological log from match_archive
+  (function(playerName) {
+    var el = document.getElementById('modal-matchlog');
+    if (!el || !window.dcCareerStats) return;
+    el.innerHTML = '';
+    window.dcCareerStats.load().then(function() {
+      var r = window.dcCareerStats.get(playerName);
+      if (!r || !r.log || !r.log.length) return;   // nothing to show until they've played
+
+      function rowHtml(e) {
+        var cls = e.outcome === 'w' ? 'win' : e.outcome === 'l' ? 'loss' : 'half';
+        var partnerStr = e.partners && e.partners.length
+          ? ' &amp; ' + e.partners.join(' &amp; ')
+          : '';
+        var oppStr = (e.opponents || []).join(' &amp; ');
+        var resultStr;
+        if (e.outcome === 'h') {
+          resultStr = 'Halved';
+        } else {
+          var left = Math.max(0, 18 - (e.holes != null ? e.holes : 18));
+          var margin = e.margin || 0;
+          resultStr = (e.outcome === 'w' ? 'Won' : 'Lost')
+            + (margin ? (left > 0 ? ' ' + margin + '&amp;' + left : ' ' + margin + ' UP') : '');
+        }
+        return '<div class="matchlog-row ' + cls + '">'
+          + '<div class="matchlog-meta">' + e.year + ' &middot; R' + e.round + '<br>' + (e.format || '') + '</div>'
+          + '<div class="matchlog-detail">' + playerName.split(' ')[0] + partnerStr + ' vs. ' + oppStr + '</div>'
+          + '<div class="matchlog-result">' + resultStr + '</div>'
+        + '</div>';
+      }
+
+      el.innerHTML = '<h3 class="modal-section-title">Individual Matchup Results</h3>'
+        + '<div class="matchlog-list">' + r.log.map(rowHtml).join('') + '</div>';
+    });
+  })(p.name);
+
   document.getElementById('player-modal').classList.add('open');
 }
 
@@ -5799,7 +5847,8 @@ if ('serviceWorker' in navigator) {
         name: n, w: 0, l: 0, h: 0, matches: 0, years: {},
         ctp: 0, ld: 0,   // career side-contest wins
         partners: {},    // partnerName -> {w,l,h}
-        h2h: {}          // opponentName -> {w,l,h}
+        h2h: {},         // opponentName -> {w,l,h}
+        log: []          // chronological individual matchup results
       };
       return P[n];
     }
@@ -5828,6 +5877,17 @@ if ('serviceWorker' in navigator) {
             if (!r.h2h[o]) r.h2h[o] = { w:0, l:0, h:0 };
             r.h2h[o][outcome] += 1;
           });
+          // individual matchup log entry
+          r.log.push({
+            year: row.year,
+            round: row.round,
+            format: row.format,
+            partners: side.filter(function(x){ return x !== n; }),
+            opponents: opp.slice(),
+            outcome: outcome,
+            margin: row.margin,
+            holes: row.holes
+          });
         });
       });
     });
@@ -5849,6 +5909,7 @@ if ('serviceWorker' in navigator) {
       r.yearsPlayed = Object.keys(r.years).length;
       r.winPct = r.matches ? (r.w + r.h * 0.5) / r.matches : 0;
       r.ppm = r.matches ? r.pts / r.matches : 0;   // points per match
+      r.log.sort(function(a, b) { return (b.year - a.year) || (b.round - a.round); });
     });
     return P;
   }
