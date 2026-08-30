@@ -2505,6 +2505,7 @@
       </div>
     </div>
 
+    <button class="admin-logout-btn" style="border-color:#2e7d32;color:#2e7d32;margin-bottom:8px;" onclick="adminBackfillArchive()">🗄 Backfill Match Archive (fixes empty Career Record / Match Log on player bios)</button>
     <button class="admin-logout-btn" style="border-color:#cc3333;color:#cc3333;margin-bottom:8px;" onclick="adminClearAll()">⚠ Clear All Results</button>
     <button class="admin-logout-btn" onclick="adminLogout()">Log Out</button>
   </div>
@@ -2930,6 +2931,80 @@
     document.getElementById('admin-gate').style.display = 'block';
     document.getElementById('admin-dashboard').style.display = 'none';
     document.getElementById('admin-gate-pw').value = '';
+  };
+
+  // ── Backfill match_archive from results ──
+  // The classic admin scoring flow (this panel) only ever wrote to the
+  // 'results' table - never to 'match_archive'. Only the separate live
+  // hole-by-hole tracker writes match_archive, so any tournament scored
+  // through THIS panel (as 2026 was) leaves match_archive empty forever,
+  // which silently blanks Career Record / Head-to-Head / Individual
+  // Matchup Results on every player bio. This reconstructs match_archive
+  // for 2026 from 'results' + the known MATCHES lineups. It is safe to
+  // re-run: it only replaces 2026 archive rows, never results/live_matches,
+  // and if match_archive already had 2026 data this just refreshes it.
+  // Exact margins ("3&2") aren't recoverable from this scoring path since
+  // it never tracked hole-by-hole state, so backfilled matches show as
+  // plain Won/Lost/Halved with no margin - true to what's actually known.
+  var FMT_NAMES_BACKFILL = { fourball: 'Fourball (Match Play)', scramble: 'Scramble (Match Play)', highlow: 'High-Low', singles: 'Singles (Match Play)' };
+  window.adminBackfillArchive = function() {
+    sbFetch('results?select=*').then(function(r) { return r.json(); }).then(function(rows) {
+      var resByMatch = {};
+      (rows || []).forEach(function(row) { resByMatch[row.match_id] = row; });
+
+      var toArchive = [];
+      MATCHES.forEach(function(m) {
+        var res = resByMatch[m.id];
+        if (!res || !res.winner) return;
+        if (!m.look.length || !m.feel.length) return;   // skip bye/placeholder slots
+        var look = m.look.slice(), feel = m.feel.slice();
+        var ex = res.extra;
+        if (ex && typeof ex === 'string') { try { ex = JSON.parse(ex); } catch (e) { ex = null; } }
+        if (m.id.indexOf('r4') === 0 && ex) {
+          if (ex.lookPlayer) look = [ex.lookPlayer];
+          if (ex.feelPlayer) feel = [ex.feelPlayer];
+        }
+        toArchive.push({
+          year: 2026,
+          round: parseInt(m.id.charAt(1), 10),
+          format: FMT_NAMES_BACKFILL[m.fmt] || m.fmt || 'Match Play',
+          score_fmt: m.fmt || 'fourball',
+          look_players: look,
+          feel_players: feel,
+          winner: res.winner,
+          margin: 0,
+          holes: 18
+        });
+      });
+
+      if (!toArchive.length) { alert('No scored matches found in the results table - nothing to backfill.'); return; }
+
+      if (!confirm('Backfill match_archive with ' + toArchive.length + ' match'
+        + (toArchive.length === 1 ? '' : 'es') + ' reconstructed from the 2026 results table?\n\n'
+        + 'This only touches match_archive (year 2026) - results and live_matches are untouched.\n\n'
+        + 'Note: exact margins like "3&2" are not recoverable from this scoring path, so backfilled '
+        + 'matches will display as plain Won / Lost / Halved with no margin.')) return;
+
+      var hdr = { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY, 'Content-Type': 'application/json', 'Prefer': 'return=representation' };
+      fetch(SB_URL + '/rest/v1/match_archive?year=eq.2026', { method: 'DELETE', headers: hdr })
+        .then(function() {
+          return fetch(SB_URL + '/rest/v1/match_archive', { method: 'POST', headers: hdr, body: JSON.stringify(toArchive) });
+        })
+        .then(function(r) {
+          if (!r.ok) return r.text().then(function(t) { throw new Error('HTTP ' + r.status + ': ' + t); });
+          return r.json();
+        })
+        .then(function(inserted) {
+          if (window.dcCareerStats) window.dcCareerStats.refresh();
+          alert('Backfilled ' + (Array.isArray(inserted) ? inserted.length : toArchive.length)
+            + ' matches into match_archive. Career Record and Individual Matchup Results will now show 2026 data on every player bio.');
+        })
+        .catch(function(e) {
+          alert('Backfill failed: ' + e.message + '\n\nmatch_archive was left as it was before this attempt (the delete-then-insert either both ran or the insert failed and left it empty, same as before) - check the match_archive table permissions in Supabase if this persists.');
+        });
+    }).catch(function(e) {
+      alert('Could not load the results table: ' + e.message);
+    });
   };
 
   window.adminScore = function(mid, winner, btn) {
