@@ -177,14 +177,18 @@
   .matchlog-row.win .matchlog-result { color:#2e7d32; }
   .matchlog-row.loss .matchlog-result { color:#a33; }
   .matchlog-row.half .matchlog-result { color:var(--gold-dark, #8a6d1e); }
-  .at-head, .at-row { display:grid; grid-template-columns:36px 1fr 74px 56px 52px; align-items:center; gap:8px; padding:9px 12px; font-family:'Cormorant Garamond',serif; }
-  .at-head { font-size:10px; letter-spacing:1.5px; text-transform:uppercase; color:var(--text-light); font-weight:600; border-bottom:2px solid var(--border); }
+  .at-head, .at-row { display:grid; grid-template-columns:28px 1fr 62px 66px 50px 46px; align-items:center; gap:6px; padding:9px 10px; font-family:'Cormorant Garamond',serif; }
+  .at-head { font-size:9.5px; letter-spacing:1px; text-transform:uppercase; color:var(--text-light); font-weight:600; border-bottom:2px solid var(--border); }
   .at-row { font-size:14px; color:var(--text-mid); border-bottom:1px solid var(--border); }
   .at-row:nth-child(2) { background:rgba(184,150,46,0.07); }
   .at-c-pos { font-family:'Playfair Display',serif; font-weight:700; color:var(--gold); }
   .at-c-name { font-weight:600; color:var(--green-deep); }
   .at-c-rec, .at-c-pct { text-align:center; }
   .at-c-pts { text-align:right; font-weight:700; color:var(--green-deep); }
+  .at-sort { cursor:pointer; text-align:center; user-select:none; }
+  .at-sort:hover { color:var(--gold-dark, #8a6d1e); }
+  .at-sort.active { color:var(--gold-dark, #8a6d1e); font-weight:700; }
+  .at-sort-arrow { display:inline-block; margin-left:2px; font-size:8px; }
   .modal-section-title { font-family: 'Playfair Display', Georgia, serif; font-size: 17px; font-weight: 600; color: var(--green-deep); margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid var(--border); }
   .modal-results-list { list-style: none; }
   .modal-results-list li { display: flex; align-items: center; justify-content: space-between; padding: 10px 0; border-bottom: 1px solid var(--border); font-size: 15px; }
@@ -1002,7 +1006,7 @@
     <div style="max-width:720px;margin:0 auto;">
       <div id="alltime-body"></div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--text-light);text-align:center;margin-top:14px;">
-        Compiled from every confirmed match. Updates live as results come in.
+        Compiled from every confirmed match. Updates live as results come in. Ranked by team record, then individual record — tap any column to re-sort.
       </p>
     </div>
   </section>
@@ -6054,6 +6058,57 @@ if ('serviceWorker' in navigator) {
    match has been confirmed (so it never shows an empty shell pre-tournament).
    Isolated and non-blocking. */
 (function() {
+  var sortKey = 'team';   // 'team' | 'individual' | 'ppm' | 'pts'  - default per column click
+  var sortDir = 'desc';   // 'asc' | 'desc'
+
+  function teamRec(name) {
+    var r = window.dcTeamRecordFor ? window.dcTeamRecordFor(name) : null;
+    return r || { w: 0, l: 0, t: 0 };
+  }
+  function teamRecStr(r) {
+    if (!r || (!r.w && !r.l && !r.t)) return '—';
+    return r.w + '-' + r.l + (r.t ? '-' + r.t : '');
+  }
+
+  // Each comparator ranks "best first" (descending) by definition; the
+  // active sort direction is applied on top of whichever one is primary.
+  function cmpTeam(stats, a, b) {
+    var ta = teamRec(a), tb = teamRec(b);
+    if (tb.w !== ta.w) return tb.w - ta.w;
+    if (ta.l !== tb.l) return ta.l - tb.l;
+    return (tb.t || 0) - (ta.t || 0);
+  }
+  function cmpIndividual(stats, a, b) {
+    var ra = stats[a], rb = stats[b];
+    if (rb.pts !== ra.pts) return rb.pts - ra.pts;
+    if (rb.w !== ra.w) return rb.w - ra.w;
+    return ra.l - rb.l;
+  }
+  function cmpPpm(stats, a, b) { return stats[b].ppm - stats[a].ppm; }
+  function cmpPts(stats, a, b) { return stats[b].pts - stats[a].pts; }
+
+  var COMPARATORS = { team: cmpTeam, individual: cmpIndividual, ppm: cmpPpm, pts: cmpPts };
+  var FALLBACK_CHAIN = ['team', 'individual', 'pts', 'ppm'];   // tiebreak order when the primary column ties
+
+  function fullCompare(stats, a, b) {
+    var v = COMPARATORS[sortKey](stats, a, b);
+    if (sortDir === 'asc') v = -v;
+    if (v !== 0) return v;
+    for (var i = 0; i < FALLBACK_CHAIN.length; i++) {
+      var k = FALLBACK_CHAIN[i];
+      if (k === sortKey) continue;
+      var v2 = COMPARATORS[k](stats, a, b);
+      if (v2 !== 0) return v2;
+    }
+    return stats[b].matches - stats[a].matches;
+  }
+
+  function arrow(key) {
+    if (sortKey !== key) return '';
+    return '<span class="at-sort-arrow">' + (sortDir === 'desc' ? '▼' : '▲') + '</span>';
+  }
+  function cls(key) { return 'at-sort' + (sortKey === key ? ' active' : ''); }
+
   function render() {
     var sec = document.getElementById('alltime-section');
     var body = document.getElementById('alltime-body');
@@ -6064,28 +6119,31 @@ if ('serviceWorker' in navigator) {
       var names = Object.keys(stats).filter(function(n){ return stats[n].matches > 0; });
       if (!names.length) { sec.style.display = 'none'; return; }
 
-      names.sort(function(a, b) {
-        var ra = stats[a], rb = stats[b];
-        if (rb.pts !== ra.pts) return rb.pts - ra.pts;
-        if (rb.w !== ra.w) return rb.w - ra.w;
-        if (ra.l !== rb.l) return ra.l - rb.l;
-        return rb.matches - ra.matches;
-      });
+      names.sort(function(a, b) { return fullCompare(stats, a, b); });
 
       var S = window.dcCareerStats;
       var html = '<div class="at-head">'
         + '<span class="at-c-pos">#</span><span class="at-c-name">Player</span>'
-        + '<span class="at-c-rec">W-L-H</span><span class="at-c-pct">Pts/M</span>'
-        + '<span class="at-c-pts">Pts</span></div>';
+        + '<span class="' + cls('team') + '" onclick="dcSortAllTime(\'team\')">Team' + arrow('team') + '</span>'
+        + '<span class="' + cls('individual') + '" onclick="dcSortAllTime(\'individual\')">Match' + arrow('individual') + '</span>'
+        + '<span class="' + cls('ppm') + '" onclick="dcSortAllTime(\'ppm\')">Pts/M' + arrow('ppm') + '</span>'
+        + '<span class="' + cls('pts') + '" onclick="dcSortAllTime(\'pts\')">Pts' + arrow('pts') + '</span>'
+        + '</div>';
 
-      var pos = 0, prevPts = null, shown = 0;
+      var pos = 0, prevKey = null, shown = 0;
       names.forEach(function(n) {
-        var r = stats[n];
+        var r = stats[n], tr = teamRec(n);
+        // rank numbers reflect ties on whichever value is currently the primary sort
+        var rankKey = sortKey === 'team' ? (tr.w + '-' + tr.l + '-' + (tr.t||0))
+                    : sortKey === 'individual' ? (r.pts + '-' + r.w + '-' + r.l)
+                    : sortKey === 'ppm' ? r.ppm.toFixed(4)
+                    : r.pts;
         shown += 1;
-        if (r.pts !== prevPts) { pos = shown; prevPts = r.pts; }
+        if (rankKey !== prevKey) { pos = shown; prevKey = rankKey; }
         html += '<div class="at-row">'
           + '<span class="at-c-pos">' + pos + '</span>'
           + '<span class="at-c-name">' + n + '</span>'
+          + '<span class="at-c-rec">' + teamRecStr(tr) + '</span>'
           + '<span class="at-c-rec">' + S.recStr(r) + '</span>'
           + '<span class="at-c-pct">' + r.ppm.toFixed(2) + '</span>'
           + '<span class="at-c-pts">' + r.pts + '</span>'
@@ -6097,6 +6155,11 @@ if ('serviceWorker' in navigator) {
     });
   }
   window.dcRenderAllTime = render;
+  window.dcSortAllTime = function(key) {
+    if (sortKey === key) { sortDir = (sortDir === 'desc') ? 'asc' : 'desc'; }
+    else { sortKey = key; sortDir = 'desc'; }
+    render();
+  };
   function boot() { try { render(); } catch (e) {} }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', boot);
   else boot();
