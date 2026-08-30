@@ -1004,6 +1004,13 @@
       <div class="section-rule"></div>
     </div>
     <div style="max-width:720px;margin:0 auto;">
+      <div style="text-align:center;margin-bottom:16px;">
+        <select id="alltime-scope" onchange="dcScopeAllTime(this.value)" style="font-family:'Cormorant Garamond',serif;font-size:14px;letter-spacing:0.5px;color:var(--green-deep);background:var(--white);border:1px solid var(--border);border-radius:2px;padding:8px 14px;cursor:pointer;">
+          <option value="all">All Time</option>
+          <option value="2026">2026 Only</option>
+          <option value="past">Past Tournaments (2019–2025)</option>
+        </select>
+      </div>
       <div id="alltime-body"></div>
       <p style="font-family:'Cormorant Garamond',serif;font-size:12px;font-style:italic;color:var(--text-light);text-align:center;margin-top:14px;">
         Compiled from every confirmed match. Updates live as results come in. Ranked by team record, then individual record — tap any column to re-sort.
@@ -3618,9 +3625,10 @@ const TEAM_HISTORY = {
     lilpeen: ['Nick Boguth','Matt Hus','Ricky Moceri','Brandon Bartneck','Adam Hartley','Andrew Heppner','Josh Bitel'] }
 };
 
-function teamRecordFor(name) {
+function teamRecordFor(name, yearFilter) {
   var w = 0, l = 0, t = 0, years = [];
   Object.keys(TEAM_HISTORY).forEach(function(year) {
+    if (yearFilter && !yearFilter(parseInt(year, 10))) return;
     var yr = TEAM_HISTORY[year];
     var onTie = yr.tie && yr.tie.indexOf(name) !== -1;
     var side = null;
@@ -6044,6 +6052,10 @@ if ('serviceWorker' in navigator) {
     all: function() { return stats; },
     rows: function() { return cache ? cache.matches : []; },
     contests: function() { return cache ? cache.contests : []; },
+    // Recompute the same stats shape over an arbitrary subset of archived
+    // match rows (e.g. one year, or everything except one year) - used by
+    // the Career Leaderboard's All Time / 2026 / Past Tournaments filter.
+    computeFrom: function(matchRows) { return compute({ matches: matchRows || [], contests: [] }); },
     recStr: function(r) {
       if (!r) return '—';
       return r.w + '-' + r.l + (r.h ? '-' + r.h : '');
@@ -6053,54 +6065,77 @@ if ('serviceWorker' in navigator) {
 </script>
 
 <script>
-/* All-time career leaderboard - History page. Reads the shared career stats
-   engine, renders a ranked table, and stays hidden entirely until at least one
-   match has been confirmed (so it never shows an empty shell pre-tournament).
-   Isolated and non-blocking. */
+/* Career leaderboard - History page. Merges two data sources per player:
+   TEAM_HISTORY (team win/loss, every year, always present) and the archived
+   match_archive engine (individual match record, currently only populated
+   for years that were run through the live hole-by-hole tracker or the
+   admin backfill tool). A player shows up if they have EITHER kind of
+   record - so players with only a team history (no archived matches) still
+   appear, just with '-' in the individual columns. A dropdown lets the
+   viewer scope both the team and individual columns to All Time, 2026
+   only, or Past Tournaments (pre-2026) - see dcScopeAllTime(). Isolated
+   and non-blocking. */
 (function() {
   var sortKey = 'team';   // 'team' | 'individual' | 'ppm' | 'pts'  - default per column click
   var sortDir = 'desc';   // 'asc' | 'desc'
+  var scope = 'all';      // 'all' | '2026' | 'past'
 
-  function teamRec(name) {
-    var r = window.dcTeamRecordFor ? window.dcTeamRecordFor(name) : null;
-    return r || { w: 0, l: 0, t: 0 };
-  }
   function teamRecStr(r) {
     if (!r || (!r.w && !r.l && !r.t)) return '—';
     return r.w + '-' + r.l + (r.t ? '-' + r.t : '');
   }
+  function yearFilterFor(sc) {
+    if (sc === '2026') return function(y) { return y === 2026; };
+    if (sc === 'past') return function(y) { return y < 2026; };
+    return null;   // all time - no filter
+  }
+  // Every name that has ever appeared on a TEAM_HISTORY roster, regardless
+  // of whether they have any archived individual match record - this is
+  // what lets players like Nick Boguth (team history only, no match_archive
+  // rows) show up on the leaderboard at all.
+  function allRosterNames() {
+    var s = {};
+    Object.keys(TEAM_HISTORY).forEach(function(year) {
+      var yr = TEAM_HISTORY[year];
+      ['look', 'feel', 'bigpeen', 'lilpeen'].forEach(function(side) {
+        (yr[side] || []).forEach(function(n) { s[n] = true; });
+      });
+    });
+    return s;
+  }
 
-  // Each comparator ranks "best first" (descending) by definition; the
+  // Each comparator ranks "best first" (descending) by definition, over
+  // {name, team:{w,l,t}, indiv:{pts,w,l,ppm,matches}} row objects; the
   // active sort direction is applied on top of whichever one is primary.
-  function cmpTeam(stats, a, b) {
-    var ta = teamRec(a), tb = teamRec(b);
+  function cmpTeam(a, b) {
+    var ta = a.team, tb = b.team;
     if (tb.w !== ta.w) return tb.w - ta.w;
     if (ta.l !== tb.l) return ta.l - tb.l;
     return (tb.t || 0) - (ta.t || 0);
   }
-  function cmpIndividual(stats, a, b) {
-    var ra = stats[a], rb = stats[b];
+  function cmpIndividual(a, b) {
+    var ra = a.indiv, rb = b.indiv;
     if (rb.pts !== ra.pts) return rb.pts - ra.pts;
     if (rb.w !== ra.w) return rb.w - ra.w;
     return ra.l - rb.l;
   }
-  function cmpPpm(stats, a, b) { return stats[b].ppm - stats[a].ppm; }
-  function cmpPts(stats, a, b) { return stats[b].pts - stats[a].pts; }
+  function cmpPpm(a, b) { return (b.indiv.ppm || 0) - (a.indiv.ppm || 0); }
+  function cmpPts(a, b) { return (b.indiv.pts || 0) - (a.indiv.pts || 0); }
 
   var COMPARATORS = { team: cmpTeam, individual: cmpIndividual, ppm: cmpPpm, pts: cmpPts };
   var FALLBACK_CHAIN = ['team', 'individual', 'pts', 'ppm'];   // tiebreak order when the primary column ties
 
-  function fullCompare(stats, a, b) {
-    var v = COMPARATORS[sortKey](stats, a, b);
+  function fullCompare(a, b) {
+    var v = COMPARATORS[sortKey](a, b);
     if (sortDir === 'asc') v = -v;
     if (v !== 0) return v;
     for (var i = 0; i < FALLBACK_CHAIN.length; i++) {
       var k = FALLBACK_CHAIN[i];
       if (k === sortKey) continue;
-      var v2 = COMPARATORS[k](stats, a, b);
+      var v2 = COMPARATORS[k](a, b);
       if (v2 !== 0) return v2;
     }
-    return stats[b].matches - stats[a].matches;
+    return (b.indiv.matches || 0) - (a.indiv.matches || 0);
   }
 
   function arrow(key) {
@@ -6114,12 +6149,43 @@ if ('serviceWorker' in navigator) {
     var body = document.getElementById('alltime-body');
     if (!sec || !body || !window.dcCareerStats) return;
 
-    window.dcCareerStats.load().then(function(stats) {
-      if (!stats) return;
-      var names = Object.keys(stats).filter(function(n){ return stats[n].matches > 0; });
-      if (!names.length) { sec.style.display = 'none'; return; }
+    window.dcCareerStats.load().then(function() {
+      var yf = yearFilterFor(scope);
 
-      names.sort(function(a, b) { return fullCompare(stats, a, b); });
+      // Individual (match-level) stats, scoped to the selected year range.
+      var indivStats;
+      if (scope === 'all') {
+        indivStats = window.dcCareerStats.all() || {};
+      } else {
+        var allRows = window.dcCareerStats.rows() || [];
+        var scopedRows = allRows.filter(function(row) { return yf(row.year); });
+        indivStats = window.dcCareerStats.computeFrom(scopedRows) || {};
+      }
+
+      // Build one row per player who has EITHER a team record OR an
+      // individual match record within this scope - this is what surfaces
+      // team-history-only players (no match_archive data) alongside
+      // players who do have archived matches.
+      var pool = allRosterNames();
+      Object.keys(indivStats).forEach(function(n) { pool[n] = true; });
+
+      var rows = [];
+      Object.keys(pool).forEach(function(n) {
+        var tr = (window.dcTeamRecordFor ? window.dcTeamRecordFor(n, yf) : null) || { w: 0, l: 0, t: 0 };
+        var ir = indivStats[n] || { pts: 0, w: 0, l: 0, h: 0, matches: 0, ppm: 0 };
+        var hasTeam = (tr.w + tr.l + tr.t) > 0;
+        var hasIndiv = ir.matches > 0;
+        if (!hasTeam && !hasIndiv) return;   // nothing in this scope for this player
+        rows.push({ name: n, team: tr, indiv: ir });
+      });
+
+      if (!rows.length) {
+        body.innerHTML = '<p style="font-family:\'Cormorant Garamond\',serif;font-size:14px;font-style:italic;color:var(--text-light);text-align:center;padding:20px 0;">No records for this view yet.</p>';
+        sec.style.display = 'block';
+        return;
+      }
+
+      rows.sort(fullCompare);
 
       var S = window.dcCareerStats;
       var html = '<div class="at-head">'
@@ -6131,22 +6197,22 @@ if ('serviceWorker' in navigator) {
         + '</div>';
 
       var pos = 0, prevKey = null, shown = 0;
-      names.forEach(function(n) {
-        var r = stats[n], tr = teamRec(n);
+      rows.forEach(function(row) {
+        var tr = row.team, ir = row.indiv;
         // rank numbers reflect ties on whichever value is currently the primary sort
-        var rankKey = sortKey === 'team' ? (tr.w + '-' + tr.l + '-' + (tr.t||0))
-                    : sortKey === 'individual' ? (r.pts + '-' + r.w + '-' + r.l)
-                    : sortKey === 'ppm' ? r.ppm.toFixed(4)
-                    : r.pts;
+        var rankKey = sortKey === 'team' ? (tr.w + '-' + tr.l + '-' + (tr.t || 0))
+                    : sortKey === 'individual' ? (ir.pts + '-' + ir.w + '-' + ir.l)
+                    : sortKey === 'ppm' ? (ir.ppm || 0).toFixed(4)
+                    : ir.pts;
         shown += 1;
         if (rankKey !== prevKey) { pos = shown; prevKey = rankKey; }
         html += '<div class="at-row">'
           + '<span class="at-c-pos">' + pos + '</span>'
-          + '<span class="at-c-name">' + n + '</span>'
+          + '<span class="at-c-name">' + row.name + '</span>'
           + '<span class="at-c-rec">' + teamRecStr(tr) + '</span>'
-          + '<span class="at-c-rec">' + S.recStr(r) + '</span>'
-          + '<span class="at-c-pct">' + r.ppm.toFixed(2) + '</span>'
-          + '<span class="at-c-pts">' + r.pts + '</span>'
+          + '<span class="at-c-rec">' + (ir.matches > 0 ? S.recStr(ir) : '—') + '</span>'
+          + '<span class="at-c-pct">' + (ir.matches > 0 ? ir.ppm.toFixed(2) : '—') + '</span>'
+          + '<span class="at-c-pts">' + (ir.matches > 0 ? ir.pts : '—') + '</span>'
           + '</div>';
       });
 
@@ -6158,6 +6224,10 @@ if ('serviceWorker' in navigator) {
   window.dcSortAllTime = function(key) {
     if (sortKey === key) { sortDir = (sortDir === 'desc') ? 'asc' : 'desc'; }
     else { sortKey = key; sortDir = 'desc'; }
+    render();
+  };
+  window.dcScopeAllTime = function(newScope) {
+    scope = newScope;
     render();
   };
   function boot() { try { render(); } catch (e) {} }
