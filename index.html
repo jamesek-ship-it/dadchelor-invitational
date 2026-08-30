@@ -5915,17 +5915,17 @@ if ('serviceWorker' in navigator) {
   }
 
   function load() {
-    if (loading) return Promise.resolve(stats);
-    loading = true;
-    return fetchArchive().then(function(rows) {
+    if (loading) return loading;   // in-flight: return the SAME promise so concurrent callers all wait for real data, not a stale/null snapshot
+    loading = fetchArchive().then(function(rows) {
       cache = rows || [];
       stats = compute(cache);
-      loading = false;
+      loading = null;
       return stats;
     }).catch(function() {
-      loading = false;
+      loading = null;
       return null;
     });
+    return loading;
   }
 
   window.dcCareerStats = {
